@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// src/components/ProyectoFuncionalidad/ProjectForm.jsx
+import React, { useState, useRef } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { createProject } from "../../services/projectsService";
 
@@ -6,13 +7,14 @@ import { createProject } from "../../services/projectsService";
 const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file); // Esto genera la cadena Base64
+    reader.readAsDataURL(file);
     reader.onload = () => resolve(reader.result);
     reader.onerror = (error) => reject(error);
   });
 };
 
 const ProjectForm = ({ onProjectCreated }) => {
+  // Estados para los campos
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [cliente, setCliente] = useState("");
@@ -20,10 +22,13 @@ const ProjectForm = ({ onProjectCreated }) => {
   const [estado, setEstado] = useState("En progreso");
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
-  const [files, setFiles] = useState([]);  // Aquí guardamos los strings Base64
+  const [files, setFiles] = useState([]);  
   const [error, setError] = useState(null);
 
-  // Lee todos los archivos seleccionados y los convierte a Base64
+  // 1. Creamos la referencia para el input de archivos
+  const fileInputRef = useRef(null);
+
+  // Convierte todos los archivos seleccionados a Base64 y los almacena en `files`
   const handleFileChange = async (e) => {
     const selectedFiles = e.target.files;
     const promises = [];
@@ -42,21 +47,24 @@ const ProjectForm = ({ onProjectCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      // Armamos el objeto con los campos del proyecto
       const projectData = {
         nombre,
         descripcion,
         cliente,
         presupuesto: Number(presupuesto),
         estado,
-        // Convertimos a Date para que Firestore lo guarde correctamente
         fechaInicio: fechaInicio ? new Date(fechaInicio) : null,
         fechaFin: fechaFin ? new Date(fechaFin) : null,
       };
-      // ¡Importante! Se envía el array de archivos Base64 como segundo parámetro
+
+      // Creamos el proyecto en Firestore, enviando también los archivos en Base64
       const projectId = await createProject(projectData, files);
+
+      // Si se creó el proyecto con éxito y tenemos un callback, lo llamamos
       if (onProjectCreated) onProjectCreated(projectId);
 
-      // Limpiar campos
+      // Limpieza de campos
       setNombre("");
       setDescripcion("");
       setCliente("");
@@ -66,7 +74,14 @@ const ProjectForm = ({ onProjectCreated }) => {
       setFechaFin("");
       setFiles([]);
       setError(null);
+
+      // 2. Limpieza manual del input file
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+
     } catch (err) {
+      console.error("Error al crear proyecto:", err);
       setError(err.message);
     }
   };
@@ -145,7 +160,13 @@ const ProjectForm = ({ onProjectCreated }) => {
 
       <Form.Group controlId="documentos" className="mb-3">
         <Form.Label>Documentos (Adjuntar archivos)</Form.Label>
-        <Form.Control type="file" multiple onChange={handleFileChange} />
+        {/* 3. Referencia para poder limpiar manualmente el valor del input */}
+        <Form.Control
+          ref={fileInputRef}
+          type="file"
+          multiple
+          onChange={handleFileChange}
+        />
       </Form.Group>
 
       <Button variant="primary" type="submit">
