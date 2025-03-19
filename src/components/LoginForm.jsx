@@ -1,6 +1,5 @@
 import React from "react";
 import { Row, Col, Form, Button, Card, Alert } from "react-bootstrap";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import "../App.css";
 
