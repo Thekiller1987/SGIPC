@@ -1,8 +1,10 @@
+// src/components/ProjectsList.jsx
 import React, { useEffect, useState, useCallback } from "react";
 import { Table, Button, Modal } from "react-bootstrap";
 import { getProjects, deleteProject } from "../../services/projectsService";
 import mammoth from "mammoth";
-import EditProjectModal from "./EditProjectModal"; // Asegúrate de que la ruta sea la correcta
+import EditProjectModal from "./EditProjectModal";
+import { useNavigate } from "react-router-dom";
 
 // Modal para previsualizar documentos Word
 const WordPreviewModal = ({ base64Doc, onClose }) => {
@@ -134,6 +136,8 @@ const ProjectsList = () => {
   const [editProject, setEditProject] = useState(null);
   const [showEditModal, setShowEditModal] = useState(false);
 
+  const navigate = useNavigate();
+
   const fetchProjects = async () => {
     try {
       const data = await getProjects();
@@ -172,6 +176,12 @@ const ProjectsList = () => {
   const handleImagePreview = (doc) => {
     setImagePreviewDoc(doc);
     setShowImageModal(true);
+  };
+
+  // Abre el dashboard del proyecto (nueva pantalla)
+  const handleProjectDashboard = (project) => {
+    // Redirige a la nueva ruta "/project-dashboard" pasando el proyecto en state
+    navigate("/project-dashboard", { state: { project } });
   };
 
   // Abre el modal para editar el proyecto
@@ -271,6 +281,13 @@ const ProjectsList = () => {
                 )}
               </td>
               <td>
+                <Button
+                  variant="info"
+                  size="sm"
+                  onClick={() => handleProjectDashboard(project)}
+                >
+                  Acceder
+                </Button>{" "}
                 <Button
                   variant="primary"
                   size="sm"
