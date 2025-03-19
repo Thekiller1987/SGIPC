@@ -6,7 +6,7 @@ import Navbar from "react-bootstrap/Navbar";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import logo from "../assets/react.svg";
 import { useAuth } from "../database/authcontext";
-import 'bootstrap-icons/font/bootstrap-icons.css';
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "../App.css";
 
 const Encabezado = () => {
@@ -44,11 +44,24 @@ const Encabezado = () => {
   return (
     <Navbar expand="sm" fixed="top" className="color-navbar">
       <Container>
-        <Navbar.Brand onClick={() => handleNavigate("/inicio")} className="text-white" style={{ cursor: "pointer" }}>
-          <img alt="" src={logo} width="30" height="30" className="d-inline-block align-top" />{" "}
+        <Navbar.Brand
+          onClick={() => handleNavigate("/inicio")}
+          className="text-white"
+          style={{ cursor: "pointer" }}
+        >
+          <img
+            alt=""
+            src={logo}
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{" "}
           <strong>ObraTitan</strong>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="offcanvasNavbar-expand-sm" onClick={handleToggle} />
+        <Navbar.Toggle
+          aria-controls="offcanvasNavbar-expand-sm"
+          onClick={handleToggle}
+        />
         <Navbar.Offcanvas
           id="offcanvasNavbar-expand-sm"
           aria-labelledby="offcanvasNavbarLabel-expand-sm"
@@ -67,6 +80,7 @@ const Encabezado = () => {
           <Offcanvas.Body>
             <Nav className="justify-content-end flex-grow-1 pe-3">
 
+              {/* Link a Inicio */}
               <Nav.Link
                 onClick={() => handleNavigate("/inicio")}
                 className={isCollapsed ? "color-texto-marca" : "text-white"}
@@ -74,21 +88,37 @@ const Encabezado = () => {
                 {isCollapsed ? <i className="bi-house-door-fill me-2"></i> : null}
                 <strong>Inicio</strong>
               </Nav.Link>
-              {isLoggedIn ? (
-                <>
-                  <Nav.Link onClick={handleLogout} className={isCollapsed ? "text-black" : "text-white"}>
-                    Cerrar Sesión
-                  </Nav.Link>
-                </>
-              ) : location.pathname === "/" && (
+
+    
+              {isLoggedIn && (
                 <Nav.Link
-                  onClick={() => handleNavigate("/")}
-                  className={isCollapsed ? "text-black" : "text-white"}
+                  onClick={() => handleNavigate("/projects")}
+                  className={isCollapsed ? "color-texto-marca" : "text-white"}
                 >
-                  Iniciar Sesión
+                  {isCollapsed ? <i className="bi-briefcase-fill me-2"></i> : null}
+                  <strong>Proyectos</strong>
                 </Nav.Link>
               )}
 
+              {isLoggedIn ? (
+                <>
+                  <Nav.Link
+                    onClick={handleLogout}
+                    className={isCollapsed ? "text-black" : "text-white"}
+                  >
+                    Cerrar Sesión
+                  </Nav.Link>
+                </>
+              ) : (
+                location.pathname === "/" && (
+                  <Nav.Link
+                    onClick={() => handleNavigate("/")}
+                    className={isCollapsed ? "text-black" : "text-white"}
+                  >
+                    Iniciar Sesión
+                  </Nav.Link>
+                )
+              )}
             </Nav>
           </Offcanvas.Body>
         </Navbar.Offcanvas>
