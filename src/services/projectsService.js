@@ -1,13 +1,5 @@
-// src/services/projectsService.js
 import { db } from "../database/firebaseconfig";
-import {
-  collection,
-  addDoc,
-  getDocs,
-  doc,
-  updateDoc,
-  deleteDoc,
-} from "firebase/firestore";
+import {collection,addDoc,getDocs,doc,updateDoc,deleteDoc,} from "firebase/firestore";
 
 /**
  * Crea un nuevo proyecto en Firestore, guardando las imágenes como cadenas Base64.
