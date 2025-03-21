@@ -5,6 +5,7 @@ import { getProjects, deleteProject } from "../../services/projectsService";
 import mammoth from "mammoth";
 import EditProjectModal from "./EditProjectModal";
 import { useNavigate } from "react-router-dom";
+import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
 
 // Modal para previsualizar documentos Word
 const WordPreviewModal = ({ base64Doc, onClose }) => {
@@ -42,7 +43,11 @@ const WordPreviewModal = ({ base64Doc, onClose }) => {
     const link = document.createElement("a");
     link.href = base64Doc;
     let fileName = "documento";
-    if (base64Doc.startsWith("data:application/vnd.openxmlformats-officedocument.wordprocessingml.document")) {
+    if (
+      base64Doc.startsWith(
+        "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      )
+    ) {
       fileName += ".docx";
     } else if (base64Doc.startsWith("data:application/msword")) {
       fileName += ".doc";
@@ -208,7 +213,11 @@ const ProjectsList = () => {
         <img
           src={doc}
           alt={`Documento ${index + 1}`}
-          style={{ width: "150px", border: "1px solid #ccc", cursor: "pointer" }}
+          style={{
+            width: "150px",
+            border: "1px solid #ccc",
+            cursor: "pointer",
+          }}
           onClick={() => handleImagePreview(doc)}
         />
       );
@@ -219,7 +228,9 @@ const ProjectsList = () => {
         </button>
       );
     } else if (
-      doc.startsWith("data:application/vnd.openxmlformats-officedocument.wordprocessingml.document") ||
+      doc.startsWith(
+        "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      ) ||
       doc.startsWith("data:application/msword")
     ) {
       return (
@@ -239,7 +250,7 @@ const ProjectsList = () => {
   return (
     <div>
       <h2>Proyectos</h2>
-      <Table striped bordered hover>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>Nombre</th>
@@ -263,11 +274,15 @@ const ProjectsList = () => {
               <td>{project.estado}</td>
               <td>
                 {project.fechaInicio &&
-                  new Date(project.fechaInicio.seconds * 1000).toLocaleDateString()}
+                  new Date(
+                    project.fechaInicio.seconds * 1000
+                  ).toLocaleDateString()}
               </td>
               <td>
                 {project.fechaFin &&
-                  new Date(project.fechaFin.seconds * 1000).toLocaleDateString()}
+                  new Date(
+                    project.fechaFin.seconds * 1000
+                  ).toLocaleDateString()}
               </td>
               <td>
                 {project.documentos && project.documentos.length > 0 ? (
@@ -285,22 +300,25 @@ const ProjectsList = () => {
                   variant="info"
                   size="sm"
                   onClick={() => handleProjectDashboard(project)}
+                  title="Acceder"
                 >
-                  Acceder
+                  <FaEye />
                 </Button>{" "}
                 <Button
                   variant="primary"
                   size="sm"
                   onClick={() => handleEdit(project)}
+                  title="Editar"
                 >
-                  Editar
+                  <FaEdit />
                 </Button>{" "}
                 <Button
                   variant="danger"
                   size="sm"
                   onClick={() => handleDelete(project.id)}
+                  title="Eliminar"
                 >
-                  Eliminar
+                  <FaTrash />
                 </Button>
               </td>
             </tr>
