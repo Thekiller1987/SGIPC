@@ -6,6 +6,7 @@ import Encabezado from "./components/Encabezado";
 import Inicio from "./views/Inicio";
 import Projects from "./views/Projects"; // Donde se muestra el ProjectsList y ProjectForm
 import ProjectDashboard from "./views/ProjectDashboard"; // Nuevo dashboard
+import ActividadesList from "./components/actividadeslist/ActividadesList"; // Nueva vista de actividades
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
               <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} />} />
               <Route path="/projects" element={<ProtectedRoute element={<Projects />} />} />
               <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} />} />
+              <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} /> {/* Nueva ruta */}
             </Routes>
           </main>
         </div>

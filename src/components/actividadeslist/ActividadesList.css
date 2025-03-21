@@ -1,0 +1,64 @@
+/* Estilo para la barra de progreso */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #d8d8d8; /* Color de fondo gris claro */
+    border-radius: 5px;
+    margin: 8px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .progress {
+    height: 100%;
+    background: linear-gradient(90deg, #0093E9 0%, #1e3d87 100%); /* Gradiente azul */
+    border-radius: 5px;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+    font-weight: bold;
+    transition: width 0.3s ease-in-out;
+  }
+  
+  /* Botones */
+  .btn-add {
+    background: #0093E9; /* Azul basado en el navbar */
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-add:hover {
+    background: #007acc; /* Azul más oscuro al pasar el mouse */
+  }
+  
+  .btn-edit {
+    background: #f4a261; /* Naranja */
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-edit:hover {
+    background: #e76f51; /* Naranja más fuerte */
+  }
+  
+  .btn-delete {
+    background: #e63946; /* Rojo */
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn-delete:hover {
+    background: #c92a2a; /* Rojo más oscuro */
+  }
