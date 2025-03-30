@@ -2,7 +2,7 @@
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
-import GastosList from "../components/Gastos/GastosList";
+
 
 const GastosListView = () => {
   const location = useLocation();
