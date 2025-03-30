@@ -1,11 +1,8 @@
-// src/components/GastosForm.jsx
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { createGasto } from "../../services/gastosService";
 
-/**
- * Convierte un archivo a Base64
- */
+
 const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();

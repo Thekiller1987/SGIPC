@@ -86,7 +86,7 @@ const BudgetVisualization = () => {
       {project?.id && (
         <Button
           variant="primary"
-          onClick={() => navigate("/gastos", { state: { projectId: project.id } })}
+          onClick={() => navigate("/gastos", { state: { projectId: project.id,projectName: project.nombre } })}
           className="mb-3"
         >
           Agregar / Ver Gastos

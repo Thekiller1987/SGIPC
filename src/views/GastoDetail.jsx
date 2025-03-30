@@ -1,7 +1,8 @@
-// src/components/Gastos/GastosList.jsx
-import React, { useEffect, useState, useCallback } from "react";
-import { Table, Button, Modal } from "react-bootstrap";
-import { getGastos, deleteGasto } from "../../services/gastosService";
+// src/views/GastoDetail.jsx
+import React, { useState, useCallback, useEffect } from "react";
+import { Container, Card, Button, Modal } from "react-bootstrap";
+import { useLocation, useNavigate } from "react-router-dom";
+import { FaArrowLeft } from "react-icons/fa";
 import mammoth from "mammoth";
 
 // Modal para previsualizar documentos Word
@@ -79,6 +80,15 @@ const WordPreviewModal = ({ base64Doc, onClose }) => {
 
 // Modal para previsualizar documentos PDF
 const PDFPreviewModal = ({ base64Doc, onClose }) => {
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = base64Doc;
+    link.download = "documento.pdf";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Modal show onHide={onClose} size="lg">
       <Modal.Header closeButton>
@@ -92,6 +102,9 @@ const PDFPreviewModal = ({ base64Doc, onClose }) => {
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button variant="primary" onClick={handleDownload}>
+          Descargar PDF
+        </Button>
         <Button variant="secondary" onClick={onClose}>
           Cerrar
         </Button>
@@ -102,10 +115,19 @@ const PDFPreviewModal = ({ base64Doc, onClose }) => {
 
 // Modal para previsualizar imágenes
 const ImagePreviewModal = ({ base64Doc, onClose }) => {
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = base64Doc;
+    link.download = "imagen";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <Modal show onHide={onClose} size="lg">
       <Modal.Header closeButton>
-        <Modal.Title>Vista previa de imagen</Modal.Title>
+        <Modal.Title>Vista previa de Imagen</Modal.Title>
       </Modal.Header>
       <Modal.Body className="d-flex justify-content-center">
         <img
@@ -115,6 +137,9 @@ const ImagePreviewModal = ({ base64Doc, onClose }) => {
         />
       </Modal.Body>
       <Modal.Footer>
+        <Button variant="primary" onClick={handleDownload}>
+          Descargar Imagen
+        </Button>
         <Button variant="secondary" onClick={onClose}>
           Cerrar
         </Button>
@@ -123,136 +148,114 @@ const ImagePreviewModal = ({ base64Doc, onClose }) => {
   );
 };
 
-const GastosList = ({ projectId }) => {
-  const [gastos, setGastos] = useState([]);
+const GastoDetail = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { gasto, projectId, projectName } = location.state || {};
 
-  // Estados para los modales de previsualización
-  const [wordPreviewDoc, setWordPreviewDoc] = useState(null);
+  // Declaramos todos los hooks incondicionalmente
   const [showWordModal, setShowWordModal] = useState(false);
-  const [pdfPreviewDoc, setPdfPreviewDoc] = useState(null);
   const [showPdfModal, setShowPdfModal] = useState(false);
-  const [imagePreviewDoc, setImagePreviewDoc] = useState(null);
   const [showImageModal, setShowImageModal] = useState(false);
+  const [previewDoc, setPreviewDoc] = useState(null);
 
-  const fetchGastos = async () => {
-    try {
-      const data = await getGastos(projectId);
-      setGastos(data);
-    } catch (err) {
-      console.error("Error al obtener gastos:", err);
-    }
-  };
+  // Early return: si no se recibió el gasto, mostramos un mensaje de error.
+  if (!gasto) {
+    return (
+      <Container className="mt-5 pt-5">
+        <h3>Error: No se recibió un gasto para mostrar</h3>
+      </Container>
+    );
+  }
 
-  useEffect(() => {
-    fetchGastos();
-  }, [projectId]);
-
-  const handleDelete = async (id) => {
-    try {
-      await deleteGasto(id);
-      fetchGastos();
-    } catch (err) {
-      console.error("Error al eliminar gasto:", err);
-    }
-  };
-
-  const renderFacturaPreview = (facturaBase64) => {
-    if (!facturaBase64) {
-      return "No adjunta";
-    }
-    if (facturaBase64.startsWith("data:image")) {
-      return (
-        <Button
-          variant="link"
-          onClick={() => {
-            setImagePreviewDoc(facturaBase64);
-            setShowImageModal(true);
-          }}
-        >
-          Previsualizar Imagen
-        </Button>
-      );
-    } else if (facturaBase64.startsWith("data:application/pdf")) {
-      return (
-        <Button
-          variant="link"
-          onClick={() => {
-            setPdfPreviewDoc(facturaBase64);
-            setShowPdfModal(true);
-          }}
-        >
-          Previsualizar PDF
-        </Button>
-      );
+  // Función para manejar la previsualización del documento adjunto
+  const handlePreview = async () => {
+    const doc = gasto.facturaBase64;
+    if (!doc) return;
+    if (doc.startsWith("data:image")) {
+      setPreviewDoc(doc);
+      setShowImageModal(true);
+    } else if (doc.startsWith("data:application/pdf")) {
+      setPreviewDoc(doc);
+      setShowPdfModal(true);
     } else if (
-      facturaBase64.startsWith(
+      doc.startsWith(
         "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
       ) ||
-      facturaBase64.startsWith("data:application/msword")
+      doc.startsWith("data:application/msword")
     ) {
-      return (
-        <Button
-          variant="link"
-          onClick={() => {
-            setWordPreviewDoc(facturaBase64);
-            setShowWordModal(true);
-          }}
-        >
-          Previsualizar Word
-        </Button>
-      );
+      setPreviewDoc(doc);
+      setShowWordModal(true);
     } else {
-      return (
-        <a href={facturaBase64} target="_blank" rel="noopener noreferrer">
-          Ver Documento
-        </a>
-      );
+      window.open(doc, "_blank");
     }
+  };
+
+  const handleBack = () => {
+    navigate("/gastos-overview", { 
+      state: { projectId, projectName } 
+    });
   };
 
   return (
-    <div>
-      <h3>Lista de Gastos</h3>
-      <Table striped bordered hover>
-        <thead>
-          <tr>
-            <th>Nombre Gasto</th>
-            <th>Categoría</th>
-            <th>Fecha</th>
-            <th>Monto</th>
-            <th>Factura Adjunta</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {gastos.map((g) => (
-            <tr key={g.id}>
-              <td>{g.nombreGasto}</td>
-              <td>{g.categoria}</td>
-              <td>{g.fecha || "Sin fecha"}</td>
-              <td>{g.monto}</td>
-              <td>{renderFacturaPreview(g.facturaBase64)}</td>
-              <td>
-                <Button variant="danger" size="sm" onClick={() => handleDelete(g.id)}>
-                  Eliminar
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
+    <Container className="mt-5 pt-5">
+      <Button variant="secondary" onClick={handleBack}>
+        <FaArrowLeft /> Volver
+      </Button>
 
-      {showWordModal && wordPreviewDoc && (
-        <WordPreviewModal base64Doc={wordPreviewDoc} onClose={() => setShowWordModal(false)} />
+      <Card className="mt-3">
+        <Card.Header>
+          <h2>Detalle de Gasto</h2>
+        </Card.Header>
+        <Card.Body>
+         
+          <p>
+            <strong>Categoría:</strong> {gasto.categoria}
+          </p>
+          <p>
+            <strong>Fecha:</strong> {gasto.fecha || "Sin fecha"}
+          </p>
+          <p>
+            <strong>Monto:</strong> ${gasto.monto}
+          </p>
+          <p>
+            <strong>Factura Adjunta:</strong>{" "}
+            {gasto.facturaBase64 ? (
+              <Button variant="link" onClick={handlePreview}>
+                Previsualizar / Descargar
+              </Button>
+            ) : (
+              "No adjunta"
+            )}
+          </p>
+        </Card.Body>
+      </Card>
+
+      {/* Modal para previsualizar Word */}
+      {showWordModal && (
+        <WordPreviewModal
+          base64Doc={previewDoc}
+          onClose={() => setShowWordModal(false)}
+        />
       )}
-      {showPdfModal && pdfPreviewDoc && (
-        <PDFPreviewModal base64Doc={pdfPreviewDoc} onClose={() => setShowPdfModal(false)} />
+
+      {/* Modal para previsualizar PDF */}
+      {showPdfModal && (
+        <PDFPreviewModal
+          base64Doc={previewDoc}
+          onClose={() => setShowPdfModal(false)}
+        />
       )}
-      {showImageModal && imagePreviewDoc && (
-        <ImagePreviewModal base64Doc={imagePreviewDoc} onClose={() => setShowImageModal(false)} />
+
+      {/* Modal para previsualizar Imagen */}
+      {showImageModal && (
+        <ImagePreviewModal
+          base64Doc={previewDoc}
+          onClose={() => setShowImageModal(false)}
+        />
       )}
-    </div>
+    </Container>
   );
 };
 
-export default GastosList;
+export default GastoDetail;

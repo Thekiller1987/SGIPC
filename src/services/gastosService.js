@@ -11,10 +11,6 @@ import {
   where
 } from "firebase/firestore";
 
-/**
- * Crea un nuevo gasto en la colección "gastos"
- * @param {Object} gastoData - { projectId, nombreGasto, categoria, fecha, monto, facturaBase64 }
- */
 export const createGasto = async (gastoData) => {
   const docRef = await addDoc(collection(db, "gastos"), {
     ...gastoData,
@@ -23,10 +19,6 @@ export const createGasto = async (gastoData) => {
   return docRef.id;
 };
 
-/**
- * Obtiene todos los gastos, o solo los de un proyecto si pasas un projectId
- * @param {string} [projectId] - Opcional, filtra por proyecto
- */
 export const getGastos = async (projectId) => {
   let q;
   if (projectId) {
@@ -42,20 +34,11 @@ export const getGastos = async (projectId) => {
   return gastos;
 };
 
-/**
- * Actualiza un gasto
- * @param {string} gastoId
- * @param {Object} gastoData
- */
 export const updateGasto = async (gastoId, gastoData) => {
   const gastoDoc = doc(db, "gastos", gastoId);
   await updateDoc(gastoDoc, gastoData);
 };
 
-/**
- * Elimina un gasto
- * @param {string} gastoId
- */
 export const deleteGasto = async (gastoId) => {
   const gastoDoc = doc(db, "gastos", gastoId);
   await deleteDoc(gastoDoc);
