@@ -1,7 +1,7 @@
+// src/views/ProjectDashboard.jsx
 import React from "react";
 import { Container, Button } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const ProjectDashboard = () => {
   const navigate = useNavigate();
@@ -13,14 +13,27 @@ const ProjectDashboard = () => {
       <h1>{project ? project.nombre : "Proyecto"}</h1>
       <p>Aquí se mostrará el menú del proyecto.</p>
 
-      {/* Verificamos que el proyecto tenga un ID antes de pasar a actividades */}
       {project?.id ? (
-        <Button
-          variant="primary"
-          onClick={() => navigate("/actividades", { state: { projectId: project.id } })}
-        >
-          Ver Actividades
-        </Button>
+        <>
+          <Button
+            variant="primary"
+            onClick={() =>
+              navigate("/actividades", { state: { projectId: project.id } })
+            }
+            className="me-2 mb-2"
+          >
+            Ver Actividades
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() =>
+              navigate("/budget-visualization", { state: { project } })
+            }
+            className="me-2 mb-2"
+          >
+            Ver Presupuesto
+          </Button>
+        </>
       ) : (
         <p>Error: No se encontró el ID del proyecto.</p>
       )}

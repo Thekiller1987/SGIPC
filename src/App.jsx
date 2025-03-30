@@ -7,6 +7,8 @@ import Inicio from "./views/Inicio";
 import Projects from "./views/Projects"; // Donde se muestra el ProjectsList y ProjectForm
 import ProjectDashboard from "./views/ProjectDashboard"; // Nuevo dashboard
 import ActividadesList from "./components/actividadeslist/ActividadesList"; // Nueva vista de actividades
+import BudgetVisualization from "./views/BudgetVisualization";
+import GastosManagement from "./views/GastosManagement";
 
 function App() {
   return (
@@ -20,7 +22,9 @@ function App() {
               <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} />} />
               <Route path="/projects" element={<ProtectedRoute element={<Projects />} />} />
               <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} />} />
-              <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} /> {/* Nueva ruta */}
+              <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} /> 
+              <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} />} />
+              <Route path="/gastos" element={<ProtectedRoute element={<GastosManagement />} />} />
             </Routes>
           </main>
         </div>
