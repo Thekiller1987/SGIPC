@@ -1,102 +1,167 @@
-/* src/components/Sidebar.css */
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+:root {
+  /* Tamaños base */
+  --sidebar-width-desktop: 120px;
+  --sidebar-width-mobile: 200px;
+  --padding-desktop: 2rem;
+  --padding-mobile: 1rem;
+
+  /* Tamaños adaptables para íconos, logo y toggle */
+  --icon-size: clamp(30px, 5vw, 40px);
+  --logo-width: clamp(90px, 8vw, 118px);
+  --toggle-font-size: clamp(2rem, 4vw, 2.5rem);
+
+  /* Tamaños más pequeños para pantallas muy reducidas */
+  /* Ajusta estos valores si quieres íconos todavía más pequeños */
+  --icon-size-small: clamp(20px, 6vw, 30px);
+  --logo-width-small: clamp(60px, 12vw, 90px);
+  --toggle-font-size-small: clamp(1.5rem, 5vw, 2rem);
+}
+
+/* Contenedor principal del sidebar */
+.sidebar {
+  position: fixed;
+  top: var(--padding-desktop);
+  left: var(--padding-desktop);
+  width: var(--sidebar-width-desktop);
+  height: calc(100vh - (2 * var(--padding-desktop)));
+  background-color: #E3A008;
+  border-radius: 25px;
+  padding: 1rem 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
+}
+
+/* Sección del logo */
+.sidebar-logo {
+  margin-bottom: 1rem;
+}
+.sidebar-logo-img {
+  width: var(--logo-width);
+  height: auto;
+}
+
+/* Contenedor de los íconos */
+.sidebar-nav {
+  flex: 1;                   
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  overflow-y: auto;          /* Habilita scroll vertical si es necesario */
+
+  /* Oculta la barra de desplazamiento en distintos navegadores */
+  scrollbar-width: none;       /* Firefox */
+  -ms-overflow-style: none;    /* IE y Edge */
+}
+.sidebar-nav::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+/* Items individuales */
+.sidebar-item {
+  width: 80%;
+  text-align: center;
+  padding: 0.75rem 0;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border-radius: 8px;
+}
+.sidebar-item:hover {
+  background-color: #b6861f;
+}
+.sidebar-item.active {
+  background-color: #C28908;
+  border-radius: 15px;
+  margin: 0 auto;
+}
+
+/* Ícono dentro del item */
+.sidebar-icon {
+  width: var(--icon-size);
+  height: auto;
+}
 
 /* Botón toggle (hamburguesa) para móviles */
 .sidebar-toggle {
   display: none;
   position: fixed;
-  top: 1rem;
-  left: 1rem;
+  top: var(--padding-mobile);
+  left: var(--padding-mobile);
   z-index: 1100;
   background: transparent;
   border: none;
-  font-size: 2.5rem;
+  font-size: var(--toggle-font-size);
   color: #fff;
   cursor: pointer;
 }
 
-/* Barra lateral en escritorio */
-.sidebar {
-  position: fixed;
-  top: 2rem;         /* margen desde arriba */
-  left: 4rem;        /* margen desde la izquierda */
-  width: 120px;      /* ancho deseado */
-  height: calc(100vh - 4rem);
-  background-color: #E3A008; /* Amarillo */
-  border-radius: 25px;
-  padding: 1rem 0;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  transition: transform 0.3s ease-in-out;
-}
+/* ==================== BREAKPOINTS ==================== */
 
-/* Sección superior: Logo */
-.sidebar-logo {
-  margin-bottom: 1rem;
-}
-.sidebar-logo-img {
-  width: 118px;
-  height: auto;
-}
-
-/* Sección inferior: Navegación */
-.sidebar-nav {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 3rem;
-}
-
-/* Elementos del menú */
-.sidebar-item {
-  width: 100%;
-  text-align: center;
-  padding: 1rem 0;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-.sidebar-item:hover {
-  background-color: #b6861f;
-}
-
-/* Clase para el elemento activo */
-.sidebar-item.active {
-  background-color: #C28908;
-  border-radius: 15px;
-  width: 70%;
-  margin: 0 auto;
-}
-
-/* Íconos personalizados */
-.sidebar-icon {
-  width: 40px;
-  height: auto;
-}
-
-/* ==============================
-   Media Queries para móviles
-   ============================== */
-@media (max-width: 768px) {
-  .sidebar-toggle {
-    display: block;
-  }
-  
-  /* Oculta la barra por defecto en móviles */
+/* Pantallas menores a 1280px */
+@media (max-width: 1280px) {
   .sidebar {
     top: 0;
     left: 0;
-    width: 200px; /* Ajusta el ancho en móviles */
+    width: var(--sidebar-width-mobile);
     height: 100vh;
     border-radius: 0;
     transform: translateX(-100%);
   }
-  
-  /* Cuando la barra está activa, se muestra en pantalla */
   .sidebar.open {
     transform: translateX(0);
+  }
+  .sidebar-toggle {
+    display: block;
+  }
+}
+
+/* Pantallas muy pequeñas (hasta 480px) */
+@media (max-width: 480px) {
+  :root {
+    --sidebar-width-mobile: 160px; 
+    --padding-mobile: 0.5rem;
+    --icon-size: var(--icon-size-small);
+    --logo-width: var(--logo-width-small);
+    --toggle-font-size: var(--toggle-font-size-small);
+  }
+
+  .sidebar-toggle {
+    top: var(--padding-mobile);
+    left: var(--padding-mobile);
+  }
+  
+  .sidebar-item {
+    padding: 0.5rem 0;
+  }
+  .sidebar-nav {
+    gap: 0.5rem;
+  }
+}
+
+/* (Opcional) Pantallas ultra pequeñas, por ejemplo, hasta 360px */
+@media (max-width: 360px) {
+  :root {
+    /* Aún más pequeño para íconos y logo */
+    --icon-size: clamp(18px, 7vw, 28px);
+    --logo-width: clamp(50px, 15vw, 80px);
+    --toggle-font-size: clamp(1.3rem, 6vw, 1.8rem);
+  }
+  
+  /* Ajusta padding o gap si sigue sin caber */
+  .sidebar-item {
+    padding: 0.4rem 0;
+  }
+  .sidebar-nav {
+    gap: 0.4rem;
   }
 }

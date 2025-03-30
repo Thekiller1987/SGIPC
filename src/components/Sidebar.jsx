@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./Sidebar.css";
@@ -16,13 +15,10 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
 
-  // Determina la ruta activa, por ejemplo, si la ruta actual incluye "gastos", se activa ese ícono.
+  // Determina si la ruta actual incluye "gastos" para marcar el ícono correspondiente.
   const isGastosActive = location.pathname.toLowerCase().includes("gastos");
 
-  // Función para alternar la visibilidad en móviles
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleSidebar = () => setIsOpen(!isOpen);
 
   return (
     <>
@@ -37,7 +33,7 @@ const Sidebar = () => {
           <img src={logo} alt="Logo" className="sidebar-logo-img" />
         </div>
 
-        {/* Sección inferior con íconos */}
+        {/* Sección inferior con los íconos */}
         <div className="sidebar-nav">
           <div className="sidebar-item">
             <img src={checkIcon} alt="Check" className="sidebar-icon" />

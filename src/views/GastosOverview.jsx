@@ -1,4 +1,3 @@
-// src/views/GastosOverview.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { ListGroup } from "react-bootstrap";
@@ -12,7 +11,7 @@ const GastosOverview = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Obtenemos projectId y projectName del state
+  // Se espera recibir projectId y projectName en el state
   const projectId = location.state?.projectId;
   const projectName = location.state?.projectName;
 
@@ -33,7 +32,8 @@ const GastosOverview = () => {
   }, [projectId]);
 
   const handleSelectGasto = (gasto) => {
-    navigate("/gasto-detail", { state: { gasto, projectId,   projectName } });
+    // Al navegar al detalle, pasamos también projectName para poder volver con él
+    navigate("/gasto-detail", { state: { gasto, projectId, projectName } });
   };
 
   if (!projectId) {
@@ -50,15 +50,16 @@ const GastosOverview = () => {
   return (
     <div className="layout-gastos">
       <Sidebar />
-   
+      
+      {/* Título en el fondo oscuro */}
       <h1 className="titulo-fondo-oscuro">Gastos</h1>
+      
       <div className="gastos-container">
         <div className="gastos-card">
-          {/* Muestra el nombre del proyecto (o fallback) */}
+          {/* Título del proyecto */}
           <h2 className="titulo-proyecto">
             {projectName ? projectName : "Proyecto sin nombre"}
           </h2>
-
           <ListGroup className="lista-gastos">
             {gastos.map((g) => (
               <ListGroup.Item
@@ -66,11 +67,13 @@ const GastosOverview = () => {
                 className="gasto-item"
                 onClick={() => handleSelectGasto(g)}
               >
-                {/* Nombre / Categoría del gasto (col 1) */}
-                <div className="gasto-nombre">{g.categoria}</div>
-                {/* Fecha (col 2, centrada) */}
+                {/* Columna 1: Muestra "Ingreso" si el registro es de tipo ingreso */}
+                <div className="gasto-nombre">
+                  {g.tipo === "ingreso" ? "Ingreso" : g.categoria}
+                </div>
+                {/* Columna 2: Fecha */}
                 <div className="gasto-fecha">{g.fecha || "Sin fecha"}</div>
-                {/* Flecha (col 3, a la derecha) */}
+                {/* Columna 3: Flecha */}
                 <div className="gasto-arrow">
                   <img src={arrowIcon} alt="Flecha" className="flecha-derecha" />
                 </div>

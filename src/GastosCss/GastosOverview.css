@@ -1,20 +1,41 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
+/* Variables base para anchos y paddings */
+:root {
+  --max-content-width: 1200px; /* Ajusta a tu gusto (antes 1300px) */
+  --layout-padding: 2rem;      
+  --layout-padding-mobile: 1rem; 
+}
+
 /* Fondo oscuro para toda la vista */
 .layout-gastos {
   background-color: #2f2f2f;
   min-height: 100vh;
-  padding: 2rem;
+  padding: var(--layout-padding);
   box-sizing: border-box;
   position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título en el fondo oscuro (ej. "Gastos") */
+.titulo-fondo-oscuro {
+  font-family: 'Arapey', serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: clamp(2rem, 6vw, 5rem);
+  margin-bottom: 1rem;
+  margin-left: clamp(0rem, 50vw, 100px);
+  transition: margin-left 0.3s ease;
 }
 
 /* Contenedor de la tarjeta */
 .gastos-container {
+  flex: 1; 
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  min-height: calc(100vh - 4rem);
+  align-items: center; /* Cambiamos de flex-end a center */
+  min-height: auto;
 }
 
 /* Tarjeta blanca */
@@ -23,19 +44,19 @@
   background-color: #fff;
   border-radius: 20px;
   width: 100%;
-  max-width: 1300px;
-  min-height: calc(100vh - 3rem);
-  margin-top: -1rem;
-  margin-bottom: 2rem;
-  margin-right: 2rem;
+  max-width: var(--max-content-width);
+  min-height: auto;
+  margin: 1rem auto; /* Centra horizontalmente */
+  margin-left: 7.5rem ; /* Centra horizontalmente */
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0,0,0,0.2);
   color: #333;
+  text-align: left;
 }
 
 /* Título del proyecto */
 .titulo-proyecto {
-  font-size: 5rem;
+  font-size: clamp(1.8rem, 5vw, 3rem);
   margin-bottom: 2rem;
   color: #000;
   font-weight: 700;
@@ -45,24 +66,20 @@
 .lista-gastos {
   border: none;
   background-color: transparent;
+  font-family: 'Arapey', serif;
 }
 
-/* Ítems de la lista usando CSS Grid para 3 columnas */
+/* Ítems de la lista: grid de 3 columnas en desktop */
 .gasto-item {
   display: grid;
-  grid-template-columns: 1fr 160px 50px; 
+  /* Ajusta la grid con clamp para que se redimensione */
+  grid-template-columns: 1fr clamp(100px, 15vw, 160px) clamp(30px, 5vw, 50px);
   grid-column-gap: 1rem;
-  
-  /* Centra verticalmente todas las celdas */
   align-items: center;
-  
   background-color: #fff;
-  
-  /* Borde y sombra anaranjados */
   border: 2px solid #D35400;
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.6), 0 0 0 2px #D35400;
-
   margin-bottom: 1rem;
   padding: 0.75rem 1rem;
   cursor: pointer;
@@ -71,28 +88,24 @@
   line-height: 1;
 }
 
-/* Hover */
 .gasto-item:hover {
-  background-color: #f9f4f2;
+  background-color: #D35400;
 }
 
-/* Columna 1: Nombre/categoría */
+/* Columna 1: Categoría */
 .gasto-nombre {
-  font-size: 2.1rem;
+  font-size: clamp(1.2rem, 3vw, 2.1rem);
   font-weight: 600;
-  /* Asegúrate de alinear verticalmente */
   display: flex;
   align-items: center;
   line-height: 1;
-  transform: translateY(2rem);
 }
 
 /* Columna 2: Fecha */
 .gasto-fecha {
-  font-size: 1.9rem;
+  font-size: clamp(0.9rem, 2.5vw, 1.5rem);
   color: #000;
   text-align: center;
-  /* Alinear verticalmente en su columna */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -105,62 +118,93 @@
   justify-content: flex-end;
   align-items: center;
   line-height: 1;
-  transform: translateY(-2rem);
 }
 
 .flecha-derecha {
-  width: 50px;
+  width: clamp(20px, 6vw, 50px);
   height: auto;
 }
 
-/* Responsividad */
+/* ==================== MEDIA QUERIES ==================== */
+
+/* Tablet: entre 769px y 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-gastos {
+    padding: 1.5rem;
+  }
+  .gastos-card {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+}
+
+/* Móviles y pantallas hasta 768px */
 @media (max-width: 768px) {
   .layout-gastos {
-    padding: 1rem;
+    padding: var(--layout-padding-mobile);
   }
   
-  .gastos-container {
-    align-items: center;
-    min-height: auto;
+  .titulo-fondo-oscuro {
+    margin-left: 0;
+    text-align: center;
+    font-size: clamp(1.5rem, 8vw, 3rem);
   }
   
   .gastos-card {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    margin-right: 0;
-    min-height: auto;
+    width: 95%;
     padding: 1rem;
+    margin: 1rem auto;
   }
   
   .titulo-proyecto {
-    font-size: 3rem;
+    font-size: clamp(1.2rem, 6vw, 2rem);
     margin-bottom: 1rem;
   }
   
   .gasto-item {
-    grid-template-columns: 1fr 120px 40px;
+    grid-template-columns: 1fr clamp(80px, 20vw, 100px) clamp(20px, 10vw, 30px);
     padding: 0.5rem;
   }
   
   .gasto-nombre {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 5vw, 1.4rem);
   }
   
   .gasto-fecha {
-    font-size: 1.3rem;
+    font-size: clamp(0.8rem, 4vw, 1rem);
   }
   
   .flecha-derecha {
-    width: 40px;
+    width: clamp(20px, 8vw, 30px);
   }
 }
 
-/* Título en el fondo oscuro */
-.titulo-fondo-oscuro {
-  font-family: 'Arapey', serif;
-  font-size: clamp(2rem, 10vw, 5rem);
-  color: #fff;         /* Texto blanco */
-  margin-bottom: 1rem; /* Espacio debajo */
-  font-weight: 700;    /* Negrita */
-  margin-left: 200px; /* Ajusta este valor para moverlo a la derecha */
+/* Pantallas grandes (por ejemplo, desde 1440px) */
+@media (min-width: 1440px) {
+  .layout-gastos {
+    padding: 3rem;
+  }
+  .gastos-card {
+    padding: 3rem;
+    max-width: 1400px;
+  }
+  .titulo-fondo-oscuro {
+    margin-left: clamp(0rem, 8vw, 200px);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+  }
+  .titulo-proyecto {
+    font-size: clamp(2rem, 4vw, 4rem);
+  }
+  .gasto-item {
+    padding: 1rem 2rem;
+  }
+  .gasto-nombre {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+  .gasto-fecha {
+    font-size: clamp(1.2rem, 2vw, 2rem);
+  }
+  .flecha-derecha {
+    width: clamp(30px, 3vw, 50px);
+  }
 }
