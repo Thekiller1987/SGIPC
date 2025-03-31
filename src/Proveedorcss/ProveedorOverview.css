@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+/* Variables base para anchos y paddings */
+:root {
+  --max-content-width: 1200px;
+  --layout-padding: 2rem;
+  --layout-padding-mobile: 1rem;
+}
+
+/* Layout con fondo oscuro */
+.layout-proveedores {
+  background-color: #2f2f2f;
+  min-height: 100vh;
+  padding: var(--layout-padding);
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Título sobre fondo oscuro */
+.titulo-fondo-oscuro {
+  font-family: 'Arapey', serif;
+  font-weight: 700;
+  color: #fff;
+  font-size: clamp(2rem, 6vw, 5rem);
+  margin-bottom: 1rem;
+  margin-left: clamp(0rem, 50vw, 100px);
+  transition: margin-left 0.3s ease;
+}
+
+/* Contenedor de tarjeta blanca */
+.proveedores-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: auto;
+}
+
+/* Tarjeta blanca */
+.proveedores-card {
+  font-family: 'Arapey', serif;
+  background-color: #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: var(--max-content-width);
+  min-height: auto;
+  margin: 1rem auto;
+  margin-left: 7.5rem;
+  padding: 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  color: #333;
+  text-align: left;
+}
+
+/* Título dentro de tarjeta */
+.titulo-proyecto {
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  margin-bottom: 2rem;
+  color: #000;
+  font-weight: 700;
+}
+
+/* Lista sin fondo */
+.lista-proveedores {
+  border: none;
+  background-color: transparent;
+  font-family: 'Arapey', serif;
+}
+
+/* Ítems de la lista */
+.proveedor-item {
+  display: grid;
+  grid-template-columns: 1fr clamp(100px, 15vw, 160px) clamp(30px, 5vw, 50px);
+  grid-column-gap: 1rem;
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid #D35400;
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.6), 0 0 0 2px #D35400;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  color: #333;
+  line-height: 1;
+}
+
+.proveedor-item:hover {
+  background-color: #D35400;
+}
+
+/* Columna 1: Empresa */
+.proveedor-nombre {
+  font-size: clamp(1.2rem, 3vw, 2.1rem);
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  line-height: 1;
+}
+
+/* Columna 2: Estado */
+.proveedor-estado {
+  font-size: clamp(0.9rem, 2.5vw, 1.5rem);
+  color: #000;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+}
+
+/* Columna 3: Flecha */
+.proveedor-arrow {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  line-height: 1;
+}
+
+.flecha-derecha {
+  width: clamp(20px, 6vw, 50px);
+  height: auto;
+}
+
+/* ==================== MEDIA QUERIES ==================== */
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .layout-proveedores {
+    padding: 1.5rem;
+  }
+  .proveedores-card {
+    padding: 1.5rem;
+    margin: 1rem auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-proveedores {
+    padding: var(--layout-padding-mobile);
+  }
+
+  .titulo-fondo-oscuro {
+    margin-left: 0;
+    text-align: center;
+    font-size: clamp(1.5rem, 8vw, 3rem);
+  }
+
+  .proveedores-card {
+    width: 95%;
+    padding: 1rem;
+    margin: 1rem auto;
+  }
+
+  .titulo-proyecto {
+    font-size: clamp(1.2rem, 6vw, 2rem);
+    margin-bottom: 1rem;
+  }
+
+  .proveedor-item {
+    grid-template-columns: 1fr clamp(80px, 20vw, 100px) clamp(20px, 10vw, 30px);
+    padding: 0.5rem;
+  }
+
+  .proveedor-nombre {
+    font-size: clamp(1rem, 5vw, 1.4rem);
+  }
+
+  .proveedor-estado {
+    font-size: clamp(0.8rem, 4vw, 1rem);
+  }
+
+  .flecha-derecha {
+    width: clamp(20px, 8vw, 30px);
+  }
+}
+
+@media (min-width: 1440px) {
+  .layout-proveedores {
+    padding: 3rem;
+  }
+  .proveedores-card {
+    padding: 3rem;
+    max-width: 1400px;
+  }
+  .titulo-fondo-oscuro {
+    margin-left: clamp(0rem, 8vw, 200px);
+    font-size: clamp(2.5rem, 5vw, 5rem);
+  }
+  .titulo-proyecto {
+    font-size: clamp(2rem, 4vw, 4rem);
+  }
+  .proveedor-item {
+    padding: 1rem 2rem;
+  }
+  .proveedor-nombre {
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+  }
+  .proveedor-estado {
+    font-size: clamp(1.2rem, 2vw, 2rem);
+  }
+  .flecha-derecha {
+    width: clamp(30px, 3vw, 50px);
+  }
+}
+
+
+@media (min-width: 1025px) and (max-width: 1439px) {
+  .layout-proveedores {
+    padding: 2.5rem;
+  }
+
+  .proveedores-card {
+    padding: 2rem;
+    max-width: 1100px;
+    margin-left: 10rem;
+  }
+
+  .titulo-fondo-oscuro {
+    margin-left: clamp(0rem, 6vw, 150px);
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    margin-left: 10rem;
+  }
+
+  .titulo-proyecto {
+    font-size: clamp(1.6rem, 4vw, 2.8rem);
+  }
+
+  .proveedor-item {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .proveedor-nombre {
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+  }
+
+  .proveedor-estado {
+    font-size: clamp(1rem, 2vw, 1.4rem);
+  }
+
+  .flecha-derecha {
+    width: clamp(25px, 4vw, 40px);
+  }
+}

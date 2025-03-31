@@ -1,4 +1,3 @@
-// src/views/ProjectDashboard.jsx
 import React from "react";
 import { Container, Button } from "react-bootstrap";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -24,6 +23,7 @@ const ProjectDashboard = () => {
           >
             Ver Actividades
           </Button>
+
           <Button
             variant="primary"
             onClick={() =>
@@ -32,6 +32,16 @@ const ProjectDashboard = () => {
             className="me-2 mb-2"
           >
             Ver Presupuesto
+          </Button>
+
+          <Button
+            variant="primary"
+            onClick={() =>
+              navigate("/proveedores", { state: { project } })
+            }
+            className="me-2 mb-2"
+          >
+            Ver Proveedores
           </Button>
         </>
       ) : (

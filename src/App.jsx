@@ -14,11 +14,14 @@ import GastosManagement from "./views/GastosManagement";
 import GastosListView from "./views/GastosListView";
 import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
+import ProveedoresOverview from "./views/ProveedoresOverview";
+import Detalleproveedor from "./views/DetalleProveedor"
+
 
 const AppContent = () => {
   const location = useLocation();
   // Define las rutas donde NO quieres el header
-  const noHeaderRoutes = ["/gastos-overview"];
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores"];
   return (
     <>
       {!noHeaderRoutes.includes(location.pathname) && <Encabezado />}
@@ -34,6 +37,11 @@ const AppContent = () => {
           <Route path="/GastosListView" element={<ProtectedRoute element={<GastosListView />} />} />
           <Route path="/gastos-overview" element={<ProtectedRoute element={<GastosOverview />} />} />
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
+          <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
+          <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} />} />
+         
+
+
         </Routes>
       </main>
     </>
