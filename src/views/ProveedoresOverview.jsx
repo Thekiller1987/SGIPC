@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { obtenerProveedores } from "../services/firebaseProveedores";
 import Sidebar from "../components/Sidebar";
-import "../ProveedorCss/ProveedorOverview.css";
+import "../Proveedorcss/ProveedorOverview.css";
 import flecha from "../assets/iconos/flecha.png";
 import { ListGroup } from "react-bootstrap";
 
