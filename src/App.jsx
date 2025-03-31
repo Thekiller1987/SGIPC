@@ -15,7 +15,7 @@ import GastosListView from "./views/GastosListView";
 import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
-import Detalleproveedor from "./views/DetalleProveedor"
+import Detalleproveedor from "./views/DetalleProveedor";
 
 
 const AppContent = () => {

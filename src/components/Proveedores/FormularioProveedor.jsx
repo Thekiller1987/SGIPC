@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { guardarProveedor } from "../../services/firebaseProveedores";
-import "../../Proveedorcss/Proveedor.css";
+
 
 const FormularioProveedor = ({ onCancelar }) => {
   const [formulario, setFormulario] = useState({
