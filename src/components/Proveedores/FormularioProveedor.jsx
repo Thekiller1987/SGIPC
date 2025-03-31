@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { guardarProveedor } from "../../services/firebaseProveedores";
+import { useNavigate, useLocation } from "react-router-dom";
 
-
-const FormularioProveedor = ({ onCancelar }) => {
+const FormularioProveedor = () => {
   const [formulario, setFormulario] = useState({
     nombre: "",
     empresa: "",
@@ -14,6 +14,23 @@ const FormularioProveedor = ({ onCancelar }) => {
       estado: "A tiempo",
     },
   });
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const projectId = location.state?.projectId || localStorage.getItem("projectId");
+
+  if (!projectId) {
+    return (
+      <div className="contenedor-formulario">
+        <h2 className="titulo">⚠️ Proceso inválido</h2>
+        <p>
+          No se detectó el ID del proyecto. Por favor, vuelve al dashboard del proyecto
+          y desde allí ingresa a proveedores.
+        </p>
+      </div>
+    );
+  }
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -42,10 +59,11 @@ const FormularioProveedor = ({ onCancelar }) => {
         fecha: formulario.historialPago.fecha,
         estado: formulario.historialPago.estado,
       },
+      proyectoId: projectId,
     };
 
     await guardarProveedor(proveedor);
-    onCancelar(); // volver a la lista
+    navigate("/proveedores", { state: { projectId } });
   };
 
   return (
@@ -124,7 +142,11 @@ const FormularioProveedor = ({ onCancelar }) => {
           <button type="submit" className="btn-agregar">
             Agregar
           </button>
-          <button type="button" className="btn-cancelar" onClick={onCancelar}>
+          <button
+            type="button"
+            className="btn-cancelar"
+            onClick={() => navigate("/proveedores", { state: { projectId } })}
+          >
             Cancelar
           </button>
         </div>

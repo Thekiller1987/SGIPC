@@ -16,7 +16,7 @@ import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
 import Detalleproveedor from "./views/DetalleProveedor";
-
+import FormularioProveedor from "./components/Proveedores/FormularioProveedor";
 
 const AppContent = () => {
   const location = useLocation();
@@ -39,9 +39,7 @@ const AppContent = () => {
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
           <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
           <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} />} />
-         
-
-
+          <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
         </Routes>
       </main>
     </>
