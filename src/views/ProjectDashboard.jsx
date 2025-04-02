@@ -43,6 +43,16 @@ const ProjectDashboard = () => {
           >
             Ver Proveedores
           </Button>
+
+          <Button
+            variant="success"
+            onClick={() =>
+              navigate("/presupuesto", { state: { projectId: project.id } })
+            }
+            className="me-2 mb-2"
+          >
+            Ir a Calculadora de Presupuesto
+          </Button>
         </>
       ) : (
         <p>Error: No se encontró el ID del proyecto.</p>

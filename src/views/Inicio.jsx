@@ -1,4 +1,3 @@
-// src/views/Inicio.jsx
 import React from "react";
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +6,7 @@ const Inicio = () => {
   const navigate = useNavigate();
 
   const handleGoToProjects = () => {
-    navigate("/projects"); // Asegúrate de tener configurada esta ruta en tu Router
+    navigate("/projects");
   };
 
   return (
@@ -20,7 +19,12 @@ const Inicio = () => {
               <Card.Text>
                 Gestiona tus proyectos de construcción de forma integral. Accede rápidamente a tus proyectos, revisa el progreso y administra documentos de manera sencilla.
               </Card.Text>
-              <Button variant="primary" onClick={handleGoToProjects}>
+
+              <Button
+                variant="primary"
+                onClick={handleGoToProjects}
+                className="mb-2"
+              >
                 Ir a Gestión de Proyectos
               </Button>
             </Card.Body>

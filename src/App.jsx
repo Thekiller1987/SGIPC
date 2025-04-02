@@ -1,8 +1,9 @@
-// App.jsx
 import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./database/authcontext";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+// Vistas
 import Login from "./views/Login";
 import Encabezado from "./components/Encabezado";
 import Inicio from "./views/Inicio";
@@ -15,13 +16,16 @@ import GastosListView from "./views/GastosListView";
 import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
-import Detalleproveedor from "./views/DetalleProveedor"
+import Detalleproveedor from "./views/DetalleProveedor";
+import PresupuestoView from "./views/PresupuestoView";
 
 
 const AppContent = () => {
   const location = useLocation();
+
   // Define las rutas donde NO quieres el header
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores"];
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto"];
+
   return (
     <>
       {!noHeaderRoutes.includes(location.pathname) && <Encabezado />}
@@ -39,8 +43,7 @@ const AppContent = () => {
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
           <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
           <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} />} />
-         
-
+          <Route path="/presupuesto" element={<ProtectedRoute element={<PresupuestoView />} />} />
 
         </Routes>
       </main>
