@@ -17,8 +17,12 @@ import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
 import Detalleproveedor from "./views/DetalleProveedor";
+<<<<<<< HEAD
 import PresupuestoView from "./views/PresupuestoView";
 
+=======
+import FormularioProveedor from "./components/Proveedores/FormularioProveedor";
+>>>>>>> d1f08944762b22961a508f5f1e814312a2001d7f
 
 const AppContent = () => {
   const location = useLocation();
@@ -43,8 +47,12 @@ const AppContent = () => {
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
           <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
           <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} />} />
+<<<<<<< HEAD
           <Route path="/presupuesto" element={<ProtectedRoute element={<PresupuestoView />} />} />
 
+=======
+          <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
+>>>>>>> d1f08944762b22961a508f5f1e814312a2001d7f
         </Routes>
       </main>
     </>
