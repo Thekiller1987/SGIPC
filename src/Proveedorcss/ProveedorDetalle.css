@@ -1,0 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+:root {
+  --naranja: #D35400;
+  --naranja-hover: #b34700;
+  --blanco: #fff;
+  --negro: #000;
+  --gris-claro: #f5f5f5;
+}
+
+.layout-proveedores {
+  background-color: #2f2f2f;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+}
+
+.titulo-fondo-oscuro {
+  font-family: 'Arapey', serif;
+  font-weight: 700;
+  color: var(--blanco);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  margin-bottom: 1rem;
+  margin-left: clamp(3rem, 12vw, 200px);
+}
+
+.proveedores-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.proveedor-detalle-card {
+  font-family: 'Arapey', serif;
+  background-color: var(--blanco);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 1000px;
+  padding: 2rem;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25);
+  color: var(--negro);
+}
+
+.titulo-proyecto {
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  margin-bottom: 2rem;
+  font-weight: 700;
+  color: var(--negro);
+  text-align: left;
+}
+
+.encabezado-detalle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.botones-superiores {
+  display: flex;
+  gap: 0.6rem;
+}
+
+.botones-superiores button {
+  background-color: transparent;
+  border: 2px solid var(--naranja);
+  border-radius: 8px;
+  padding: 0.5rem 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botones-superiores button:hover {
+  background-color: var(--gris-claro);
+}
+
+.botones-superiores img {
+  width: 22px;
+  height: 22px;
+}
+
+.fila-detalle-vertical {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.campo-horizontal {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.campo-horizontal label {
+  font-weight: bold;
+  font-size: 1.4rem;
+  min-width: 200px;
+}
+
+/* Estilos individuales por input */
+.input-nombre,
+.input-empresa,
+.input-servicios,
+.input-telefono,
+.input-monto,
+.input-fecha,
+.input-estado {
+  border: 2px solid var(--naranja);
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-family: 'Arapey', serif;
+  color: var(--negro);
+  background-color: var(--blanco);
+}
+
+.input-nombre {
+  width: 400px;
+  margin-left: -125px;
+}
+
+.input-empresa {
+  width: 450px;
+  margin-left: -125px;
+}
+
+.input-servicios {
+  width: 450px;
+  height: 70px;
+  resize: none;
+  margin-left: -25px;
+}
+
+.input-telefono {
+  width: 300px;
+  margin-left: -125px;
+}
+
+.input-monto {
+  width: 200px;
+  margin-left: -200px;
+}
+
+.input-fecha {
+  width: 300px;
+  margin-left: -200px;
+}
+
+.input-estado {
+  width: 300px;
+  margin-left: -125px;
+}
+
+.box-historial {
+  border: 2px solid var(--naranja);
+  border-radius: 10px;
+  padding: 1rem;
+  font-size: 1.3rem;
+  font-family: 'Arapey', serif;
+  background-color: var(--blanco);
+  max-width: 100%;
+  width: auto;
+  margin-left: 0; /* o ajustalo según necesidad en pantallas grandes */
+  word-wrap: break-word;
+  box-sizing: border-box;
+}
+
+
+@media (max-width: 768px) {
+  .proveedor-detalle-card {
+    padding: 1rem;
+  }
+
+  .titulo-fondo-oscuro {
+    margin-left: 0;
+    text-align: center;
+    font-size: clamp(1.8rem, 8vw, 3rem);
+  }
+
+  .encabezado-detalle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .botones-superiores {
+    align-self: flex-end;
+  }
+
+  .campo-horizontal {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .input-nombre,
+  .input-empresa,
+  .input-servicios,
+  .input-telefono,
+  .input-monto,
+  .input-fecha,
+  .input-estado {
+    width: 100%;
+    margin-left: 0;
+  }
+}
