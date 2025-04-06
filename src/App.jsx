@@ -28,11 +28,9 @@ const AppContent = () => {
   const location = useLocation();
 
   // Define las rutas donde NO quieres el header
-<<<<<<< HEAD
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor"];
-=======
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/AgregarPago"];
->>>>>>> 9fd9f95a679bfe6881fa581a7be2d7055f8c390c
+
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor","/AgregarPago"]
+  
 
   return (
     <>
