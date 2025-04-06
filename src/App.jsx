@@ -22,13 +22,17 @@ import PresupuestoView from "./views/PresupuestoView";
 
 
 import FormularioProveedor from "./components/Proveedores/FormularioProveedor";
-
+import AgregarPago from "./views/AgregarPago";
 
 const AppContent = () => {
   const location = useLocation();
 
   // Define las rutas donde NO quieres el header
+<<<<<<< HEAD
   const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor"];
+=======
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/AgregarPago"];
+>>>>>>> 9fd9f95a679bfe6881fa581a7be2d7055f8c390c
 
   return (
     <>
@@ -52,7 +56,7 @@ const AppContent = () => {
 
 
           <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
-
+          <Route path="/AgregarPago" element={<ProtectedRoute element={<AgregarPago />} />} />
         </Routes>
       </main>
     </>

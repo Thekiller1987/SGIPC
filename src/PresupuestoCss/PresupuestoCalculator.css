@@ -269,12 +269,14 @@ input[type="file"] {
 }
 
 .sidebar-item:hover {
-  background-color: #ffcf40;
+  background-color: #b6861f;
 }
-
 .sidebar-item.active {
-  background-color: #e0a800;
-  border-left: 4px solid #000;
+  background-color: #C28908;
+  border-radius: 12px;
+  margin: 0;
+  width: 80%;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05); /* sutil realce */
 }
 
 .sidebar-icon {
