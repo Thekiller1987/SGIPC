@@ -37,9 +37,7 @@ const ProjectDashboard = () => {
 
           <Button
             variant="primary"
-            onClick={() =>
-              navigate("/proveedores", { state: { project } })
-            }
+            onClick={() => navigate("/proveedores", { state: { project } })}
             className="me-2 mb-2"
           >
             Ver Proveedores
@@ -53,6 +51,13 @@ const ProjectDashboard = () => {
             className="me-2 mb-2"
           >
             Ir a Calculadora de Presupuesto
+          </Button>
+
+          <Button
+            variant="success"
+            onClick={() => navigate("/AgregarPago", { state: { project } })}
+          >
+            Pagos
           </Button>
         </>
       ) : (

@@ -1,0 +1,100 @@
+/* src/PagosCss/FormularioPago.css */
+.pago-container {
+    background-color: #4a4a4a;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .formulario-pago {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    width: 400px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  }
+  
+  .nombre-proyecto {
+    font-size: 22px;
+    color: black;
+    margin-bottom: 15px;
+    font-weight: 600;
+  }
+  
+  .formulario-pago label {
+    display: block;
+    margin-top: 10px;
+    color: #222;
+  }
+  
+  .formulario-pago input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid orange;
+    border-radius: 4px;
+  }
+  
+  .btn-agregar {
+    margin-top: 20px;
+    background-color: #d35400;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .btn-agregar:hover {
+    background-color: #b84300;
+  }
+  
+  .titulo-modulo {
+    font-size: 32px;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 20px;
+  }
+  
+  .dashboard-container {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .contenido-principal {
+    flex: 1;
+    padding: 30px;
+    background-color: #7d6868;
+  }
+  
+
+  .select-input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border: 1px solid orange;
+    border-radius: 4px;
+    background-color: white;
+    color: #222;
+  }
+  
+
+  .monto-con-moneda {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .monto-con-moneda input {
+    flex: 1;
+  }
+  
+  .moneda-select {
+    width: 80px;
+    padding: 8px;
+    border: 1px solid orange;
+    border-radius: 4px;
+    background-color: white;
+    color: #222;
+  }
+  

@@ -1,30 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
-
 :root {
-  /* Tamaños base */
-  --sidebar-width-desktop: 120px;
-  --sidebar-width-mobile: 200px;
+  --sidebar-width: 120px;
+  --sidebar-width-mobile: 180px;
   --padding-desktop: 2rem;
   --padding-mobile: 1rem;
-
-  /* Tamaños adaptables para íconos, logo y toggle */
   --icon-size: clamp(30px, 5vw, 40px);
-  --logo-width: clamp(90px, 8vw, 118px);
-  --toggle-font-size: clamp(2rem, 4vw, 2.5rem);
-
-  /* Tamaños más pequeños para pantallas muy reducidas */
-  /* Ajusta estos valores si quieres íconos todavía más pequeños */
   --icon-size-small: clamp(20px, 6vw, 30px);
+  --logo-width: clamp(90px, 8vw, 118px);
   --logo-width-small: clamp(60px, 12vw, 90px);
+  --toggle-font-size: clamp(2rem, 4vw, 2.5rem);
   --toggle-font-size-small: clamp(1.5rem, 5vw, 2rem);
 }
 
-/* Contenedor principal del sidebar */
+/* Sidebar tipo "burbuja", flotante pero visible en desktop */
 .sidebar {
   position: fixed;
   top: var(--padding-desktop);
   left: var(--padding-desktop);
-  width: var(--sidebar-width-desktop);
+  width: var(--sidebar-width);
   height: calc(100vh - (2 * var(--padding-desktop)));
   background-color: #E3A008;
   border-radius: 25px;
@@ -33,12 +25,11 @@
   z-index: 1000;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   transition: transform 0.3s ease-in-out, width 0.3s ease-in-out;
 }
 
-/* Sección del logo */
+/* Logo */
 .sidebar-logo {
   margin-bottom: 1rem;
 }
@@ -47,51 +38,48 @@
   height: auto;
 }
 
-/* Contenedor de los íconos */
+/* Navegación */
 .sidebar-nav {
-  flex: 1;                   
+  flex: 1;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 1rem;
-  margin-bottom: 1rem;
-  overflow-y: auto;          /* Habilita scroll vertical si es necesario */
-
-  /* Oculta la barra de desplazamiento en distintos navegadores */
-  scrollbar-width: none;       /* Firefox */
-  -ms-overflow-style: none;    /* IE y Edge */
+  overflow-y: auto;
+  scrollbar-width: none;
 }
 .sidebar-nav::-webkit-scrollbar {
   width: 0;
-  background: transparent;
 }
 
-/* Items individuales */
+/* Ítems */
 .sidebar-item {
   width: 80%;
   text-align: center;
   padding: 0.75rem 0;
   cursor: pointer;
-  transition: background-color 0.2s;
   border-radius: 8px;
+  transition: background-color 0.2s;
 }
 .sidebar-item:hover {
   background-color: #b6861f;
 }
 .sidebar-item.active {
   background-color: #C28908;
-  border-radius: 15px;
-  margin: 0 auto;
+  border-radius: 12px;
+  margin: 0;
+  width: 80%;
+  box-shadow: inset 0 0 0 2px rgba(0, 0, 0, 0.05); /* sutil realce */
 }
 
-/* Ícono dentro del item */
+
 .sidebar-icon {
   width: var(--icon-size);
   height: auto;
 }
 
-/* Botón toggle (hamburguesa) para móviles */
+/* Toggle para móviles */
 .sidebar-toggle {
   display: none;
   position: fixed;
@@ -105,9 +93,8 @@
   cursor: pointer;
 }
 
-/* ==================== BREAKPOINTS ==================== */
+/* ========== RESPONSIVE ========== */
 
-/* Pantallas menores a 1280px */
 @media (max-width: 1280px) {
   .sidebar {
     top: 0;
@@ -117,51 +104,35 @@
     border-radius: 0;
     transform: translateX(-100%);
   }
+
   .sidebar.open {
     transform: translateX(0);
   }
+
   .sidebar-toggle {
     display: block;
   }
 }
 
-/* Pantallas muy pequeñas (hasta 480px) */
 @media (max-width: 480px) {
   :root {
-    --sidebar-width-mobile: 160px; 
+    --sidebar-width-mobile: 160px;
     --padding-mobile: 0.5rem;
-    --icon-size: var(--icon-size-small);
-    --logo-width: var(--logo-width-small);
-    --toggle-font-size: var(--toggle-font-size-small);
   }
 
-  .sidebar-toggle {
-    top: var(--padding-mobile);
-    left: var(--padding-mobile);
+  .sidebar-icon {
+    width: var(--icon-size-small);
   }
-  
+
   .sidebar-item {
     padding: 0.5rem 0;
   }
+
   .sidebar-nav {
     gap: 0.5rem;
   }
-}
 
-/* (Opcional) Pantallas ultra pequeñas, por ejemplo, hasta 360px */
-@media (max-width: 360px) {
-  :root {
-    /* Aún más pequeño para íconos y logo */
-    --icon-size: clamp(18px, 7vw, 28px);
-    --logo-width: clamp(50px, 15vw, 80px);
-    --toggle-font-size: clamp(1.3rem, 6vw, 1.8rem);
-  }
-  
-  /* Ajusta padding o gap si sigue sin caber */
-  .sidebar-item {
-    padding: 0.4rem 0;
-  }
-  .sidebar-nav {
-    gap: 0.4rem;
+  .sidebar-toggle {
+    font-size: var(--toggle-font-size-small);
   }
 }
