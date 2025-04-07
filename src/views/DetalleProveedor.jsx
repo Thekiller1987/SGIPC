@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { actualizarProveedor, eliminarProveedor } from "../services/firebaseProveedores";
 import Sidebar from "../components/Sidebar";
 import editIcon from "../assets/iconos/edit.png";
-import checkIcon from "../assets/iconos/Chek.png";
+import checkIcon from "../assets/iconos/Check.png";
 import deleteIcon from "../assets/iconos/delete.png";
 import closeIcon from "../assets/iconos/close.png";
 import "../Proveedorcss/ProveedorDetalle.css";
