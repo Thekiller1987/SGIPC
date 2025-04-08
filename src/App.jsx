@@ -25,8 +25,12 @@ import PagosListView from "./views/PagosListView";
 const AppContent = () => {
   const location = useLocation();
 
-  // Define las rutas donde NO quieres el header
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/AgregarPago","/listar-pagos"];
+
+  // Define las rutas donde NO quieres el header purebassssssss
+
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor","/AgregarPago","/agregar-proveedor","/listar-pagos"]
+  
+
 
   return (
     <>

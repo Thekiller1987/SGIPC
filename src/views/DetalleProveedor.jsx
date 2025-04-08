@@ -34,7 +34,10 @@ const DetalleProveedorView = () => {
       const campo = name.split(".")[1];
       setFormulario((prev) => ({
         ...prev,
-        historialPago: { ...prev.historialPago, [campo]: value }
+        historialPago: {
+          ...prev.historialPago,
+          [campo]: value
+        }
       }));
     } else {
       setFormulario((prev) => ({ ...prev, [name]: value }));
@@ -52,7 +55,6 @@ const DetalleProveedorView = () => {
     };
     await actualizarProveedor(proveedor.id, datosActualizados);
     setEditando(false);
-    navigate("/proveedores");
   };
 
   const handleEliminar = async () => {
@@ -72,7 +74,7 @@ const DetalleProveedorView = () => {
           <div className="encabezado-detalle">
             <h2 className="titulo-proyecto">{formulario.empresa}</h2>
             <div className="botones-superiores">
-              <button onClick={() => editando ? handleGuardar() : setEditando(true)}>
+              <button onClick={() => (editando ? handleGuardar() : setEditando(true))}>
                 <img src={editando ? checkIcon : editIcon} alt="Editar" />
               </button>
               <button onClick={handleEliminar}>
@@ -133,39 +135,41 @@ const DetalleProveedorView = () => {
             </div>
 
             <div className="campo-horizontal">
-              <label>Historial de pagos:</label>
-              {editando ? (
-                <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
-                  <input
-                    type="number"
-                    name="historialPago.monto"
-                    className="input-monto"
-                    value={formulario.historialPago.monto}
-                    onChange={handleChange}
-                  />
-                  <input
-                    type="date"
-                    name="historialPago.fecha"
-                    className="input-fecha"
-                    value={formulario.historialPago.fecha}
-                    onChange={handleChange}
-                  />
-                  <select
-                    name="historialPago.estado"
-                    className="input-estado"
-                    value={formulario.historialPago.estado}
-                    onChange={handleChange}
-                  >
-                    <option value="A tiempo">A tiempo</option>
-                    <option value="Atrasado">Atrasado</option>
-                  </select>
-                </div>
-              ) : (
-                <div className="box-historial">
-                  <p>Último pago: ${formulario.historialPago.monto}</p>
-                  <p>- {formulario.historialPago.estado}</p>
-                </div>
-              )}
+              <label>Monto del último pago:</label>
+              <input
+                type="number"
+                name="historialPago.monto"
+                className="input-monto"
+                value={formulario.historialPago.monto}
+                onChange={handleChange}
+                disabled={!editando}
+              />
+            </div>
+
+            <div className="campo-horizontal">
+              <label>Fecha del último pago:</label>
+              <input
+                type="date"
+                name="historialPago.fecha"
+                className="input-fecha"
+                value={formulario.historialPago.fecha}
+                onChange={handleChange}
+                disabled={!editando}
+              />
+            </div>
+
+            <div className="campo-horizontal">
+              <label>Estado del pago:</label>
+              <select
+                name="historialPago.estado"
+                className="input-estado"
+                value={formulario.historialPago.estado}
+                onChange={handleChange}
+                disabled={!editando}
+              >
+                <option value="A tiempo">A tiempo</option>
+                <option value="Atrasado">Atrasado</option>
+              </select>
             </div>
           </div>
         </div>

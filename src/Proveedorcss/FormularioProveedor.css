@@ -8,6 +8,11 @@
   --gris-claro: #f5f5f5;
 }
 
+body {
+  overflow-x: hidden;
+}
+
+/* 🎯 Contenedor principal */
 .layout-proveedores {
   background-color: #2f2f2f;
   min-height: 100vh;
@@ -17,6 +22,7 @@
   flex-direction: column;
 }
 
+/* 🎯 Título de la vista */
 .titulo-fondo-oscuro {
   font-family: 'Arapey', serif;
   font-weight: 700;
@@ -33,6 +39,7 @@
   align-items: center;
 }
 
+/* 🧾 Tarjeta blanca del formulario */
 .proveedor-detalle-card {
   font-family: 'Arapey', serif;
   background-color: var(--blanco);
@@ -42,43 +49,6 @@
   padding: 2rem;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.25);
   color: var(--negro);
-}
-
-.titulo-proyecto {
-  font-size: clamp(2.3rem, 5vw, 4rem);
-  margin-bottom: 2rem;
-  font-weight: 700;
-  text-align: left;
-}
-
-.encabezado-detalle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-}
-
-.botones-superiores {
-  display: flex;
-  gap: 0.6rem;
-}
-
-.botones-superiores button {
-  background-color: transparent;
-  border: 2px solid var(--naranja);
-  border-radius: 8px;
-  padding: 0.5rem 0.8rem;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.botones-superiores button:hover {
-  background-color: var(--gris-claro);
-}
-
-.botones-superiores img {
-  width: 22px;
-  height: 22px;
 }
 
 .fila-detalle-vertical {
@@ -100,7 +70,6 @@
   min-width: 200px;
 }
 
-/* Estilos por input */
 .input-nombre,
 .input-empresa,
 .input-servicios,
@@ -125,25 +94,46 @@ textarea.input-servicios {
   resize: none;
 }
 
-@media (max-width: 768px) {
-  .proveedor-detalle-card {
-    padding: 1rem;
-  }
+/* 🔘 Contenedor de botones alineados a la derecha */
+.botones-formulario {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
 
+/* 🔘 Estilo uniforme para ambos botones */
+.btn-agregar,
+.btn-cancelar {
+  background-color: var(--naranja);
+  color: var(--negro);
+  font-weight: 600;
+  border: none;
+  padding: 0.7rem 2rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: 'Arapey', serif;
+  font-size: 1.05rem;
+  width: 140px;
+  height: 50px;
+  line-height: 1;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.btn-agregar:hover,
+.btn-cancelar:hover {
+  background-color: var(--naranja-hover);
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
   .titulo-fondo-oscuro {
     margin-left: 0;
     text-align: center;
     font-size: clamp(2rem, 8vw, 3rem);
-  }
-
-  .encabezado-detalle {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .botones-superiores {
-    align-self: flex-end;
   }
 
   .campo-horizontal {
@@ -161,51 +151,12 @@ textarea.input-servicios {
     width: 100%;
     max-width: 100%;
   }
-}
 
-/* Previene desplazamientos horizontales globales */
-body {
-  overflow-x: hidden;
-}
-
-/* Ajustes responsive */
-@media (max-width: 768px) {
   .proveedor-detalle-card {
     padding: 1rem;
   }
 
-  .titulo-fondo-oscuro {
-    margin-left: 0;
-    text-align: center;
-    font-size: clamp(1.8rem, 8vw, 3rem);
-  }
-
-  .encabezado-detalle {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .botones-superiores {
-    align-self: flex-end;
-  }
-
-  .campo-horizontal {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* Quitar márgenes negativos que causan overflow */
-  .input-nombre,
-  .input-empresa,
-  .input-servicios,
-  .input-telefono,
-  .input-monto,
-  .input-fecha,
-  .input-estado,
-  .box-historial {
-    margin-left: 0 !important;
-    width: 100%;
-    max-width: 100%;
+  .botones-formulario {
+    justify-content: center;
   }
 }
