@@ -93,8 +93,6 @@ textarea.input-servicios {
   height: 70px;
   resize: none;
 }
-
-/* 🔘 Contenedor de botones alineados a la derecha */
 .botones-formulario {
   margin-top: 2.5rem;
   display: flex;
@@ -103,25 +101,57 @@ textarea.input-servicios {
   gap: 1rem;
 }
 
-/* 🔘 Estilo uniforme para ambos botones */
-.btn-agregar,
-.btn-cancelar {
+/* 🎯 Botón Agregar */
+.btn-agregar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   background-color: var(--naranja);
   color: var(--negro);
-  font-weight: 600;
-  border: none;
-  padding: 0.7rem 2rem;
-  border-radius: 12px;
-  cursor: pointer;
   font-family: 'Arapey', serif;
   font-size: 1.05rem;
-  width: 140px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  padding: 0.8rem 2rem;
   height: 50px;
-  line-height: 1;
-  text-align: center;
+  min-width: 140px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
 }
+
+/* 🎯 Botón Cancelar */
+.btn-cancelar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--naranja);
+  color: var(--blanco);
+  font-family: 'Arapey', serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 0.8rem 2rem;
+  height: 50px;
+  min-width: 140px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+  margin-top: 20px;
+ 
+}
+
+/* 🟠 Hover en ambos */
+.btn-agregar:hover,
+.btn-cancelar:hover {
+  background-color: var(--naranja-hover);
+}
+
+
+
+
 
 .btn-agregar:hover,
 .btn-cancelar:hover {
