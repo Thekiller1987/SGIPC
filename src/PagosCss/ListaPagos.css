@@ -1,10 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
 .fondo-oscuro {
-  background-color: #4a4a4a;
+  background-color: #3A3A3A;
+  min-height: 100vh;
+  padding: 20px;
 }
 
-.tabla-angosta {
-  max-width: 850px;
+/* Título principal fuera de la tarjeta */
+.titulo-modulo {
+  font-size: 40px;
+  font-weight: bold;
+  color: white;
+  font-family: 'Arapey', serif;
+  margin-left: 280px;
+  margin-bottom: 20px;
+  margin-top: 80px; 
+}
+
+/* Tarjeta blanca */
+.tabla-ancha {
+  max-width: 1000px;
   margin: 0 auto;
+  width: 100%;
 }
 
 .tabla-contenedor {
@@ -13,17 +30,23 @@
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   overflow-x: auto;
+  width: 100%;
+  font-family: 'Arapey', serif;
 }
 
+/* Nombre del proyecto */
 .nombre-proyecto {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: black;
-  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  color: #000000;
+  font-family: 'Arapey', serif;
+  margin-bottom: 15px;
+  text-align: left;
 }
 
+/* Tabla */
 .tabla-pagos {
+  min-width: 600px;
   width: 100%;
   border-collapse: collapse;
   margin-bottom: 20px;
@@ -32,41 +55,77 @@
 .tabla-pagos th,
 .tabla-pagos td {
   border: 1px solid #ccc;
-  padding: 10px;
+  padding: 12px;
+  font-size: 20px;
+  vertical-align: middle;
   text-align: center;
-  font-size: 15px;
 }
 
 .tabla-pagos th {
   background-color: #f2f2f2;
 }
 
-.acciones-tabla {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 20px;
+/* Inputs de edición */
+.input-editar {
+  width: 100%;
+  padding: 6px;
+  font-size: 15px;
+  border-radius: 6px;
+  border: 1px solid #D35400;
+  background-color: #fffaf3;
 }
 
-.btn-tabla {
-  background-color: #d35400;
-  color: white;
-  border: none;
-  padding: 8px 14px;
-  border-radius: 6px;
-  cursor: pointer;
+.monto-con-moneda {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.moneda-select {
+  width: 80px;
+  border-radius: 4px;
+  border: 1px solid #D35400;
+  background-color: white;
+  color: #222;
+  padding: 6px;
   font-size: 15px;
 }
 
-.btn-tabla.editar:hover {
-  background-color: #f39c12;
+/* Íconos */
+.iconos-acciones {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
 }
 
-.btn-tabla.eliminar:hover {
-  background-color: #e74c3c;
+.iconos-acciones button {
+  background: #f0f0f0;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 7px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
 }
 
+.iconos-acciones button:hover {
+  transform: scale(1.1);
+  background-color: #D35400;
+}
+
+.iconos-acciones img {
+  width: 22px;
+  height: 22px;
+}
+
+.fila-seleccionada td {
+  background-color: #fff7e6;
+}
+
+/* Botón flotante */
 .btn-flotante {
-  background-color: #d35400;
+  background-color: #D35400;
   color: white;
   padding: 12px 20px;
   border-radius: 10px;
@@ -81,35 +140,42 @@
   background-color: #b84300;
 }
 
+/* Responsive */
 @media (max-width: 768px) {
-  .tabla-pagos th,
-  .tabla-pagos td {
-    font-size: 13px;
-    padding: 8px;
+  .tabla-contenedor {
+    overflow-x: auto;
   }
 
-  .btn-flotante,
-  .btn-tabla {
+  .tabla-pagos {
+    min-width: 600px;
+  }
+
+  .btn-flotante {
     width: 100%;
-    font-size: 14px;
-    margin-top: 8px;
+    font-size: 15px;
   }
 
-  .acciones-tabla {
+  .titulo-modulo {
+    font-size: 26px;
+    margin-left: 20px;
+  }
+
+  .nombre-proyecto {
+    font-size: 20px;
+    text-align: center;
+  }
+
+  .iconos-acciones {
     flex-direction: column;
-    gap: 10px;
+    align-items: center;
   }
-}
 
+  .monto-con-moneda {
+    flex-direction: column;
+    gap: 6px;
+  }
 
-.fila-seleccionada {
-  background-color: #ffdfc4;
-  font-weight: bold;
-  transition: background 0.2s ease-in-out;
-  cursor: pointer;
-}
-
-.tabla-pagos tbody tr:hover {
-  background-color: #f8f8f8;
-  cursor: pointer;
+  .moneda-select {
+    width: 100%;
+  }
 }
