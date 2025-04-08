@@ -72,7 +72,7 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
         >
           <option value="C$">C$</option>
           <option value="US$">US$</option>
-          <option value="US$">€$</option>
+          <option value="€$">€$</option>
         </select>
       </div>
 

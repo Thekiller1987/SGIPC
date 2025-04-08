@@ -1,0 +1,115 @@
+.fondo-oscuro {
+  background-color: #4a4a4a;
+}
+
+.tabla-angosta {
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.tabla-contenedor {
+  background-color: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  overflow-x: auto;
+}
+
+.nombre-proyecto {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: black;
+  text-align: center;
+}
+
+.tabla-pagos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.tabla-pagos th,
+.tabla-pagos td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+  font-size: 15px;
+}
+
+.tabla-pagos th {
+  background-color: #f2f2f2;
+}
+
+.acciones-tabla {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.btn-tabla {
+  background-color: #d35400;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.btn-tabla.editar:hover {
+  background-color: #f39c12;
+}
+
+.btn-tabla.eliminar:hover {
+  background-color: #e74c3c;
+}
+
+.btn-flotante {
+  background-color: #d35400;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  display: block;
+  margin: 0 auto;
+}
+
+.btn-flotante:hover {
+  background-color: #b84300;
+}
+
+@media (max-width: 768px) {
+  .tabla-pagos th,
+  .tabla-pagos td {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .btn-flotante,
+  .btn-tabla {
+    width: 100%;
+    font-size: 14px;
+    margin-top: 8px;
+  }
+
+  .acciones-tabla {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
+.fila-seleccionada {
+  background-color: #ffdfc4;
+  font-weight: bold;
+  transition: background 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.tabla-pagos tbody tr:hover {
+  background-color: #f8f8f8;
+  cursor: pointer;
+}

@@ -55,7 +55,7 @@ const ProjectDashboard = () => {
 
           <Button
             variant="success"
-            onClick={() => navigate("/AgregarPago", { state: { project } })}
+            onClick={() => navigate("/listar-pagos", { state: { project } })}
           >
             Pagos
           </Button>
