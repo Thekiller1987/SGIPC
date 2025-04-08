@@ -6,7 +6,6 @@
   padding: 20px;
 }
 
-/* Título principal fuera de la tarjeta */
 .titulo-modulo {
   font-size: 40px;
   font-weight: bold;
@@ -14,10 +13,9 @@
   font-family: 'Arapey', serif;
   margin-left: 280px;
   margin-bottom: 20px;
-  margin-top: 80px; 
+  margin-top: 80px;
 }
 
-/* Tarjeta blanca */
 .tabla-ancha {
   max-width: 1000px;
   margin: 0 auto;
@@ -29,27 +27,21 @@
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  font-family: 'Arapey', serif;
+  width: 100%;
+}
+
+.scroll-tabla {
+  width: 100%;
   overflow-x: auto;
-  width: 100%;
-  font-family: 'Arapey', serif;
 }
 
-/* Nombre del proyecto */
-.nombre-proyecto {
-  font-size: 28px;
-  font-weight: 600;
-  color: #000000;
-  font-family: 'Arapey', serif;
-  margin-bottom: 15px;
-  text-align: left;
-}
-
-/* Tabla */
 .tabla-pagos {
-  min-width: 600px;
   width: 100%;
+  min-width: 800px;
   border-collapse: collapse;
   margin-bottom: 20px;
+  white-space: nowrap;
 }
 
 .tabla-pagos th,
@@ -59,13 +51,22 @@
   font-size: 20px;
   vertical-align: middle;
   text-align: center;
+  white-space: nowrap;
 }
 
 .tabla-pagos th {
   background-color: #f2f2f2;
 }
 
-/* Inputs de edición */
+.nombre-proyecto {
+  font-size: 28px;
+  font-weight: 600;
+  color: #000000;
+  font-family: 'Arapey', serif;
+  margin-bottom: 15px;
+  text-align: left;
+}
+
 .input-editar {
   width: 100%;
   padding: 6px;
@@ -93,7 +94,6 @@
   font-size: 15px;
 }
 
-/* Íconos */
 .iconos-acciones {
   display: flex;
   justify-content: center;
@@ -123,7 +123,6 @@
   background-color: #fff7e6;
 }
 
-/* Botón flotante */
 .btn-flotante {
   background-color: #D35400;
   color: white;
@@ -140,19 +139,14 @@
   background-color: #b84300;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .tabla-contenedor {
-    overflow-x: auto;
+  .dashboard-container {
+    flex-direction: column;
   }
 
-  .tabla-pagos {
-    min-width: 600px;
-  }
-
-  .btn-flotante {
-    width: 100%;
-    font-size: 15px;
+  .contenido-principal {
+    overflow-x: hidden;
+    padding: 10px;
   }
 
   .titulo-modulo {
@@ -177,5 +171,18 @@
 
   .moneda-select {
     width: 100%;
+  }
+
+  .btn-flotante {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .scroll-tabla {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabla-pagos {
+    width: max-content;
   }
 }

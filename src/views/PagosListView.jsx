@@ -88,71 +88,73 @@ const PagosListView = () => {
         <div className="tabla-contenedor tabla-ancha">
           <h2 className="nombre-proyecto">{project?.nombre}</h2>
 
-          <table className="tabla-pagos">
-            <thead>
-              <tr>
-                <th>Fecha</th>
-                <th>Proveedor/Empleado</th>
-                <th>Método de pago</th>
-                <th>Monto</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pagos.map((pago) => {
-                const esEditando = editandoId === pago.id;
-                const fecha = pago.fecha?.toDate ? pago.fecha.toDate() : new Date(pago.fecha);
+          <div className="scroll-tabla">
+            <table className="tabla-pagos">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Proveedor/Empleado</th>
+                  <th>Método de pago</th>
+                  <th>Monto</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {pagos.map((pago) => {
+                  const esEditando = editandoId === pago.id;
+                  const fecha = pago.fecha?.toDate ? pago.fecha.toDate() : new Date(pago.fecha);
 
-                return (
-                  <tr key={pago.id} className={esEditando ? 'fila-seleccionada' : ''}>
-                    {esEditando ? (
-                      <>
-                        <td><input type="date" name="fecha" value={formEdit.fecha} onChange={handleChange} className="input-editar" /></td>
-                        <td><input type="text" name="proveedorEmpleado" value={formEdit.proveedorEmpleado} onChange={handleChange} className="input-editar" /></td>
-                        <td>
-                          <select name="metodoPago" value={formEdit.metodoPago} onChange={handleChange} className="input-editar">
-                            <option value="Efectivo">Efectivo</option>
-                            <option value="Transferencia">Transferencia</option>
-                            <option value="Cheque">Cheque</option>
-                            <option value="Tarjeta">Tarjeta</option>
-                          </select>
-                        </td>
-                        <td>
-                          <div className="monto-con-moneda">
-                            <input type="number" name="monto" value={formEdit.monto} onChange={handleChange} className="input-editar" />
-                            <select name="moneda" value={formEdit.moneda} onChange={handleChange} className="moneda-select">
-                              <option value="C$">C$</option>
-                              <option value="US$">US$</option>
-                              <option value="€$">€$</option>
+                  return (
+                    <tr key={pago.id} className={esEditando ? 'fila-seleccionada' : ''}>
+                      {esEditando ? (
+                        <>
+                          <td><input type="date" name="fecha" value={formEdit.fecha} onChange={handleChange} className="input-editar" /></td>
+                          <td><input type="text" name="proveedorEmpleado" value={formEdit.proveedorEmpleado} onChange={handleChange} className="input-editar" /></td>
+                          <td>
+                            <select name="metodoPago" value={formEdit.metodoPago} onChange={handleChange} className="input-editar">
+                              <option value="Efectivo">Efectivo</option>
+                              <option value="Transferencia">Transferencia</option>
+                              <option value="Cheque">Cheque</option>
+                              <option value="Tarjeta">Tarjeta</option>
                             </select>
-                          </div>
-                        </td>
-                        <td>
-                          <div className="iconos-acciones">
-                            <button onClick={() => guardarCambios(pago.id)}><img src={checkIcon} alt="Guardar" /></button>
-                            <button onClick={cancelarEdicion}><img src={deleteIcon} alt="Cancelar" /></button>
-                          </div>
-                        </td>
-                      </>
-                    ) : (
-                      <>
-                        <td>{format(fecha, 'dd/MM/yyyy')}</td>
-                        <td>{pago.proveedorEmpleado}</td>
-                        <td>{pago.metodoPago}</td>
-                        <td>{`${pago.moneda || 'C$'}${pago.monto}`}</td>
-                        <td>
-                          <div className="iconos-acciones">
-                            <button onClick={() => iniciarEdicion(pago)}><img src={editIcon} alt="Editar" /></button>
-                            <button onClick={() => eliminarPago(pago.id)}><img src={deleteIcon} alt="Eliminar" /></button>
-                          </div>
-                        </td>
-                      </>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                          </td>
+                          <td>
+                            <div className="monto-con-moneda">
+                              <input type="number" name="monto" value={formEdit.monto} onChange={handleChange} className="input-editar" />
+                              <select name="moneda" value={formEdit.moneda} onChange={handleChange} className="moneda-select">
+                                <option value="C$">C$</option>
+                                <option value="US$">US$</option>
+                                <option value="€$">€$</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="iconos-acciones">
+                              <button onClick={() => guardarCambios(pago.id)}><img src={checkIcon} alt="Guardar" /></button>
+                              <button onClick={cancelarEdicion}><img src={deleteIcon} alt="Cancelar" /></button>
+                            </div>
+                          </td>
+                        </>
+                      ) : (
+                        <>
+                          <td>{format(fecha, 'dd/MM/yyyy')}</td>
+                          <td>{pago.proveedorEmpleado}</td>
+                          <td>{pago.metodoPago}</td>
+                          <td>{`${pago.moneda || 'C$'}${pago.monto}`}</td>
+                          <td>
+                            <div className="iconos-acciones">
+                              <button onClick={() => iniciarEdicion(pago)}><img src={editIcon} alt="Editar" /></button>
+                              <button onClick={() => eliminarPago(pago.id)}><img src={deleteIcon} alt="Eliminar" /></button>
+                            </div>
+                          </td>
+                        </>
+                      )}
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
 
           <button
             className="btn-flotante"
