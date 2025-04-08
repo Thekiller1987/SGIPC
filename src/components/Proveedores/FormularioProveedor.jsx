@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { guardarProveedor } from "../../services/firebaseProveedores";
 import { useNavigate, useLocation } from "react-router-dom";
+import Sidebar from "../Sidebar";
+import "../../Proveedorcss/FormularioProveedor.css";
 
 const FormularioProveedor = () => {
   const [formulario, setFormulario] = useState({
@@ -17,14 +19,14 @@ const FormularioProveedor = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-
   const projectId = location.state?.projectId || localStorage.getItem("projectId");
 
   if (!projectId) {
     return (
-      <div className="contenedor-formulario">
-        <h2 className="titulo">⚠️ Proceso inválido</h2>
-        <p>
+      <div className="layout-proveedores">
+        <Sidebar />
+        <h2 className="titulo-fondo-oscuro">⚠️ Proceso inválido</h2>
+        <p style={{ color: "#fff" }}>
           No se detectó el ID del proyecto. Por favor, vuelve al dashboard del proyecto
           y desde allí ingresa a proveedores.
         </p>
@@ -34,7 +36,6 @@ const FormularioProveedor = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
     if (name.startsWith("historialPago.")) {
       const campo = name.split(".")[1];
       setFormulario((prev) => ({
@@ -51,7 +52,6 @@ const FormularioProveedor = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const proveedor = {
       ...formulario,
       historialPago: {
@@ -61,96 +61,116 @@ const FormularioProveedor = () => {
       },
       proyectoId: projectId,
     };
-
     await guardarProveedor(proveedor);
     navigate("/proveedores", { state: { projectId } });
   };
 
   return (
-    <div className="contenedor-formulario">
-      <h2 className="titulo">Agregar Proveedor</h2>
+    <div className="layout-proveedores">
+      <Sidebar />
+      <h1 className="titulo-fondo-oscuro">Agregar Proveedor</h1>
 
-      <form onSubmit={handleSubmit} className="formulario-proveedor">
-        <label>Nombre:</label>
-        <input
-          type="text"
-          name="nombre"
-          value={formulario.nombre}
-          onChange={handleChange}
-          required
-        />
+      <div className="proveedores-container">
+        <div className="proveedor-detalle-card">
+          <form onSubmit={handleSubmit} className="fila-detalle-vertical">
+            <div className="campo-horizontal">
+              <label>Nombre:</label>
+              <input
+                type="text"
+                name="nombre"
+                className="input-nombre"
+                value={formulario.nombre}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <label>Empresa:</label>
-        <input
-          type="text"
-          name="empresa"
-          value={formulario.empresa}
-          onChange={handleChange}
-          required
-        />
+            <div className="campo-horizontal">
+              <label>Empresa:</label>
+              <input
+                type="text"
+                name="empresa"
+                className="input-empresa"
+                value={formulario.empresa}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <label>Servicios que ofrece:</label>
-        <input
-          type="text"
-          name="servicios"
-          value={formulario.servicios}
-          onChange={handleChange}
-          required
-        />
+            <div className="campo-horizontal">
+              <label>Servicios que ofrece:</label>
+              <textarea
+                name="servicios"
+                className="input-servicios"
+                value={formulario.servicios}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <label>Contacto:</label>
-        <input
-          type="text"
-          name="telefono"
-          value={formulario.telefono}
-          onChange={handleChange}
-          required
-        />
+            <div className="campo-horizontal">
+              <label>Contacto:</label>
+              <input
+                type="text"
+                name="telefono"
+                className="input-telefono"
+                value={formulario.telefono}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <hr />
-        <h5>Historial de pagos</h5>
+            <div className="campo-horizontal">
+              <label>Monto del último pago:</label>
+              <input
+                type="number"
+                name="historialPago.monto"
+                className="input-monto"
+                value={formulario.historialPago.monto}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <label>Monto del último pago:</label>
-        <input
-          type="number"
-          name="historialPago.monto"
-          value={formulario.historialPago.monto}
-          onChange={handleChange}
-          required
-        />
+            <div className="campo-horizontal">
+              <label>Fecha del último pago:</label>
+              <input
+                type="date"
+                name="historialPago.fecha"
+                className="input-fecha"
+                value={formulario.historialPago.fecha}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        <label>Fecha del último pago:</label>
-        <input
-          type="date"
-          name="historialPago.fecha"
-          value={formulario.historialPago.fecha}
-          onChange={handleChange}
-          required
-        />
+            <div className="campo-horizontal">
+              <label>Estado del pago:</label>
+              <select
+                name="historialPago.estado"
+                className="input-estado"
+                value={formulario.historialPago.estado}
+                onChange={handleChange}
+              >
+                <option value="A tiempo">A tiempo</option>
+                <option value="Atrasado">Atrasado</option>
+              </select>
+            </div>
 
-        <label>Estado del pago:</label>
-        <select
-          name="historialPago.estado"
-          value={formulario.historialPago.estado}
-          onChange={handleChange}
-        >
-          <option value="A tiempo">A tiempo</option>
-          <option value="Atrasado">Atrasado</option>
-        </select>
+            <div className="botones-formulario">
+  <button type="submit" className="btn-agregar">Agregar</button>
+  <button
+    type="button"
+    className="btn-cancelar"
+    onClick={() => navigate("/proveedores", { state: { projectId } })}
+  >
+    Cancelar
+  </button>
+</div>
 
-        <div className="botones-formulario mt-3">
-          <button type="submit" className="btn-agregar">
-            Agregar
-          </button>
-          <button
-            type="button"
-            className="btn-cancelar"
-            onClick={() => navigate("/proveedores", { state: { projectId } })}
-          >
-            Cancelar
-          </button>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };

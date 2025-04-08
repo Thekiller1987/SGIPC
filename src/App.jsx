@@ -29,7 +29,7 @@ const AppContent = () => {
 
   // Define las rutas donde NO quieres el header purebassssssss
 
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor","/AgregarPago"]
+  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor","/AgregarPago","/agregar-proveedor"]
   
 
   return (
