@@ -10,7 +10,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useProject } from "../../context/ProjectContext";
 import "./ActividadesList.css";
 
 const ActividadesList = () => {
@@ -19,10 +20,8 @@ const ActividadesList = () => {
   const [subtareaInput, setSubtareaInput] = useState({});
   const [editandoActividad, setEditandoActividad] = useState(null);
   const navigate = useNavigate();
-  const location = useLocation();
-
-  // ✅ NO TOCAR ESTA LÓGICA
-  const projectId = location.state?.projectId;
+  const { project } = useProject(); // ✅ obtenemos el proyecto global
+  const projectId = project?.id;    // ✅ sacamos el id directamente
 
   useEffect(() => {
     if (projectId) obtenerActividades();
@@ -100,7 +99,10 @@ const ActividadesList = () => {
 
   return (
     <div className="container">
-      <button onClick={() => navigate("/project-dashboard", { state: { projectId } })} className="btn-back">
+      <button
+        onClick={() => navigate("/project-dashboard")}
+        className="btn-back"
+      >
         Volver al Proyecto
       </button>
       <h2>Lista de Actividades</h2>
@@ -113,7 +115,9 @@ const ActividadesList = () => {
               value={nuevaActividad}
               onChange={(e) => setNuevaActividad(e.target.value)}
             />
-            <button onClick={agregarActividad} className="btn-add">Agregar</button>
+            <button onClick={agregarActividad} className="btn-add">
+              Agregar
+            </button>
           </div>
           <ul className="activity-list">
             {actividades.map((actividad) => (
@@ -123,18 +127,32 @@ const ActividadesList = () => {
                     <input
                       type="text"
                       defaultValue={actividad.nombre}
-                      onBlur={(e) => editarActividad(actividad.id, e.target.value)}
+                      onBlur={(e) =>
+                        editarActividad(actividad.id, e.target.value)
+                      }
                     />
                   ) : (
                     <strong>{actividad.nombre}</strong>
                   )}
-                  <button onClick={() => setEditandoActividad(actividad.id)} className="btn-edit">✏️</button>
-                  <button onClick={() => eliminarActividad(actividad.id)} className="btn-delete">🗑️</button>
+                  <button
+                    onClick={() => setEditandoActividad(actividad.id)}
+                    className="btn-edit"
+                  >
+                    ✏️
+                  </button>
+                  <button
+                    onClick={() => eliminarActividad(actividad.id)}
+                    className="btn-delete"
+                  >
+                    🗑️
+                  </button>
                 </div>
                 <div className="progress-bar">
                   <div
                     className="progress"
-                    style={{ width: `${calcularProgreso(actividad.subtareas)}%` }}
+                    style={{
+                      width: `${calcularProgreso(actividad.subtareas)}%`,
+                    }}
                   >
                     {calcularProgreso(actividad.subtareas)}%
                   </div>
@@ -148,7 +166,12 @@ const ActividadesList = () => {
                         onChange={() => toggleSubtarea(actividad.id, index)}
                       />
                       {subtarea.nombre}
-                      <button onClick={() => eliminarSubtarea(actividad.id, index)} className="btn-delete">🗑️</button>
+                      <button
+                        onClick={() => eliminarSubtarea(actividad.id, index)}
+                        className="btn-delete"
+                      >
+                        🗑️
+                      </button>
                     </li>
                   ))}
                 </ul>
@@ -158,10 +181,18 @@ const ActividadesList = () => {
                     placeholder="Nueva subtarea"
                     value={subtareaInput[actividad.id] || ""}
                     onChange={(e) =>
-                      setSubtareaInput({ ...subtareaInput, [actividad.id]: e.target.value })
+                      setSubtareaInput({
+                        ...subtareaInput,
+                        [actividad.id]: e.target.value,
+                      })
                     }
                   />
-                  <button onClick={() => agregarSubtarea(actividad.id)} className="btn-add">➕</button>
+                  <button
+                    onClick={() => agregarSubtarea(actividad.id)}
+                    className="btn-add"
+                  >
+                    ➕
+                  </button>
                 </div>
               </li>
             ))}

@@ -1,17 +1,18 @@
+// src/views/PresupuestoView.jsx
 import React, { useState } from "react";
 import Sidebar from "../components/Sidebar";
 import PresupuestoCalculator from "../components/Presupuesto/PresupuestoCalculator";
 import EstructuraForm from "../components/Presupuesto/EstructuraForm";
 import ListaEstructuras from "../components/Presupuesto/ListaEstructuras";
-import { useLocation } from "react-router-dom";
+import { useProject } from "../context/ProjectContext"; // ✅
 import "../PresupuestoCss/PresupuestoCalculator.css";
 
 const PresupuestoView = () => {
-  const location = useLocation();
-  const projectId = location.state?.projectId;
+  const { project } = useProject(); // ✅
+  const projectId = project?.id;    // ✅
   const [vista, setVista] = useState("materiales");
   const [estructuraEnEdicion, setEstructuraEnEdicion] = useState(null);
-  const [mostrarLista, setMostrarLista] = useState(false); // ✅ nuevo estado
+  const [mostrarLista, setMostrarLista] = useState(false);
 
   return (
     <div className="layout-presupuesto">
@@ -53,7 +54,7 @@ const PresupuestoView = () => {
           <>
             {vista === "materiales" && (
               <div className="formulario-materiales">
-                <PresupuestoCalculator projectId={projectId} />
+                <PresupuestoCalculator />
               </div>
             )}
             {vista === "estructura" && (
@@ -71,7 +72,7 @@ const PresupuestoView = () => {
             )}
           </>
         ) : (
-          <p style={{ color: "red" }}>Error: No se recibió el ID del proyecto.</p>
+          <p style={{ color: "red" }}>Error: No se ha seleccionado un proyecto válido.</p>
         )}
       </div>
     </div>

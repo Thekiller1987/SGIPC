@@ -6,11 +6,14 @@ import mammoth from "mammoth";
 import EditProjectModal from "./EditProjectModal";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEdit, FaTrash } from "react-icons/fa";
+import { useProject } from "../../context/ProjectContext";
+
 
 // Modal para previsualizar documentos Word
 const WordPreviewModal = ({ base64Doc, onClose }) => {
   const [htmlContent, setHtmlContent] = useState("");
-
+ 
+  
   const convertWordToHtml = useCallback(async () => {
     try {
       const base64ToArrayBuffer = (base64) => {
@@ -128,7 +131,7 @@ const ImagePreviewModal = ({ base64Doc, onClose }) => {
 
 const ProjectsList = () => {
   const [projects, setProjects] = useState([]);
-
+  const { setProject } = useProject();
   // States para modales de previsualización
   const [wordPreviewDoc, setWordPreviewDoc] = useState(null);
   const [showWordModal, setShowWordModal] = useState(false);
@@ -185,8 +188,8 @@ const ProjectsList = () => {
 
   // Abre el dashboard del proyecto (nueva pantalla)
   const handleProjectDashboard = (project) => {
-    // Redirige a la nueva ruta "/project-dashboard" pasando el proyecto en state
-    navigate("/project-dashboard", { state: { project } });
+    setProject(project);
+    navigate("/project-dashboard");
   };
 
   // Abre el modal para editar el proyecto

@@ -2,6 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./database/authcontext";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { ProjectProvider } from './context/ProjectContext';
 
 // Vistas
 import Login from "./views/Login";
@@ -25,12 +26,16 @@ import PagosListView from "./views/PagosListView";
 const AppContent = () => {
   const location = useLocation();
 
-
-  // Define las rutas donde NO quieres el header purebassssssss
-
-  const noHeaderRoutes = ["/gastos-overview", "/proveedores","/presupuesto","/detalle-proveedor","/AgregarPago","/agregar-proveedor","/listar-pagos"]
-  
-
+  const noHeaderRoutes = [
+    "/gastos-overview",
+    "/proveedores",
+    "/presupuesto",
+    "/detalle-proveedor",
+    "/AgregarPago",
+    "/agregar-proveedor",
+    "/listar-pagos",
+    "/actividades"
+  ];
 
   return (
     <>
@@ -62,9 +67,11 @@ const AppContent = () => {
 const App = () => {
   return (
     <AuthProvider>
-      <Router>
-        <AppContent />
-      </Router>
+      <ProjectProvider>
+        <Router>
+          <AppContent />
+        </Router>
+      </ProjectProvider>
     </AuthProvider>
   );
 };

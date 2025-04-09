@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { useProject } from "../context/ProjectContext";
 import "./Sidebar.css";
 
-// Iconos
 import logo from "../assets/iconos/Logo.png";
 import calculatorIcon from "../assets/iconos/calculator.png";
 import checkIcon from "../assets/iconos/Chek.png";
@@ -13,9 +13,8 @@ import shoppingIcon from "../assets/iconos/shopping.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
   const navigate = useNavigate();
-  const { project } = location.state || {};
+  const { project } = useProject();
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -29,8 +28,13 @@ const Sidebar = () => {
 
   return (
     <>
-      <button className="sidebar-toggle" onClick={toggleSidebar}>
-        ☰
+      <button
+        className={`sidebar-toggle ${isOpen ? "open" : ""}`}
+        onClick={toggleSidebar}
+      >
+        <span className="bar bar1"></span>
+        <span className="bar bar2"></span>
+        <span className="bar bar3"></span>
       </button>
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
@@ -39,34 +43,23 @@ const Sidebar = () => {
         </div>
 
         <div className="sidebar-nav">
-          {/* Tareas */}
           <div className="sidebar-item" onClick={() => goTo("/actividades")}>
-            <img src={checkIcon} alt="Tareas" className="sidebar-icon" />
+            <img src={checkIcon} alt="Tareas" className="sidebar-icon icon-check" />
           </div>
-
-          {/* Calculadora */}
           <div className="sidebar-item" onClick={() => goTo("/presupuesto")}>
-            <img src={calculatorIcon} alt="Calculadora" className="sidebar-icon" />
+            <img src={calculatorIcon} alt="Calculadora" className="sidebar-icon icon-calc" />
           </div>
-
-          {/* Budget (antes estaba en gasto) */}
           <div className="sidebar-item" onClick={() => goTo("/budget-visualization")}>
-            <img src={moneyIcon} alt="Budget" className="sidebar-icon" />
+            <img src={moneyIcon} alt="Budget" className="sidebar-icon icon-money" />
           </div>
-
-          {/* Pagos */}
           <div className="sidebar-item" onClick={() => goTo("/listar-pagos")}>
-            <img src={shoppingIcon} alt="Pagos" className="sidebar-icon" />
+            <img src={shoppingIcon} alt="Pagos" className="sidebar-icon icon-shop" />
           </div>
-
-          {/* Proveedores */}
           <div className="sidebar-item" onClick={() => goTo("/proveedores")}>
-            <img src={gmailIcon} alt="Proveedores" className="sidebar-icon" />
+            <img src={gmailIcon} alt="Proveedores" className="sidebar-icon icon-mail" />
           </div>
-
-          {/* Estadísticas (sin ruta por ahora) */}
           <div className="sidebar-item" onClick={() => alert("Sección en construcción")}>
-            <img src={estadisticaIcon} alt="Estadísticas" className="sidebar-icon" />
+            <img src={estadisticaIcon} alt="Estadísticas" className="sidebar-icon icon-stats" />
           </div>
         </div>
       </div>

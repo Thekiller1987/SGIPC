@@ -1,3 +1,4 @@
+// src/components/Presupuesto/PresupuestoCalculator.jsx
 import React, { useEffect, useState } from "react";
 import MaterialForm from "./MaterialForm";
 import MaterialList from "./MaterialList";
@@ -5,8 +6,12 @@ import { db } from "../../database/firebaseconfig";
 import { collection, addDoc, getDocs } from "firebase/firestore";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { useProject } from "../../context/ProjectContext"; // ✅
 
-const PresupuestoCalculator = ({ projectId }) => {
+const PresupuestoCalculator = () => {
+  const { project } = useProject(); // ✅
+  const projectId = project?.id;    // ✅
+
   const [materiales, setMateriales] = useState([]);
   const [predefinidos, setPredefinidos] = useState([]);
   const [estructuras, setEstructuras] = useState([]);
@@ -35,6 +40,11 @@ const PresupuestoCalculator = ({ projectId }) => {
     materiales.reduce((acc, mat) => acc + mat.precio * mat.cantidad, 0);
 
   const guardarPresupuestoEnFirebase = async () => {
+    if (!projectId) {
+      alert("No se ha seleccionado un proyecto válido.");
+      return;
+    }
+
     try {
       await addDoc(collection(db, `projects/${projectId}/presupuestos`), {
         materiales,
@@ -70,19 +80,25 @@ const PresupuestoCalculator = ({ projectId }) => {
 
   return (
     <div className="calculadora-container" id="presupuesto-container">
-      <MaterialForm
-        onAgregar={agregarMaterial}
-        predefinidos={predefinidos}
-        estructuras={estructuras}
-        onAgregarEstructura={agregarEstructura}
-      />
-      <MaterialList materiales={materiales} onEliminar={eliminarMaterial} />
-      <div className="total-container">
-        <h3>Total: C${calcularTotal().toFixed(2)}</h3>
-      </div>
-      <div className="acciones">
-        <button onClick={generarPDF} className="btn-pdf">Exportar PDF</button>
-      </div>
+      {!projectId && <p style={{ color: "red" }}>Error: No se recibió el ID del proyecto.</p>}
+      {projectId && (
+        <>
+          <MaterialForm
+            onAgregar={agregarMaterial}
+            predefinidos={predefinidos}
+            estructuras={estructuras}
+            onAgregarEstructura={agregarEstructura}
+          />
+          <MaterialList materiales={materiales} onEliminar={eliminarMaterial} />
+          <div className="total-container">
+            <h3>Total: C${calcularTotal().toFixed(2)}</h3>
+          </div>
+          <div className="acciones">
+            <button onClick={generarPDF} className="btn-pdf">Exportar PDF</button>
+            <button onClick={guardarPresupuestoEnFirebase} className="btn-guardar">Guardar Presupuesto</button>
+          </div>
+        </>
+      )}
     </div>
   );
 };
