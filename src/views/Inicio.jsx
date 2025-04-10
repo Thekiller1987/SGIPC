@@ -32,4 +32,6 @@ const Inicio = () => {
   );
 };
 
+//// no funciona culpa puchichu
+
 export default Inicio;
