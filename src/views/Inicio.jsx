@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../InicioCss/Inicio.css";
+import "../Iniciocss/Inicio.css";
 import Lottie from "lottie-react";
 import GruaAnimacion from "../assets/iconos/animaciongrua.json";
 
