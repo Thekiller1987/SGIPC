@@ -26,11 +26,10 @@
   transform: scale(0.95) rotate(-2deg);
 }
 
-/* Sólo si no usás íconos como Lucide */
 .bar {
   width: 22px;
   height: 3px;
-  background-color: rgb(255, 255, 255);
+  background-color: white;
   border-radius: 3px;
   transition: transform 0.3s ease, opacity 0.3s ease;
   transform-origin: center;
@@ -58,27 +57,21 @@
   height: calc(100vh - 4rem);
   background: linear-gradient(180deg, #e3a008, #c88000);
   border-radius: 25px;
-  padding: 3rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
   z-index: 1000;
+  padding-top: 3rem;
+  padding-bottom: 2rem;
   transition: transform 0.35s ease, width 0.3s ease-in-out;
 }
 
-/* Logo con posición dinámica */
 .sidebar-logo {
-  margin-bottom: 0;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
   transition: margin-top 0.3s ease;
-}
-
-.sidebar.open > .sidebar-logo {
-  margin-top: 2rem;
-}
-
-.sidebar.closed > .sidebar-logo {
-  margin-top: -10rem;
+  flex-shrink: 0;
 }
 
 .sidebar-logo-img {
@@ -92,10 +85,10 @@
 .sidebar-nav {
   flex: 1;
   width: 100%;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
   gap: 1.8rem;
   padding: 0 0.5rem;
   overflow-y: auto;
@@ -136,13 +129,17 @@
   transform: scale(1.1);
 }
 
-/* Íconos individuales */
-.icon-check, .icon-calc, .icon-money, .icon-shop, .icon-mail, .icon-stats {
+.icon-check,
+.icon-calc,
+.icon-money,
+.icon-shop,
+.icon-mail,
+.icon-stats {
   width: 30px;
   height: 30px;
 }
 
-/* Responsive 1280px */
+/* Responsive */
 @media (max-width: 1280px) {
   .sidebar {
     top: 0;
@@ -173,7 +170,6 @@
   }
 }
 
-/* Responsive 480px */
 @media (max-width: 480px) {
   .sidebar-toggle {
     top: 0.8rem;

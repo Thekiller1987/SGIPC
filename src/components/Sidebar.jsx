@@ -34,14 +34,10 @@ const Sidebar = () => {
         className={`sidebar-toggle ${isOpen ? "open" : ""}`}
         onClick={toggleSidebar}
       >
-        {isOpen ? (
-          <X size={28} color="white" />
-        ) : (
-          <Menu size={28} color="white" />
-        )}
+        {isOpen ? <X size={28} color="white" /> : <Menu size={28} color="white" />}
       </button>
 
-      <div className={`sidebar ${isOpen ? "open" : "closed"}`}>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <div className="sidebar-logo">
           <img src={logo} alt="Logo" className="sidebar-logo-img" />
         </div>
