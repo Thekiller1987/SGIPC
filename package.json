@@ -16,7 +16,11 @@
     "firebase": "^11.5.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
+<<<<<<< HEAD
     "lucide-react": "^0.487.0",
+=======
+    "lottie-react": "^2.4.1",
+>>>>>>> 6b5a79cd92e1b27a37b51b16047350457114bc45
     "mammoth": "^1.9.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
