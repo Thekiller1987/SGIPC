@@ -1,0 +1,74 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey&display=swap');
+
+.inicio-container {
+  background-color: #3A3A3A;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+}
+
+.inicio-contenido-vertical {
+  background-color: #ffffff;
+  padding: 3rem 2rem;
+  border-radius: 2rem;
+  box-shadow: 0 15px 30px #E3A008;
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.inicio-animacion {
+  width: 200px;
+  max-height: 200px;
+  margin-bottom: 2rem;
+}
+
+.inicio-titulo {
+  font-family: 'Arapey', serif;
+  font-size: 2.7rem;
+  margin-bottom: 1rem;
+  color: #000000;
+}
+
+.inicio-descripcion {
+  font-size: 1.2rem;
+  color: #000000;
+  margin-bottom: 2rem;
+  max-width: 600px;
+}
+
+.btn-principal {
+  background-color: #D35400;
+  color: black;
+  border: none;
+  padding: 0.9rem 2.5rem;
+  border-radius: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.btn-principal:hover {
+  background-color: #ffb84d;
+}
+
+@media (max-width: 768px) {
+  .inicio-animacion {
+    width: 140px;
+  }
+
+  .inicio-titulo {
+    font-size: 2.2rem;
+  }
+
+  .inicio-descripcion {
+    font-size: 1.1rem;
+    padding: 0 1rem;
+  }
+}

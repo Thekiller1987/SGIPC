@@ -1,6 +1,8 @@
 import React from "react";
-import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import "../InicioCss/Inicio.css";
+import Lottie from "lottie-react";
+import GruaAnimacion from "../assets/iconos/animaciongrua.json";
 
 const Inicio = () => {
   const navigate = useNavigate();
@@ -10,28 +12,25 @@ const Inicio = () => {
   };
 
   return (
-    <Container className="mt-5 pt-5">
-      <Row className="justify-content-center">
-        <Col md={8}>
-          <Card className="text-center">
-            <Card.Body>
-              <Card.Title>Bienvenido a ObraTitan</Card.Title>
-              <Card.Text>
-                Gestiona tus proyectos de construcción de forma integral. Accede rápidamente a tus proyectos, revisa el progreso y administra documentos de manera sencilla.
-              </Card.Text>
+    <div className="inicio-container">
+      <div className="inicio-contenido-vertical">
+        <div className="inicio-animacion">
+          <Lottie animationData={GruaAnimacion} loop={true} />
+        </div>
 
-              <Button
-                variant="primary"
-                onClick={handleGoToProjects}
-                className="mb-2"
-              >
-                Ir a Gestión de Proyectos
-              </Button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+        <h1 className="inicio-titulo">Bienvenido a ObraTitan</h1>
+
+        <p className="inicio-descripcion">
+          Gestiona tus proyectos de construcción de forma integral.<br />
+          Accede rápidamente a tus proyectos, revisa el progreso y administra documentos.
+       </p>
+
+
+        <button className="btn-principal" onClick={handleGoToProjects}>
+          Ir a Gestión de Proyectos
+        </button>
+      </div>
+    </div>
   );
 };
 

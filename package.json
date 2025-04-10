@@ -16,6 +16,7 @@
     "firebase": "^11.5.0",
     "html2canvas": "^1.4.1",
     "jspdf": "^3.0.1",
+    "lottie-react": "^2.4.1",
     "mammoth": "^1.9.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
