@@ -34,7 +34,8 @@ const AppContent = () => {
     "/AgregarPago",
     "/agregar-proveedor",
     "/listar-pagos",
-    "/actividades"
+    "/actividades",
+    "/inicio"
   ];
 
   return (

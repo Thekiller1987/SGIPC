@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useProject } from "../context/ProjectContext";
 import "./Sidebar.css";
 
+import { Menu, X } from "lucide-react";
+
 import logo from "../assets/iconos/Logo.png";
 import calculatorIcon from "../assets/iconos/calculator.png";
 import checkIcon from "../assets/iconos/Chek.png";
@@ -32,9 +34,7 @@ const Sidebar = () => {
         className={`sidebar-toggle ${isOpen ? "open" : ""}`}
         onClick={toggleSidebar}
       >
-        <span className="bar bar1"></span>
-        <span className="bar bar2"></span>
-        <span className="bar bar3"></span>
+        {isOpen ? <X size={28} color="white" /> : <Menu size={28} color="white" />}
       </button>
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>

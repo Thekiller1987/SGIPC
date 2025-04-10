@@ -204,7 +204,134 @@ button {
   display: none !important;
 }
 
+<<<<<<< HEAD
 /* Tabla estructuras */
+=======
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .contenido-presupuesto {
+    padding: var(--layout-padding-mobile);
+  }
+
+  .titulo {
+    margin-left: 0;
+    text-align: center;
+    font-size: clamp(1.5rem, 8vw, 3rem);
+  }
+
+  .formulario-material {
+    flex-direction: column;
+  }
+
+  .acciones {
+    flex-direction: column;
+  }
+
+  .material-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .btn-eliminar {
+    align-self: flex-end;
+  }
+}
+
+
+
+/* Modo escritorio (ajusta el margen del contenido) */
+@media (min-width: 769px) {
+  .contenido-presupuesto {
+    margin-left: 70px;
+  }
+}
+
+/* Modo móvil (sidebar oculto por defecto) */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+  }
+
+  .sidebar.open {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+
+  .sidebar-toggle {
+    display: block;
+  }
+
+  .contenido-presupuesto {
+    margin-left: 0 !important;
+  }
+}
+
+.lista-estructuras {
+  margin-top: 2rem;
+}
+
+.subtitulo {
+  color: var(--blanco);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.estructura-card {
+  background-color: var(--blanco);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.acciones-estructura {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-editar {
+  background-color: var(--azul);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: not-allowed;
+  font-family: 'Arapey', serif;
+  opacity: 0.6;
+}
+
+.btn-eliminar {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Arapey', serif;
+}
+
+.btn-eliminar:hover {
+  background-color: #e74c3c;
+}
+>>>>>>> ae370bd15924823274ee4a794f94b0e1309c89a8
 .lista-estructuras {
   margin-top: 3rem;
   padding-top: 2rem;

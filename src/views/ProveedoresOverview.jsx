@@ -4,7 +4,6 @@ import { obtenerProveedores } from "../services/firebaseProveedores";
 import Sidebar from "../components/Sidebar";
 import "../Proveedorcss/ProveedorOverview.css";
 import flecha from "../assets/iconos/flecha.png";
-import { ListGroup, Button } from "react-bootstrap";
 
 const ProveedoresOverview = () => {
   const [proveedores, setProveedores] = useState([]);
@@ -16,7 +15,7 @@ const ProveedoresOverview = () => {
 
   useEffect(() => {
     if (project?.id) {
-      localStorage.setItem("projectId", project.id); // guardar si viene por navegación
+      localStorage.setItem("projectId", project.id);
     }
 
     const fetchData = async () => {
@@ -44,31 +43,27 @@ const ProveedoresOverview = () => {
       <Sidebar />
       <h1 className="titulo-fondo-oscuro">Proveedores</h1>
 
-      <div className="d-flex justify-content-end me-4 mb-3">
-        <Button variant="success" onClick={handleAgregarProveedor}>
-          + Agregar Proveedor
-        </Button>
-      </div>
-
       <div className="proveedores-container">
         <div className="proveedores-card">
-          <ListGroup className="lista-proveedores">
+          <div className="lista-proveedores">
             {proveedores.map((prov) => (
-              <ListGroup.Item
+              <div
                 key={prov.id}
                 className="proveedor-item"
                 onClick={() => handleSelectProveedor(prov)}
               >
                 <div className="proveedor-nombre">{prov.empresa}</div>
-                <div className="proveedor-estado">
-                  {prov.historialPago?.estado || "Sin estado"}
-                </div>
                 <div className="proveedor-arrow">
                   <img src={flecha} alt="Flecha" className="flecha-derecha" />
                 </div>
-              </ListGroup.Item>
+              </div>
             ))}
-          </ListGroup>
+          </div>
+          <div className="contenedor-boton-agregar">
+            <button className="btn-agregar-proveedor" onClick={handleAgregarProveedor}>
+              + Agregar Proveedor
+            </button>
+          </div>
         </div>
       </div>
     </div>
