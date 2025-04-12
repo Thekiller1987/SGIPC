@@ -13,7 +13,6 @@ import ProjectDashboard from "./views/ProjectDashboard";
 import ActividadesList from "./components/actividadeslist/ActividadesList";
 import BudgetVisualization from "./views/BudgetVisualization";
 import GastosManagement from "./views/GastosManagement";
-import GastosListView from "./views/GastosListView";
 import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
@@ -35,7 +34,8 @@ const AppContent = () => {
     "/agregar-proveedor",
     "/listar-pagos",
     "/actividades",
-    "/inicio"
+    "/inicio",
+    "/budget-visualization"
   ];
 
   return (
@@ -50,7 +50,6 @@ const AppContent = () => {
           <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} />
           <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} />} />
           <Route path="/gastos" element={<ProtectedRoute element={<GastosManagement />} />} />
-          <Route path="/GastosListView" element={<ProtectedRoute element={<GastosListView />} />} />
           <Route path="/gastos-overview" element={<ProtectedRoute element={<GastosOverview />} />} />
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
           <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
