@@ -107,7 +107,7 @@ textarea.input-servicios {
   align-items: center;
   justify-content: center;
   background-color: var(--naranja);
-  color: var(--negro);
+  color: var(--blanco);
   font-family: 'Arapey', serif;
   font-size: 1.05rem;
   font-weight: 600;
@@ -119,6 +119,7 @@ textarea.input-servicios {
   min-width: 140px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease;
+  margin-top: 20px;
 }
 
 /* 🎯 Botón Cancelar */
@@ -148,9 +149,6 @@ textarea.input-servicios {
 .btn-cancelar:hover {
   background-color: var(--naranja-hover);
 }
-
-
-
 
 
 .btn-agregar:hover,

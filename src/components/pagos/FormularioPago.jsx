@@ -1,4 +1,4 @@
-// src/components/Pagos/FormularioPago.jsx
+// src/components/pagos/FormularioPago.jsx
 import React, { useState, useEffect } from 'react';
 import '../../PagosCss/FormularioPago.css';
 import { obtenerProveedores } from '../../services/firebaseProveedores';
@@ -30,8 +30,8 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
   };
 
   return (
-    <div className="formulario-pago">
-      <h3 className="nombre-proyecto">{nombreProyecto || 'Proyecto'}</h3>
+    <form className="formulario-pago" onSubmit={handleSubmit}>
+      <h3 className="form-nombre-proyecto">{nombreProyecto || 'Proyecto Sin Nombre'}</h3>
 
       <label>Proveedor/Empleado:</label>
       <input
@@ -49,7 +49,7 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
       <select
         value={metodoPago}
         onChange={(e) => setMetodoPago(e.target.value)}
-        className="select-input"
+        className="form-select-input"
       >
         <option value="">Seleccione un método</option>
         <option value="Efectivo">Efectivo</option>
@@ -59,7 +59,7 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
       </select>
 
       <label>Monto:</label>
-      <div className="monto-con-moneda">
+      <div className="form-monto-con-moneda">
         <input
           type="number"
           value={monto}
@@ -68,7 +68,7 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
         <select
           value={moneda}
           onChange={(e) => setMoneda(e.target.value)}
-          className="moneda-select"
+          className="form-moneda-select"
         >
           <option value="C$">C$</option>
           <option value="US$">US$</option>
@@ -83,10 +83,12 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
         onChange={(e) => setFecha(e.target.value)}
       />
 
-      <button className="btn-agregar" onClick={handleSubmit}>
-        Agregar
-      </button>
-    </div>
+      <div className="form-botones-derecha">
+        <button type="submit" className="form-btn-agregar">
+          Agregar Pago
+        </button>
+      </div>
+    </form>
   );
 };
 
