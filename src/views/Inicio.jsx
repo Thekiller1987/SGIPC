@@ -8,7 +8,7 @@ const Inicio = () => {
   const navigate = useNavigate();
 
   const handleGoToProjects = () => {
-    navigate("/projects");
+    navigate("/proyecto");
   };
 
   return (

@@ -1,0 +1,201 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+/* 🧾 Estilo general de la tarjeta */
+.dpv-card {
+  background-color: white;
+  border: 3px solid #D35400;
+  border-radius: 20px;
+  padding: 2rem;
+  font-family: 'Arapey', serif;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  margin: 2rem 0 2rem 120px; /* margen por el sidebar */
+  width: calc(85vw - 140px); /* ahora ocupa casi toda la pantalla */
+  max-width: 100%; /* sin restricción */
+}
+
+
+
+/* 📱 Tablet */
+@media (max-width: 991px) {
+  .dpv-card {
+    padding: 1.5rem;
+    width: 92vw;
+    margin: 2rem auto;
+  }
+}
+
+/* 📱 Móvil */
+@media (max-width: 600px) {
+  .dpv-card {
+    padding: 1rem;
+    width: 90vw;
+  }
+
+  .dpv-header {
+    justify-content: center;
+  }
+
+  .dpv-campo-imagen {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* 🎯 Cabecera */
+.dpv-header {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.dpv-icono {
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.dpv-icono:hover {
+  transform: scale(1.1);
+}
+
+/* 📸 Imagen del proyecto */
+.dpv-imagen {
+  width: 100%;
+  max-height: 300px;
+  object-fit: cover;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+}
+
+/* 📂 Imagen editable */
+.dpv-campo-imagen {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.dpv-campo-imagen label {
+  font-weight: bold;
+  color: #000;
+  min-width: 150px;
+}
+
+.dpv-campo-imagen input[type="file"] {
+  border: 2px solid #D35400;
+  padding: 0.5rem;
+  border-radius: 8px;
+  background-color: #fffdfc;
+  font-size: 1rem;
+  flex: 1;
+  max-width: 400px;
+}
+
+/* 📝 Texto */
+.dpv-nombre {
+  font-size: 2.5rem;
+  margin: 0;
+  color: #000;
+}
+
+.dpv-cliente {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #222;
+}
+
+.dpv-descripcion {
+  border: 2px solid #D35400;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fffdfc;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.dpv-presupuesto {
+  border: 2px solid #D35400;
+  padding: 0.8rem;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+}
+
+.dpv-input,
+.dpv-textarea {
+  border: 2px solid #D35400;
+  padding: 0.7rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  font-family: 'Arapey', serif;
+}
+
+.dpv-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* 📅 Fechas */
+.dpv-fechas-estado {
+  display: flex;
+  justify-content: space-between;
+  gap: 2rem;
+  margin: 1.5rem 0;
+  flex-wrap: wrap;
+}
+
+.dpv-fecha-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.dpv-fecha-item label {
+  font-weight: bold;
+  margin-bottom: 0.4rem;
+  color: #000;
+}
+
+.dpv-fecha-item input {
+  border: 2px solid #D35400;
+  padding: 0.6rem;
+  border-radius: 8px;
+  font-size: 1.1rem;
+}
+
+/* 🔘 Estado del proyecto */
+.dpv-estado {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dpv-estado label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.dpv-estado span {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  color: #222;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.dpv-activo {
+  background-color: #ce5f15;
+  color: #000;
+  border: 2px solid #D35400;
+}

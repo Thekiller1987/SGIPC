@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+.crear-proyecto-container {
+  background-color: #3A3A3A;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Arapey', serif;
+}
+
+.header-proyecto {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 95vw;
+  max-width: 1400px;
+  margin-bottom: 1.5rem;
+}
+
+.titulo-crear {
+  color: white;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  text-align: center;
+  width: 100%;
+  margin: -4rem 0 2.5rem 0;
+}
+
+.btn-agregar-proyecto {
+  background-color: #D35400;
+  color: black;
+  font-weight: bold;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 2rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-agregar-proyecto:hover {
+  background-color: #b34700;
+}
+
+.formulario-proyecto {
+  background-color: white;
+  border-radius: 20px;
+  padding: 2rem;
+  width: 95vw;
+  max-width: 1400px;
+  margin: 0 auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  border: 2px solid #944008;
+}
+
+.fila-formulario {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5rem;
+}
+
+.fila-formulario label {
+  font-size: 1.5rem;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.fila-formulario input[type="text"],
+.fila-formulario input[type="number"],
+.fila-formulario input[type="date"],
+.fila-formulario input[type="file"] {
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  border: 2px solid #D35400;
+  border-radius: 8px;
+  width: 100%;
+  outline: none; /* <- quita el borde negro del focus */
+}
+
+.fila-estados {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+.fila-estados label {
+  font-size: 1.5rem;
+  color: rgb(0, 0, 0);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fila-estados input[type="radio"] {
+  accent-color: #D35400;
+}
+
+.fila-fechas {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  margin-top: 1.5rem;
+
+}
+
+.campo-fecha {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+ 
+}
+
+.campo-fecha label {
+  font-size: 1.5rem;
+  color: black;
+  margin-bottom: 0.5rem;
+
+}
+
+.campo-fecha input {
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  border: 2px solid #D35400;
+  border-radius: 8px;
+  outline: none; /* <- quita el borde negro del focus */
+}
+
+.preview-imagen {
+  margin-top: 1rem;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #D35400;
+  border-radius: 12px;
+}
+
+/* Errores */
+.error-texto {
+  color: red;
+  font-size: 1rem;
+  margin-top: 0.4rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header-proyecto {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .titulo-crear {
+    font-size: 2.2rem;
+  }
+
+  .btn-agregar-proyecto {
+    width: 100%;
+  }
+
+  .fila-estados {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .fila-fechas {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}

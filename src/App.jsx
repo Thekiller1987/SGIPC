@@ -8,7 +8,6 @@ import { ProjectProvider } from './context/ProjectContext';
 import Login from "./views/Login";
 import Encabezado from "./components/Encabezado";
 import Inicio from "./views/Inicio";
-import Projects from "./views/Projects";
 import ProjectDashboard from "./views/ProjectDashboard";
 import ActividadesList from "./components/actividadeslist/ActividadesList";
 import BudgetVisualization from "./views/BudgetVisualization";
@@ -21,6 +20,8 @@ import PresupuestoView from "./views/PresupuestoView";
 import FormularioProveedor from "./components/Proveedores/FormularioProveedor";
 import AgregarPago from "./views/AgregarPago";
 import PagosListView from "./views/PagosListView";
+import ProyectosOverview from "./views/ProyectosOverview";
+import CreateProjectView from "./views/CreateProjectView";
 
 const AppContent = () => {
   const location = useLocation();
@@ -35,7 +36,11 @@ const AppContent = () => {
     "/listar-pagos",
     "/actividades",
     "/inicio",
-    "/budget-visualization"
+    "/budget-visualization",
+    "/proyecto",
+    "/CrearProyecto",
+    "/project-dashboard"
+
   ];
 
   return (
@@ -45,7 +50,7 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} />} />
-          <Route path="/projects" element={<ProtectedRoute element={<Projects />} />} />
+          <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} />} />
           <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} />} />
           <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} />
           <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} />} />
@@ -58,6 +63,7 @@ const AppContent = () => {
           <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
           <Route path="/AgregarPago" element={<ProtectedRoute element={<AgregarPago />} />} />
           <Route path="/listar-pagos" element={<ProtectedRoute element={<PagosListView />} />} />
+          <Route path="/CrearProyecto" element={<ProtectedRoute element={<CreateProjectView />} />} />
         </Routes>
       </main>
     </>
