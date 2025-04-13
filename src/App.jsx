@@ -41,7 +41,7 @@ const AppContent = () => {
     "/proyecto",
     "/CrearProyecto",
     "/project-dashboard",
-    "/", //login
+    "/",
 "/gastos"
   ];
 
