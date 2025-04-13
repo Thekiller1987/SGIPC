@@ -26,7 +26,6 @@ const ProjectForm = () => {
       nuevosErrores.presupuesto = "Debe ser un número positivo";
     if (!fechaInicio) nuevosErrores.fechaInicio = "Seleccione una fecha";
     if (!fechaFin) nuevosErrores.fechaFin = "Seleccione una fecha";
-    if (!imagen) nuevosErrores.imagen = "Debe subir una imagen";
     return nuevosErrores;
   };
 
@@ -38,6 +37,35 @@ const ProjectForm = () => {
     }
   };
 
+  const compressImage = (file, maxWidth = 800, maxHeight = 800, quality = 0.6) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+  
+          if (width > maxWidth || height > maxHeight) {
+            const scale = Math.min(maxWidth / width, maxHeight / height);
+            width *= scale;
+            height *= scale;
+          }
+  
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx.drawImage(img, 0, 0, width, height);
+          const compressedDataUrl = canvas.toDataURL("image/jpeg", quality);
+          resolve(compressedDataUrl);
+        };
+        img.src = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevosErrores = validar();
@@ -45,31 +73,39 @@ const ProjectForm = () => {
       setErrores(nuevosErrores);
       return;
     }
-
+  
     try {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64Image = reader.result;
-
-        const projectData = {
-          nombre,
-          descripcion,
-          cliente,
-          presupuesto: Number(presupuesto),
-          estado,
-          fechaInicio: fechaInicio ? new Date(fechaInicio) : null,
-          fechaFin: fechaFin ? new Date(fechaFin) : null,
-          imagen: base64Image,
-        };
-
-        await createProject(projectData);
-        navigate("/proyecto");
+      let base64Image = null;
+  
+      if (imagen) {
+        base64Image = await compressImage(imagen);
+  
+        // Validación: si supera 1MB, mostrar error
+        const base64Length = base64Image.length * (3/4); // Estimación real del tamaño
+        if (base64Length > 1048487) {
+          alert("La imagen sigue siendo muy grande después de la compresión. Intente con otra imagen más liviana.");
+          return;
+        }
+      }
+  
+      const projectData = {
+        nombre,
+        descripcion,
+        cliente,
+        presupuesto: Number(presupuesto),
+        estado,
+        fechaInicio: fechaInicio ? new Date(fechaInicio) : null,
+        fechaFin: fechaFin ? new Date(fechaFin) : null,
+        imagen: base64Image,
       };
-      reader.readAsDataURL(imagen);
+  
+      await createProject(projectData);
+      navigate("/proyecto");
     } catch (error) {
       console.error("Error al crear proyecto:", error);
     }
   };
+  
 
   return (
     <div className="crear-proyecto-container">
@@ -108,9 +144,15 @@ const ProjectForm = () => {
         <div className="fila-formulario">
           <label>Estado:</label>
           <div className="fila-estados">
-            <label><input type="radio" value="En progreso" checked={estado === "En progreso"} onChange={(e) => setEstado(e.target.value)} /> En Progreso</label>
-            <label><input type="radio" value="Finalizado" checked={estado === "Finalizado"} onChange={(e) => setEstado(e.target.value)} /> Finalizado</label>
-            <label><input type="radio" value="Cancelado" checked={estado === "Cancelado"} onChange={(e) => setEstado(e.target.value)} /> Cancelado</label>
+            <label>
+              <input type="radio" value="En progreso" checked={estado === "En progreso"} onChange={(e) => setEstado(e.target.value)} /> En Progreso
+            </label>
+            <label>
+              <input type="radio" value="Finalizado" checked={estado === "Finalizado"} onChange={(e) => setEstado(e.target.value)} /> Finalizado
+            </label>
+            <label>
+              <input type="radio" value="Cancelado" checked={estado === "Cancelado"} onChange={(e) => setEstado(e.target.value)} /> Cancelado
+            </label>
           </div>
         </div>
 
@@ -128,7 +170,7 @@ const ProjectForm = () => {
         </div>
 
         <div className="fila-formulario">
-          <label>Imagen del proyecto:</label>
+          <label>Imagen del proyecto (opcional):</label>
           <input type="file" accept="image/*" onChange={handleImageChange} />
           {errores.imagen && <span className="error-texto">{errores.imagen}</span>}
           {preview && <img src={preview} alt="Vista previa" className="preview-imagen" />}

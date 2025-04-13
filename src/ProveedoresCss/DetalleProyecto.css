@@ -9,9 +9,12 @@
   font-family: 'Arapey', serif;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
-  margin: 2rem 0 2rem 120px; /* margen por el sidebar */
-  width: calc(85vw - 140px); /* ahora ocupa casi toda la pantalla */
-  max-width: 100%; /* sin restricción */
+  margin: 2rem 0 2rem 120px;
+  /* margen por el sidebar */
+  width: calc(85vw - 140px);
+  /* ahora ocupa casi toda la pantalla */
+  max-width: 100%;
+  /* sin restricción */
 }
 
 
@@ -77,22 +80,28 @@
   gap: 1rem;
   margin-bottom: 1rem;
   flex-wrap: wrap;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .dpv-campo-imagen label {
   font-weight: bold;
   color: #000;
-  min-width: 150px;
+  min-width: 140px;
+  flex-shrink: 0;
 }
-
 .dpv-campo-imagen input[type="file"] {
   border: 2px solid #D35400;
   padding: 0.5rem;
   border-radius: 8px;
   background-color: #fffdfc;
   font-size: 1rem;
-  flex: 1;
-  max-width: 400px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* 📝 Texto */
