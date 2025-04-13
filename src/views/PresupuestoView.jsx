@@ -31,7 +31,7 @@ const PresupuestoView = () => {
             className={`switch-btn ${vista === "estructura" ? "activo" : ""}`}
             onClick={() => setVista("estructura")}
           >
-            🧱 Crear Estructura
+            🧱 Estructuras
           </button>
 
           {vista === "estructura" && (

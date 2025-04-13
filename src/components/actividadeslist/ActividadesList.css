@@ -1,64 +1,238 @@
-/* Estilo para la barra de progreso */
-.progress-bar {
-  width: 100%;
-  height: 20px;
-  background: #d8d8d8; /* Color de fondo gris claro */
-  border-radius: 5px;
-  margin: 8px 0;
-  position: relative;
-  overflow: hidden;
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+:root {
+  --gris-fondo: #2f2f2f;
+  --naranja: #d35400;
+  --verde: #27ae60;
+  --rojo: #e74c3c;
+  --amarillo: #f1c40f;
+  --blanco: #fff;
+  --fuente-principal: 'Arapey', serif;
 }
 
-.progress {
-  height: 100%;
-  background: linear-gradient(90deg, #0093E9 0%, #1e3d87 100%); /* Gradiente azul */
-  border-radius: 5px;
-  text-align: center;
-  line-height: 20px;
-  color: white;
-  font-weight: bold;
-  transition: width 0.3s ease-in-out;
+body {
+  font-family: var(--fuente-principal);
+  background-color: var(--gris-fondo);
+  margin: 0;
 }
 
-/* Botones */
-.btn-add {
-  background: #0093E9; /* Azul basado en el navbar */
-  color: white;
+/* Layout principal */
+.layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.contenido {
+  flex: 1;
+  padding: 2rem;
+  box-sizing: border-box;
+  margin-left: 70px;
+}
+
+/* Título */
+.titulo {
+  font-size: 2.5rem;
+  color: var(--blanco);
+  margin-bottom: 1rem;
+}
+
+/* Leyenda estados */
+.estado-leyenda {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--blanco);
+  font-size: 1rem;
+}
+
+.estado-leyenda .estado {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.estado.verde { background-color: #2ecc71; }
+.estado.amarillo { background-color: #f1c40f; }
+.estado.rojo { background-color: #e74c3c; }
+
+/* Formulario para agregar */
+.form-agregar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.form-agregar input {
+  flex: 1;
+  padding: 0.7rem;
+  border-radius: 8px;
   border: none;
-  padding: 8px 12px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
+  font-size: 1.1rem;
 }
 
-.btn-add:hover {
-  background: #007acc; /* Azul más oscuro al pasar el mouse */
-}
-
-.btn-edit {
-  background: #f4a261; /* Naranja */
-  color: white;
+.form-agregar button {
+  padding: 0.7rem 1rem;
+  background-color: var(--verde);
   border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.btn-edit:hover {
-  background: #e76f51; /* Naranja más fuerte */
-}
-
-.btn-delete {
-  background: #e63946; /* Rojo */
   color: white;
-  border: none;
-  padding: 6px 10px;
-  border-radius: 5px;
+  font-size: 1.3rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s ease;
 }
 
-.btn-delete:hover {
-  background: #c92a2a; /* Rojo más oscuro */
+/* Tarea */
+.tarjeta-tarea {
+  background-color: var(--blanco);
+  border: 2px solid var(--naranja);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Animación entrada */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Información de la tarea */
+.info-tarea {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.info-tarea input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+}
+
+/* Acciones de tarea */
+.acciones-tarea {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+}
+
+.acciones-tarea button {
+  background-color: #eee;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.2s;
+}
+
+.acciones-tarea button:hover {
+  background-color: #ddd;
+}
+
+/* Subtareas */
+.subtareas {
+  margin-top: 1rem;
+}
+
+.subtarea-item {
+  background-color: #f4f4f4;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  border-left: 5px solid var(--naranja);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 6px;
+  justify-content: space-between;
+}
+
+.subtarea-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.subtarea-item .completado {
+  text-decoration: line-through;
+  color: #999;
+  flex: 1;
+}
+
+.subtarea-item span {
+  flex: 1;
+}
+
+/* Menú de opciones */
+.menu-opciones {
+  background-color: var(--blanco);
+  border: 1px solid #ccc;
+  padding: 1rem;
+  border-radius: 12px;
+  position: absolute;
+  z-index: 10;
+  margin-top: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.menu-opciones .add-subtarea {
+  display: flex;
+  margin-top: 0.5rem;
+  gap: 0.5rem;
+}
+
+.menu-opciones input {
+  flex: 1;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.menu-opciones button {
+  background-color: var(--verde);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Estado selector */
+.estado-selector {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.estado-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+  .contenido {
+    padding: 1rem;
+    margin-left: 0;
+  }
+
+  .info-tarea {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .acciones-tarea {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
 }
