@@ -1,14 +1,14 @@
 // src/components/pagos/FormularioPago.jsx
-import React, { useState, useEffect } from 'react';
-import '../../PagosCss/FormularioPago.css';
-import { obtenerProveedores } from '../../services/firebaseProveedores';
+import React, { useState, useEffect } from "react";
+import "../../PagosCss/FormularioPago.css";
+import { obtenerProveedores } from "../../services/firebaseProveedores";
 
 const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
-  const [proveedorEmpleado, setProveedorEmpleado] = useState('');
-  const [metodoPago, setMetodoPago] = useState('');
-  const [monto, setMonto] = useState('');
-  const [moneda, setMoneda] = useState('C$');
-  const [fecha, setFecha] = useState('');
+  const [proveedorEmpleado, setProveedorEmpleado] = useState("");
+  const [metodoPago, setMetodoPago] = useState("");
+  const [monto, setMonto] = useState("");
+  const [moneda, setMoneda] = useState("C$");
+  const [fecha, setFecha] = useState("");
   const [proveedores, setProveedores] = useState([]);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
         const lista = await obtenerProveedores(projectId);
         setProveedores(lista);
       } catch (error) {
-        console.error('Error al cargar proveedores:', error);
+        console.error("Error al cargar proveedores:", error);
       }
     };
 
@@ -26,12 +26,23 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit({ proveedorEmpleado, metodoPago, monto, moneda, fecha });
+    const [year, month, day] = fecha.split("-");
+    const fechaLocal = new Date(year, month - 1, day);
+
+    onSubmit({
+      proveedorEmpleado,
+      metodoPago,
+      monto,
+      moneda,
+      fecha: fechaLocal,
+    });
   };
 
   return (
     <form className="formulario-pago" onSubmit={handleSubmit}>
-      <h3 className="form-nombre-proyecto">{nombreProyecto || 'Proyecto Sin Nombre'}</h3>
+      <h3 className="form-nombre-proyecto">
+        {nombreProyecto || "Proyecto Sin Nombre"}
+      </h3>
 
       <label>Proveedor/Empleado:</label>
       <input
