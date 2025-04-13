@@ -101,25 +101,25 @@ const GastoDetail = () => {
             <label>Categoría de Gasto :</label>
             {modoEdicion ? (
               <div className="dg-campo-col">
-                <input
+                <select
                   name="categoria"
-                  list="categorias"
-                  className="dg-input"
+                  className="dg-select"
                   value={datosEditables.categoria}
                   onChange={handleChange}
-                  placeholder="Seleccione o escriba..."
-                />
-                <datalist id="categorias">
-                  <option value="Materiales" />
-                  <option value="Mano de obra" />
-                  <option value="Transporte" />
-                </datalist>
+                >
+                  <option value="">Seleccione...</option>
+                  <option value="Materiales">Materiales</option>
+                  <option value="Mano de obra">Mano de obra</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="-- Agregar nueva categoría --">-- Agregar nueva categoría --</option>
+                </select>
                 {errores.categoria && <div className="dg-error">{errores.categoria}</div>}
               </div>
             ) : (
               <span className="dg-valor">{datosEditables.categoria}</span>
             )}
           </div>
+
 
           {/* Fecha */}
           <div className="dg-campo">

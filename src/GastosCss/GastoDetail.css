@@ -95,7 +95,8 @@
   flex: 1;
 }
 
-.dg-input {
+.dg-input,
+.dg-select {
   border: 2px solid #D35400;
   border-radius: 6px;
   padding: 0.4rem 0.8rem;
@@ -104,6 +105,15 @@
   font-size: 1rem;
   background-color: white;
   color: black;
+}
+
+.dg-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='20,50 70,100 120,50' stroke='%23D35400' stroke-width='15' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
 }
 
 .dg-valor {
@@ -177,6 +187,7 @@
   100% { opacity: 0; transform: translateY(20px); }
 }
 
+/* 📱 Responsive */
 @media (max-width: 768px) {
   .dg-contenido-principal {
     padding: var(--dg-padding-mobile);
@@ -210,7 +221,11 @@
     font-size: 0.95rem;
   }
 
-  .dg-input, .dg-valor, .dg-btn-adjunta, .dg-factura-nombre {
+  .dg-input,
+  .dg-select,
+  .dg-valor,
+  .dg-btn-adjunta,
+  .dg-factura-nombre {
     font-size: 0.95rem;
   }
 }
@@ -229,7 +244,11 @@
     font-size: 0.9rem;
   }
 
-  .dg-input, .dg-valor, .dg-btn-adjunta, .dg-factura-nombre {
+  .dg-input,
+  .dg-select,
+  .dg-valor,
+  .dg-btn-adjunta,
+  .dg-factura-nombre {
     font-size: 0.9rem;
   }
 
