@@ -1,13 +1,16 @@
+/* ✅ ACTIVIDADES LIST CSS FINAL SEGÚN DISEÑO Figma */
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
 :root {
   --gris-fondo: #2f2f2f;
   --naranja: #d35400;
+  --naranja-hover: #b34700;
   --verde: #27ae60;
-  --rojo: #e74c3c;
   --amarillo: #f1c40f;
+  --rojo: #e74c3c;
   --blanco: #fff;
   --fuente-principal: 'Arapey', serif;
+  --sombra: 0 4px 12px rgba(0, 0, 0, 0.25);
 }
 
 body {
@@ -16,7 +19,6 @@ body {
   margin: 0;
 }
 
-/* Layout principal */
 .layout {
   display: flex;
   min-height: 100vh;
@@ -26,50 +28,62 @@ body {
   flex: 1;
   padding: 2rem;
   box-sizing: border-box;
-  margin-left: 70px;
+  margin-left: 130px;
+  background-color: #0e0e0e;
+  animation: fadeIn 0.5s ease;
+  font-family: var(--fuente-principal);
 }
 
-/* Título */
 .titulo {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   color: var(--blanco);
   margin-bottom: 1rem;
+  font-family: var(--fuente-principal);
 }
 
-/* Leyenda estados */
 .estado-leyenda {
   display: flex;
   gap: 2rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   color: var(--blanco);
   font-size: 1rem;
+  font-weight: bold;
+  animation: fadeIn 0.5s ease;
+  font-family: var(--fuente-principal);
 }
 
 .estado-leyenda .estado {
   display: inline-block;
-  width: 15px;
-  height: 15px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
   margin-right: 6px;
 }
 
-.estado.verde { background-color: #2ecc71; }
-.estado.amarillo { background-color: #f1c40f; }
-.estado.rojo { background-color: #e74c3c; }
+.estado.verde { background-color: var(--verde); }
+.estado.amarillo { background-color: var(--amarillo); }
+.estado.rojo { background-color: var(--rojo); }
 
-/* Formulario para agregar */
 .form-agregar {
   display: flex;
   gap: 1rem;
   margin-bottom: 2rem;
+  animation: fadeIn 0.5s ease-in-out;
+  font-family: var(--fuente-principal);
 }
 
 .form-agregar input {
   flex: 1;
-  padding: 0.7rem;
-  border-radius: 8px;
+  padding: 0.8rem;
+  border-radius: 10px;
   border: none;
   font-size: 1.1rem;
+  outline: none;
+  transition: box-shadow 0.3s ease;
+}
+
+.form-agregar input:focus {
+  box-shadow: 0 0 8px var(--naranja);
 }
 
 .form-agregar button {
@@ -78,87 +92,190 @@ body {
   border: none;
   color: white;
   font-size: 1.3rem;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Tarea */
+.form-agregar button:hover {
+  background-color: var(--naranja);
+  transform: scale(1.05);
+}
+
 .tarjeta-tarea {
   background-color: var(--blanco);
   border: 2px solid var(--naranja);
-  border-radius: 6px;
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  transition: transform 0.3s ease;
+  box-shadow: var(--sombra);
+  position: relative;
 }
 
-/* Animación entrada */
+.tarjeta-tarea:hover {
+  transform: translateY(-3px);
+}
+
 .fade-in {
-  animation: fadeIn 0.3s ease-in-out;
+  animation: fadeIn 0.4s ease-in-out;
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
+  from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* Información de la tarea */
 .info-tarea {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-family: var(--fuente-principal);
   gap: 1rem;
-  font-size: 1.4rem;
-  margin-bottom: 0.5rem;
 }
 
 .info-tarea input[type="checkbox"] {
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  accent-color: var(--verde);
 }
 
-/* Acciones de tarea */
+.fecha-tarea {
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 0.3rem;
+}
+
 .acciones-tarea {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.6rem;
   justify-content: flex-end;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
 }
 
 .acciones-tarea button {
-  background-color: #eee;
-  border: none;
-  padding: 0.5rem;
-  border-radius: 6px;
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
   cursor: pointer;
-  font-size: 1.2rem;
-  transition: background-color 0.2s;
 }
 
 .acciones-tarea button:hover {
-  background-color: #ddd;
+  background-color: var(--naranja);
+  transform: scale(1.1);
 }
 
-/* Subtareas */
+.menu-opciones {
+  background-color: #fff;
+  border: 2px solid var(--naranja);
+  padding: 1.2rem;
+  border-radius: 16px;
+  margin-top: 1.2rem;
+  box-shadow: var(--sombra);
+  animation: fadeIn 0.4s ease;
+}
+
+.add-subtarea {
+  display: flex;
+  gap: 0.8rem;
+  margin-bottom: 1.2rem;
+}
+
+.add-subtarea input {
+  flex: 1;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  transition: border 0.3s ease;
+  font-family: var(--fuente-principal);
+}
+
+.add-subtarea button {
+  background-color: var(--verde);
+  color: #fff;
+  padding: 0.7rem 1.2rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  font-family: var(--fuente-principal);
+}
+
+.add-subtarea button:hover {
+  background-color: var(--naranja);
+  transform: scale(1.05);
+}
+
+.estado-selector label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.estado-selector input[type="radio"] {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  position: relative;
+  cursor: pointer;
+}
+
+.estado-selector input[type="radio"]:checked::before {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: currentColor;
+}
+
+.estado-selector input[value="finalizado"]:checked::before { background-color: var(--verde); }
+.estado-selector input[value="enProceso"]:checked::before { background-color: var(--amarillo); }
+.estado-selector input[value="cancelado"]:checked::before { background-color: var(--rojo); }
+
 .subtareas {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
 }
 
 .subtarea-item {
-  background-color: #f4f4f4;
-  padding: 0.8rem 1rem;
-  margin-bottom: 0.5rem;
-  border-left: 5px solid var(--naranja);
+  background-color: #fefefe;
+  padding: 0.8rem 1.2rem;
   display: flex;
   align-items: center;
   gap: 1rem;
-  border-radius: 6px;
+  border-radius: 8px;
   justify-content: space-between;
+  box-shadow: var(--sombra);
+  margin-bottom: 0.6rem;
+  animation: fadeIn 0.4s ease-in-out;
+  font-family: var(--fuente-principal);
+  position: relative;
+  margin-left: 2rem;
+  border-left: 5px solid var(--naranja);
 }
 
 .subtarea-item input[type="checkbox"] {
   width: 18px;
   height: 18px;
+  cursor: pointer;
+  accent-color: var(--naranja);
 }
 
 .subtarea-item .completado {
@@ -169,70 +286,90 @@ body {
 
 .subtarea-item span {
   flex: 1;
+  font-size: 1.1rem;
 }
 
-/* Menú de opciones */
-.menu-opciones {
-  background-color: var(--blanco);
-  border: 1px solid #ccc;
-  padding: 1rem;
-  border-radius: 12px;
-  position: absolute;
-  z-index: 10;
-  margin-top: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.menu-opciones .add-subtarea {
+.subtarea-botones {
   display: flex;
-  margin-top: 0.5rem;
-  gap: 0.5rem;
+  gap: 0.4rem;
+  position: absolute;
+  right: 1rem;
+  top: 0.7rem;
 }
 
-.menu-opciones input {
-  flex: 1;
-  padding: 0.5rem;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.menu-opciones button {
-  background-color: var(--verde);
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  border: none;
+.subtarea-botones button {
+  background-color: transparent;
+  border: 2px solid #222;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
   cursor: pointer;
 }
 
-/* Estado selector */
-.estado-selector {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+.subtarea-botones button:hover {
+  background-color: var(--rojo);
+  color: white;
+  transform: scale(1.1);
 }
 
-.estado-selector label {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* Responsividad */
 @media (max-width: 768px) {
   .contenido {
     padding: 1rem;
     margin-left: 0;
   }
-
   .info-tarea {
     flex-direction: column;
     align-items: flex-start;
   }
-
   .acciones-tarea {
+    position: static;
     justify-content: flex-start;
-    flex-wrap: wrap;
+    margin-top: 1rem;
+  }
+  .form-agregar {
+    flex-direction: column;
   }
 }
+.info-tarea {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1.3rem;
+  font-family: 'Arapey', serif;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.info-tarea input[type="text"],
+.info-tarea input[type="date"] {
+  padding: 0.6rem;
+  font-size: 1.1rem;
+  font-family: 'Arapey', serif;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+
+.acciones-tarea button {
+  background-color: transparent;
+  border: 2px solid black;
+  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+}
+
+.acciones-tarea button:hover {
+  background-color: var(--naranja);
+  transform: scale(1.1);
+}
+
