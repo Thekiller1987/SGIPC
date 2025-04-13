@@ -39,7 +39,8 @@ const AppContent = () => {
     "/budget-visualization",
     "/proyecto",
     "/CrearProyecto",
-    "/project-dashboard"
+    "/project-dashboard",
+    "/gasto-detail"
 
   ];
 

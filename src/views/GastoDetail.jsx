@@ -1,260 +1,179 @@
-// src/views/GastoDetail.jsx
-import React, { useState, useCallback, useEffect } from "react";
-import { Container, Card, Button, Modal } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
-import { FaArrowLeft } from "react-icons/fa";
-import mammoth from "mammoth";
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import { Card } from "react-bootstrap";
+import Sidebar from "../components/Sidebar";
+import { updateGasto } from "../services/gastosService";
+import "../GastosCss/GastoDetail.css";
+import editIcon from "../assets/iconos/edit.png";
+import checkIcon from "../assets/iconos/check.png";
+import deleteIcon from "../assets/iconos/delete.png";
 
-// Modal para previsualizar documentos Word
-const WordPreviewModal = ({ base64Doc, onClose }) => {
-  const [htmlContent, setHtmlContent] = useState("");
-
-  const convertWordToHtml = useCallback(async () => {
-    try {
-      const base64ToArrayBuffer = (base64) => {
-        const parts = base64.split(",");
-        const byteString = window.atob(parts[1]);
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-          ia[i] = byteString.charCodeAt(i);
-        }
-        return ab;
-      };
-
-      const arrayBuffer = base64ToArrayBuffer(base64Doc);
-      const result = await mammoth.convertToHtml({ arrayBuffer });
-      setHtmlContent(result.value);
-    } catch (error) {
-      console.error("Error al convertir Word a HTML:", error);
-      setHtmlContent("<p>Error al mostrar la vista previa.</p>");
-    }
-  }, [base64Doc]);
-
-  useEffect(() => {
-    if (base64Doc) {
-      convertWordToHtml();
-    }
-  }, [base64Doc, convertWordToHtml]);
-
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = base64Doc;
-    let fileName = "documento";
-    if (
-      base64Doc.startsWith(
-        "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      )
-    ) {
-      fileName += ".docx";
-    } else if (base64Doc.startsWith("data:application/msword")) {
-      fileName += ".doc";
-    } else {
-      fileName += ".docx";
-    }
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  return (
-    <Modal show onHide={onClose} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Vista previa de Word</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleDownload}>
-          Descargar Word
-        </Button>
-        <Button variant="secondary" onClick={onClose}>
-          Cerrar
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-};
-
-// Modal para previsualizar documentos PDF
-const PDFPreviewModal = ({ base64Doc, onClose }) => {
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = base64Doc;
-    link.download = "documento.pdf";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  return (
-    <Modal show onHide={onClose} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Vista previa de PDF</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <iframe
-          src={base64Doc}
-          title="PDF Preview"
-          style={{ width: "100%", height: "80vh", border: "none" }}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleDownload}>
-          Descargar PDF
-        </Button>
-        <Button variant="secondary" onClick={onClose}>
-          Cerrar
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
-};
-
-// Modal para previsualizar imágenes
-const ImagePreviewModal = ({ base64Doc, onClose }) => {
-  const handleDownload = () => {
-    const link = document.createElement("a");
-    link.href = base64Doc;
-    link.download = "imagen";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
-  return (
-    <Modal show onHide={onClose} size="lg">
-      <Modal.Header closeButton>
-        <Modal.Title>Vista previa de Imagen</Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="d-flex justify-content-center">
-        <img
-          src={base64Doc}
-          alt="Vista previa"
-          style={{ maxWidth: "100%", maxHeight: "80vh" }}
-        />
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="primary" onClick={handleDownload}>
-          Descargar Imagen
-        </Button>
-        <Button variant="secondary" onClick={onClose}>
-          Cerrar
-        </Button>
-      </Modal.Footer>
-    </Modal>
-  );
+// Función para formatear la fecha al formato YYYY-MM-DD
+const formatFechaParaInput = (fecha) => {
+  if (typeof fecha === "string") return fecha;
+  const date = fecha?.toDate ? fecha.toDate() : new Date(fecha);
+  return date.toISOString().split("T")[0];
 };
 
 const GastoDetail = () => {
   const location = useLocation();
-  const navigate = useNavigate();
   const { gasto, projectId, projectName } = location.state || {};
 
-  // Declaramos todos los hooks incondicionalmente
-  const [showWordModal, setShowWordModal] = useState(false);
-  const [showPdfModal, setShowPdfModal] = useState(false);
-  const [showImageModal, setShowImageModal] = useState(false);
-  const [previewDoc, setPreviewDoc] = useState(null);
+  const [modoEdicion, setModoEdicion] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [errores, setErrores] = useState({});
+  const [datosEditables, setDatosEditables] = useState({
+    categoria: gasto.categoria || "",
+    fecha: formatFechaParaInput(gasto.fecha),
+    monto: gasto.monto || "",
+    facturaBase64: gasto.facturaBase64 || "",
+    nombreArchivo: gasto.nombreArchivo || "",
+  });
 
-  // Early return: si no se recibió el gasto, mostramos un mensaje de error.
-  if (!gasto) {
-    return (
-      <Container className="mt-5 pt-5">
-        <h3>Error: No se recibió un gasto para mostrar</h3>
-      </Container>
-    );
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setDatosEditables({ ...datosEditables, [name]: value });
+  };
 
-  // Función para manejar la previsualización del documento adjunto
-  const handlePreview = async () => {
-    const doc = gasto.facturaBase64;
-    if (!doc) return;
-    if (doc.startsWith("data:image")) {
-      setPreviewDoc(doc);
-      setShowImageModal(true);
-    } else if (doc.startsWith("data:application/pdf")) {
-      setPreviewDoc(doc);
-      setShowPdfModal(true);
-    } else if (
-      doc.startsWith(
-        "data:application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-      ) ||
-      doc.startsWith("data:application/msword")
-    ) {
-      setPreviewDoc(doc);
-      setShowWordModal(true);
-    } else {
-      window.open(doc, "_blank");
+  const handleFileChange = (e) => {
+    const archivo = e.target.files[0];
+    if (!archivo) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setDatosEditables({
+        ...datosEditables,
+        facturaBase64: reader.result,
+        nombreArchivo: archivo.name,
+      });
+    };
+    reader.readAsDataURL(archivo);
+  };
+
+  const validarCampos = () => {
+    const nuevosErrores = {};
+    if (!datosEditables.categoria.trim()) nuevosErrores.categoria = "Este campo es requerido";
+    if (!datosEditables.fecha.trim()) nuevosErrores.fecha = "Este campo es requerido";
+    if (!datosEditables.monto.toString().trim()) nuevosErrores.monto = "Este campo es requerido";
+    setErrores(nuevosErrores);
+    return Object.keys(nuevosErrores).length === 0;
+  };
+
+  const handleGuardar = async () => {
+    if (!validarCampos()) return;
+    try {
+      await updateGasto(gasto.id, {
+        ...datosEditables,
+        fecha: datosEditables.fecha,
+      });
+      setModoEdicion(false);
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
+    } catch (error) {
+      console.error("Error al actualizar gasto:", error);
     }
   };
 
-  const handleBack = () => {
-    navigate("/gastos-overview", { 
-      state: { projectId, projectName } 
-    });
-  };
-
   return (
-    <Container className="mt-5 pt-5">
-      <Button variant="secondary" onClick={handleBack}>
-        <FaArrowLeft /> Volver
-      </Button>
+    <div className="detalle-gasto-layout">
+      <Sidebar />
+      <div className="dg-contenido-principal">
+        <Card className="detalle-gasto-card">
+          <div className="dg-header">
+            <h2 className="dg-titulo">Detalle de Gasto</h2>
+            <div className="dg-iconos">
+              {modoEdicion ? (
+                <div className="dg-icono" onClick={handleGuardar}>
+                  <img src={checkIcon} alt="Guardar" />
+                </div>
+              ) : (
+                <div className="dg-icono" onClick={() => setModoEdicion(true)}>
+                  <img src={editIcon} alt="Editar" />
+                </div>
+              )}
+              <div className="dg-icono">
+                <img src={deleteIcon} alt="Eliminar" />
+              </div>
+            </div>
+          </div>
 
-      <Card className="mt-3">
-        <Card.Header>
-          <h2>Detalle de Gasto</h2>
-        </Card.Header>
-        <Card.Body>
-         
-          <p>
-            <strong>Categoría:</strong> {gasto.categoria}
-          </p>
-          <p>
-            <strong>Fecha:</strong> {gasto.fecha || "Sin fecha"}
-          </p>
-          <p>
-            <strong>Monto:</strong> ${gasto.monto}
-          </p>
-          <p>
-            <strong>Factura Adjunta:</strong>{" "}
-            {gasto.facturaBase64 ? (
-              <Button variant="link" onClick={handlePreview}>
-                Previsualizar / Descargar
-              </Button>
+          {/* Categoría */}
+          <div className="dg-campo">
+            <label>Categoría de Gasto :</label>
+            {modoEdicion ? (
+              <div className="dg-campo-col">
+                <input
+                  name="categoria"
+                  list="categorias"
+                  className="dg-input"
+                  value={datosEditables.categoria}
+                  onChange={handleChange}
+                  placeholder="Seleccione o escriba..."
+                />
+                <datalist id="categorias">
+                  <option value="Materiales" />
+                  <option value="Mano de obra" />
+                  <option value="Transporte" />
+                </datalist>
+                {errores.categoria && <div className="dg-error">{errores.categoria}</div>}
+              </div>
             ) : (
-              "No adjunta"
+              <span className="dg-valor">{datosEditables.categoria}</span>
             )}
-          </p>
-        </Card.Body>
-      </Card>
+          </div>
 
-      {/* Modal para previsualizar Word */}
-      {showWordModal && (
-        <WordPreviewModal
-          base64Doc={previewDoc}
-          onClose={() => setShowWordModal(false)}
-        />
-      )}
+          {/* Fecha */}
+          <div className="dg-campo">
+            <label>Fecha :</label>
+            <div className="dg-campo-col">
+              <input
+                type="date"
+                name="fecha"
+                className="dg-input"
+                value={datosEditables.fecha}
+                onChange={handleChange}
+                disabled={!modoEdicion}
+              />
+              {errores.fecha && <div className="dg-error">{errores.fecha}</div>}
+            </div>
+          </div>
 
-      {/* Modal para previsualizar PDF */}
-      {showPdfModal && (
-        <PDFPreviewModal
-          base64Doc={previewDoc}
-          onClose={() => setShowPdfModal(false)}
-        />
-      )}
+          {/* Monto */}
+          <div className="dg-campo">
+            <label>Monto Gastado :</label>
+            <div className="dg-campo-col">
+              <input
+                type="number"
+                name="monto"
+                className="dg-input"
+                value={datosEditables.monto}
+                onChange={handleChange}
+                disabled={!modoEdicion}
+              />
+              {errores.monto && <div className="dg-error">{errores.monto}</div>}
+            </div>
+          </div>
 
-      {/* Modal para previsualizar Imagen */}
-      {showImageModal && (
-        <ImagePreviewModal
-          base64Doc={previewDoc}
-          onClose={() => setShowImageModal(false)}
-        />
-      )}
-    </Container>
+          {/* Factura */}
+          <div className="dg-campo">
+            <label>Factura Adjunta :</label>
+            <div className="dg-factura">
+              <input
+                type="file"
+                accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
+                onChange={handleFileChange}
+                disabled={!modoEdicion}
+                className="dg-btn-adjunta"
+              />
+              <span className="dg-factura-nombre">
+                {datosEditables.nombreArchivo || "Sin archivo"}
+              </span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
+      {showToast && <div className="toast-exito">✅ Gasto actualizado con éxito</div>}
+    </div>
   );
 };
 
