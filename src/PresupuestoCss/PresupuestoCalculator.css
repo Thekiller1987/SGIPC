@@ -19,35 +19,37 @@ body {
   background-color: var(--gris-fondo);
 }
 
-/* Layout */
 .layout-presupuesto {
-  background-color: var(--gris-fondo);
-  min-height: 100vh;
   display: flex;
-  flex-direction: row;
+  min-height: 100vh;
+  background-color: var(--gris-fondo);
 }
 
 .contenido-presupuesto {
   flex: 1;
   padding: var(--layout-padding);
+  margin-left: clamp(70px, 10vw, 120px);
   box-sizing: border-box;
+  animation: fadeIn 0.5s ease;
 }
 
-/* Título */
-.titulo {
-  font-weight: 700;
+/* Título general */
+.titulo,
+.subtitulo {
   color: var(--blanco);
-  font-size: clamp(2rem, 6vw, 5rem);
-  margin-bottom: 1.5rem;
-  margin-left: clamp(0rem, 50vw, 100px);
-  transition: margin-left 0.3s ease;
+  font-weight: bold;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin-bottom: 1rem;
+  animation: slideIn 0.6s ease;
 }
 
-/* Switch vista botones */
+/* Botones principales (Agregar Materiales / Estructuras) */
 .switch-vista {
-  margin-bottom: 1.5rem;
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  animation: fadeIn 0.6s ease;
 }
 
 .switch-btn {
@@ -57,8 +59,8 @@ body {
   border: none;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.2s;
   font-family: 'Arapey', serif;
+  transition: all 0.2s ease;
 }
 
 .switch-btn.activo {
@@ -67,7 +69,7 @@ body {
   border: 2px solid #1e8449;
 }
 
-/* Formulario tarjeta */
+/* Formulario tarjeta general */
 .formulario-material,
 .formulario-estructura {
   background-color: var(--blanco);
@@ -79,13 +81,14 @@ body {
   gap: 1rem;
   color: #333;
   margin-bottom: 2rem;
+  animation: fadeInUp 0.6s ease;
 }
 
 .formulario-material input,
-.formulario-material select,
-.formulario-material button,
 .formulario-estructura input,
+.formulario-material select,
 .formulario-estructura select,
+.formulario-material button,
 .formulario-estructura button {
   padding: 0.6rem 1rem;
   font-size: 1rem;
@@ -93,6 +96,7 @@ body {
   border: 1px solid #ccc;
   min-width: 160px;
   font-family: 'Arapey', serif;
+  transition: all 0.2s ease;
 }
 
 input[type="file"] {
@@ -101,14 +105,16 @@ input[type="file"] {
   color: #000;
 }
 
+button {
+  cursor: pointer;
+}
+
 .formulario-material button,
 .formulario-estructura button {
   background-color: var(--naranja);
   color: white;
   font-weight: bold;
   border: none;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .formulario-material button:hover,
@@ -116,7 +122,7 @@ input[type="file"] {
   background-color: #e67e22;
 }
 
-/* Lista de materiales */
+/* Materiales listados */
 .lista-materiales {
   width: 100%;
 }
@@ -144,10 +150,8 @@ input[type="file"] {
   margin-left: auto;
   background-color: #c0392b;
   color: white;
-  border: none;
   padding: 0.5rem 0.8rem;
   border-radius: 6px;
-  cursor: pointer;
   font-weight: bold;
 }
 
@@ -165,13 +169,16 @@ input[type="file"] {
   border-radius: 12px;
   text-align: center;
   margin-bottom: 1.5rem;
+  animation: fadeIn 0.6s ease;
 }
 
-/* Botones finales */
+/* Botones finales (PDF, Guardar...) */
 .acciones {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  margin-left: clamp(60px, 10vw, 120px);
+  animation: fadeInUp 0.6s ease;
 }
 
 .acciones button {
@@ -179,14 +186,13 @@ input[type="file"] {
   font-size: 1rem;
   border-radius: 8px;
   font-weight: bold;
-  cursor: pointer;
   border: none;
   font-family: 'Arapey', serif;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.btn-guardar {
-  background-color: var(--verde);
-  color: white;
+.acciones button:hover {
+  transform: scale(1.03);
 }
 
 .btn-pdf {
@@ -194,12 +200,13 @@ input[type="file"] {
   color: white;
 }
 
-/* Animación */
-.formulario-materiales,
-.formulario-estructura {
-  animation: fadeIn 0.3s ease-in-out;
+.btn-guardar {
+  display: none !important;
 }
 
+<<<<<<< HEAD
+/* Tabla estructuras */
+=======
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -324,14 +331,11 @@ input[type="file"] {
 .btn-eliminar:hover {
   background-color: #e74c3c;
 }
+>>>>>>> ae370bd15924823274ee4a794f94b0e1309c89a8
 .lista-estructuras {
   margin-top: 3rem;
   padding-top: 2rem;
   border-top: 2px solid #ddd;
-}
-
-.lista-estructuras {
-  margin-top: 2rem;
   background-color: var(--blanco);
   border-radius: 12px;
   padding: 1.5rem;
@@ -358,138 +362,66 @@ input[type="file"] {
   font-weight: bold;
 }
 
-.tabla-estructuras td button {
-  margin-right: 0.5rem;
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
 
+@keyframes slideIn {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
 
-/* ======================== */
-/* RESPONSIVE MEJORADO PWA */
-/* ======================== */
-
-/* Extra pequeños (teléfonos < 480px) */
-@media (max-width: 480px) {
-  .switch-vista {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.5rem;
+/* Responsive */
+@media (max-width: 1024px) {
+  .contenido-presupuesto {
+    margin-left: 0 !important;
+    padding: var(--layout-padding-mobile);
   }
 
-  .switch-btn {
-    font-size: 0.9rem;
-    padding: 0.6rem 1rem;
-    width: 100%;
+  .titulo,
+  .subtitulo {
+    text-align: center;
+    margin-left: 0;
+  }
+
+  .switch-vista {
+    justify-content: center;
   }
 
   .formulario-material,
   .formulario-estructura {
-    padding: 1rem;
-    gap: 0.5rem;
-  }
-
-  .formulario-material input,
-  .formulario-material select,
-  .formulario-material button,
-  .formulario-estructura input,
-  .formulario-estructura select,
-  .formulario-estructura button {
-    width: 100%;
-    min-width: unset;
+    flex-direction: column;
+    padding: 1.5rem;
   }
 
   .acciones {
     flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .material-item {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .estructura-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .acciones-estructura {
-    width: 100%;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-  }
-
-  .btn-editar,
-  .btn-eliminar {
-    width: 48%;
-    font-size: 0.9rem;
-  }
-
-  .tabla-estructuras th,
-  .tabla-estructuras td {
-    font-size: 0.9rem;
-    padding: 0.5rem;
-  }
-}
-
-/* Pantallas medianas (tabletas) */
-@media (min-width: 481px) and (max-width: 1024px) {
-  .titulo {
-    font-size: clamp(1.8rem, 5vw, 3rem);
     margin-left: 0;
-    text-align: center;
+    align-items: center;
   }
 
-  .switch-vista {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .estructura-card {
+  .material-item {
     flex-direction: column;
     align-items: flex-start;
   }
 
   .acciones-estructura {
-    justify-content: flex-start;
     flex-wrap: wrap;
-  }
-
-  .material-item {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
-
-  .formulario-material,
-  .formulario-estructura {
-    padding: 1.5rem;
+    gap: 0.5rem;
   }
 
   .btn-editar,
   .btn-eliminar {
-    font-size: 0.95rem;
-  }
-
-  .tabla-estructuras th,
-  .tabla-estructuras td {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 }
-
-/* Extra grandes pantallas */
-@media (min-width: 1440px) {
-  .formulario-material,
-  .formulario-estructura {
-    max-width: var(--max-content-width);
-    margin: 0 auto 2rem auto;
-  }
-
-  .contenido-presupuesto {
-    padding: 3rem;
-  }
-
-  .switch-vista {
-    justify-content: flex-start;
-  }
-}
+ 
+.contenido-presupuesto {
+  margin-left: clamp(100px, 12vw, 140px); }
