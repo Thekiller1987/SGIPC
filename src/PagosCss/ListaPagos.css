@@ -1,28 +1,30 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
-/* 🎨 Fondo general gris oscuro del cuerpo */
+/* 🎨 Fondo general gris oscuro */
 .fondo-oscuro {
   background-color: #3A3A3A;
   min-height: 100vh;
   padding: 20px;
+  box-sizing: border-box;
 }
 
-/* 🧾 Título grande "Caja" */
+/* 🧾 Título grande */
 .titulo-modulo {
-  font-size: 40px;
+  font-size: clamp(2rem, 4vw, 40px);
   font-weight: bold;
   color: white;
   font-family: 'Arapey', serif;
-  margin-left: 280px;
-  margin-bottom: 20px;
-  margin-top: 80px;
+  text-align: center;
+  margin: 80px auto 20px;
+  padding-inline: 1rem;
 }
 
 /* 📦 Contenedor de la tabla */
 .tabla-ancha {
   max-width: 1000px;
-  margin: 0 auto;
   width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
 /* ✅ Tarjeta blanca centrada */
@@ -34,13 +36,15 @@
   font-family: 'Arapey', serif;
   width: 100%;
   max-width: 1100px;
-  margin-left: 200px; 
+  margin-inline: auto;
+  box-sizing: border-box;
 }
 
 /* 🧭 Scroll horizontal */
 .scroll-tabla {
   width: 100%;
   overflow-x: auto;
+  box-sizing: border-box;
 }
 
 /* 📊 Tabla de pagos */
@@ -68,15 +72,16 @@
 
 /* 🏷️ Nombre del proyecto */
 .nombre-proyecto {
-  font-size: 28px;
+  font-size: clamp(1.5rem, 3vw, 28px);
   font-weight: 600;
   color: #000000;
   font-family: 'Arapey', serif;
   margin-bottom: 15px;
   text-align: left;
+  padding-inline: 1rem;
 }
 
-/* ✏️ Inputs de edición */
+/* ✏️ Inputs */
 .input-editar {
   width: 100%;
   padding: 6px;
@@ -92,7 +97,7 @@
   gap: 8px;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
+  flex-wrap: nowrap; /* ❌ evita que se baje la moneda */
 }
 
 .moneda-select {
@@ -110,6 +115,7 @@
   display: flex;
   justify-content: center;
   gap: 10px;
+  flex-wrap: wrap;
 }
 
 .iconos-acciones button {
@@ -139,35 +145,26 @@
 /* ➕ Botón inferior */
 .btn-flotante {
   background-color: #D35400;
-  color: white;
+  color: rgb(0, 0, 0);
   padding: 12px 20px;
   border-radius: 10px;
   border: none;
   cursor: pointer;
   font-size: 16px;
   display: block;
-  margin: 0 auto;
+  margin: 20px auto 0;
   font-family: 'Arapey', serif;
 }
 .btn-flotante:hover {
   background-color: #b84300;
 }
 
-/* 📱 RESPONSIVE */
+/* 📱 Móvil (hasta 768px) */
 @media (max-width: 768px) {
-  .dashboard-container {
-    flex-direction: column;
-  }
-
-  .contenido-principal {
-    overflow-x: hidden;
-    padding: 10px;
-  }
-
   .titulo-modulo {
     font-size: 26px;
-    margin-left: 0;
     text-align: center;
+    margin-left: 0;
   }
 
   .nombre-proyecto {
@@ -194,23 +191,19 @@
     font-size: 15px;
   }
 
-  .scroll-tabla {
-    -webkit-overflow-scrolling: touch;
-  }
-
   .tabla-pagos {
     width: max-content;
   }
+
+  .tabla-contenedor {
+    padding: 15px;
+  }
 }
 
-/* 🧩 Padding para el sidebar en pantallas grandes */
+/* 🧩 Para pantallas grandes con sidebar (a partir de 1024px) */
 @media (min-width: 1024px) {
   .contenido-principal {
     padding-left: 160px;
     box-sizing: border-box;
-  }
-
-  .tabla-contenedor {
-    margin-inline: auto; /* 🔥 mantiene centrado aún con padding */
   }
 }

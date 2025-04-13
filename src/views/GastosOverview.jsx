@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ListGroup } from "react-bootstrap";
 import { getGastos } from "../services/gastosService";
 import Sidebar from "../components/Sidebar";
 import "../GastosCss/GastosOverview.css";
-
+import { useProject } from "../context/ProjectContext";
 import arrowIcon from "../assets/iconos/flecha.png";
 
 const GastosOverview = () => {
-  const location = useLocation();
+ 
   const navigate = useNavigate();
 
   // Se espera recibir projectId y projectName en el state
-  const projectId = location.state?.projectId;
-  const projectName = location.state?.projectName;
+  const { project } = useProject();
+  const projectId = project?.id;
+  const projectName = project?.nombre;
+  
 
   const [gastos, setGastos] = useState([]);
 

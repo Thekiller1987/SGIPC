@@ -50,15 +50,19 @@ const PagosListView = () => {
   const guardarCambios = async (id) => {
     try {
       const ref = doc(db, 'pagos', id);
+      const [year, month, day] = formEdit.fecha.split("-");
+      const fechaLocal = new Date(year, month - 1, day); // 👈 zona local
+  
       await updateDoc(ref, {
         proveedorEmpleado: formEdit.proveedorEmpleado,
         metodoPago: formEdit.metodoPago,
         monto: parseFloat(formEdit.monto),
         moneda: formEdit.moneda,
-        fecha: new Date(formEdit.fecha)
+        fecha: fechaLocal
       });
+  
       const actualizados = pagos.map(p =>
-        p.id === id ? { ...p, ...formEdit, fecha: new Date(formEdit.fecha) } : p
+        p.id === id ? { ...p, ...formEdit, fecha: fechaLocal } : p
       );
       setPagos(actualizados);
       cancelarEdicion();
@@ -66,6 +70,7 @@ const PagosListView = () => {
       console.error("Error actualizando pago:", error);
     }
   };
+  
 
   const eliminarPago = async (id) => {
     if (confirm("¿Deseas eliminar este pago?")) {

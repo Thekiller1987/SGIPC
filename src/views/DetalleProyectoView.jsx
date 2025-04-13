@@ -6,12 +6,16 @@ import eliminarIcono from "../assets/iconos/delete.png";
 import checkIcon from "../assets/iconos/check.png";
 import { updateProject, deleteProject } from "../services/projectsService";
 import "../ProveedoresCss/DetalleProyecto.css";
+import { useNavigate } from "react-router-dom";
 
 const DetalleProyectoView = () => {
+  const navigate = useNavigate();
+
   const { project, setProject } = useProject();
   const [modoEdicion, setModoEdicion] = useState(false);
   const [preview, setPreview] = useState(project.imagen || null);
   const [nuevaImagen, setNuevaImagen] = useState(null);
+  
   const [datosEditables, setDatosEditables] = useState({
     ...project,
     fechaInicio: formatFechaParaInput(project?.fechaInicio),
@@ -84,8 +88,10 @@ const DetalleProyectoView = () => {
     if (window.confirm("¿Deseás eliminar este proyecto?")) {
       await deleteProject(project.id);
       alert("Proyecto eliminado.");
+      navigate("/proyecto"); // 🔁 redirecciona después del borrado
     }
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
