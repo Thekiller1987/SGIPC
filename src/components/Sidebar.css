@@ -173,7 +173,7 @@
 @media (max-width: 480px) {
   .sidebar-toggle {
     top: 0.8rem;
-    left: 0.8rem;
+    left: 2rem;
   }
 
   .sidebar-logo-img {
