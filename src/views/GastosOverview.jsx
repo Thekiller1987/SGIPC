@@ -8,14 +8,12 @@ import { useProject } from "../context/ProjectContext";
 import arrowIcon from "../assets/iconos/flecha.png";
 
 const GastosOverview = () => {
- 
   const navigate = useNavigate();
 
   // Se espera recibir projectId y projectName en el state
   const { project } = useProject();
   const projectId = project?.id;
   const projectName = project?.nombre;
-  
 
   const [gastos, setGastos] = useState([]);
 
@@ -52,10 +50,10 @@ const GastosOverview = () => {
   return (
     <div className="layout-gastos">
       <Sidebar />
-      
+
       {/* Título en el fondo oscuro */}
       <h1 className="titulo-fondo-oscuro">Gastos</h1>
-      
+
       <div className="gastos-container">
         <div className="gastos-card">
           {/* Título del proyecto */}
@@ -77,7 +75,11 @@ const GastosOverview = () => {
                 <div className="gasto-fecha">{g.fecha || "Sin fecha"}</div>
                 {/* Columna 3: Flecha */}
                 <div className="gasto-arrow">
-                  <img src={arrowIcon} alt="Flecha" className="flecha-derecha" />
+                  <img
+                    src={arrowIcon}
+                    alt="Flecha"
+                    className="flecha-derecha"
+                  />
                 </div>
               </ListGroup.Item>
             ))}

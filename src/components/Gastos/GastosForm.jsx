@@ -1,7 +1,8 @@
+// src/components/Gastos/GastosForm.jsx
 import React, { useState } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { createGasto } from "../../services/gastosService";
-
+import "../../GastosCss/GastosForm.css";
 
 const toBase64 = (file) => {
   return new Promise((resolve, reject) => {
@@ -13,24 +14,20 @@ const toBase64 = (file) => {
 };
 
 const GastosForm = ({ projectId, onGastoCreated }) => {
-  // Estado para el tipo de transacción: "gasto" o "ingreso"
   const [tipo, setTipo] = useState("");
-  // Usamos este campo para la categoría cuando el tipo es "gasto"
   const [categoria, setCategoria] = useState("");
   const [fecha, setFecha] = useState("");
   const [monto, setMonto] = useState("");
   const [facturaBase64, setFacturaBase64] = useState(null);
   const [error, setError] = useState(null);
-  
-  // Categorías por defecto para gastos, inicializadas desde localStorage o con valores predeterminados.
+
   const [defaultCategorias, setDefaultCategorias] = useState(() => {
-    const storedCategorias = localStorage.getItem("defaultCategorias");
-    return storedCategorias
-      ? JSON.parse(storedCategorias)
+    const stored = localStorage.getItem("defaultCategorias");
+    return stored
+      ? JSON.parse(stored)
       : ["Materiales", "Mano de obra", "Transporte"];
   });
-  
-  // Estados para manejar la adición de una nueva categoría
+
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategory, setNewCategory] = useState("");
 
@@ -40,13 +37,11 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
     try {
       const base64 = await toBase64(file);
       setFacturaBase64(base64);
-    } catch (err) {
-      console.error("Error al convertir archivo a Base64:", err);
-      setError("No se pudo procesar la factura adjunta.");
+    } catch {
+      setError("No se pudo procesar la factura.");
     }
   };
 
-  // Al cambiar la categoría en el select, si se elige la opción "nueva" mostramos el input para agregarla.
   const handleCategoriaChange = (e) => {
     const value = e.target.value;
     if (value === "nueva") {
@@ -58,15 +53,14 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
     }
   };
 
-  // Función para agregar la nueva categoría a la lista y guardarla en localStorage
   const handleAddNewCategory = () => {
     if (newCategory.trim() && !defaultCategorias.includes(newCategory)) {
-      const updatedCategories = [...defaultCategorias, newCategory];
-      setDefaultCategorias(updatedCategories);
-      localStorage.setItem("defaultCategorias", JSON.stringify(updatedCategories));
+      const updated = [...defaultCategorias, newCategory];
+      setDefaultCategorias(updated);
+      localStorage.setItem("defaultCategorias", JSON.stringify(updated));
       setCategoria(newCategory);
-      setShowNewCategory(false);
       setNewCategory("");
+      setShowNewCategory(false);
     }
   };
 
@@ -74,15 +68,12 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
     e.preventDefault();
     setError(null);
 
-    // Si es gasto y no se ha definido una categoría, mostramos un error.
     if (tipo === "gasto" && !categoria) {
-      setError("Debe seleccionar o agregar una categoría para gastos.");
-      return;
+      return setError("Seleccione o agregue una categoría para gastos.");
     }
 
     try {
-      // Se arma el objeto de datos. En ingresos, no se envían categoría ni factura.
-      const gastoData = {
+      const gasto = {
         projectId,
         tipo,
         ...(tipo === "gasto" && { categoria }),
@@ -91,19 +82,17 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
         ...(tipo === "gasto" && { facturaBase64 }),
       };
 
-      const gastoId = await createGasto(gastoData);
-      if (onGastoCreated) onGastoCreated(gastoId);
+      const id = await createGasto(gasto);
+      if (onGastoCreated) onGastoCreated(id);
 
-      // Reinicia el formulario
       setTipo("");
       setCategoria("");
       setFecha("");
       setMonto("");
       setFacturaBase64(null);
-      setShowNewCategory(false);
       setNewCategory("");
-    } catch (err) {
-      console.error("Error al crear transacción:", err);
+      setShowNewCategory(false);
+    } catch {
       setError("No se pudo crear el registro.");
     }
   };
@@ -112,7 +101,6 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
     <Form onSubmit={handleSubmit}>
       {error && <Alert variant="danger">{error}</Alert>}
 
-      {/* Selección del tipo de transacción */}
       <Form.Group className="mb-3" controlId="tipo">
         <Form.Label>Tipo de Transacción</Form.Label>
         <Form.Select value={tipo} onChange={(e) => setTipo(e.target.value)}>
@@ -122,15 +110,14 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
         </Form.Select>
       </Form.Group>
 
-      {/* Para transacciones de tipo "gasto" mostramos el combobox para seleccionar categoría */}
       {tipo === "gasto" && (
         <>
           <Form.Group className="mb-3" controlId="categoria">
             <Form.Label>Categoría de Gasto</Form.Label>
             <Form.Select value={categoria} onChange={handleCategoriaChange}>
               <option value="">Seleccione...</option>
-              {defaultCategorias.map((cat, index) => (
-                <option key={index} value={cat}>
+              {defaultCategorias.map((cat, idx) => (
+                <option key={idx} value={cat}>
                   {cat}
                 </option>
               ))}
@@ -138,29 +125,28 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
             </Form.Select>
           </Form.Group>
 
-          {/* Si se eligió agregar nueva categoría, se muestra un campo para ingresarla */}
           {showNewCategory && (
             <Form.Group className="mb-3" controlId="nuevaCategoria">
               <Form.Label>Nueva Categoría</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Ingrese la nueva categoría"
                 value={newCategory}
+                placeholder="Ingrese la nueva categoría"
                 onChange={(e) => setNewCategory(e.target.value)}
               />
-              <Button
-                variant="secondary"
-                onClick={handleAddNewCategory}
-                className="mt-2"
-              >
-                Agregar Categoría
-              </Button>
+              <div className="btn-agregar-categoria-container">
+                <Button
+                  onClick={handleAddNewCategory}
+                  className="btn-agregar-categoria"
+                >
+                  Agregar Categoría
+                </Button>
+              </div>
             </Form.Group>
           )}
         </>
       )}
 
-      {/* Los siguientes campos se muestran para ambos tipos */}
       <Form.Group className="mb-3" controlId="fecha">
         <Form.Label>Fecha</Form.Label>
         <Form.Control
@@ -180,7 +166,6 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
         />
       </Form.Group>
 
-      {/* Solo para gastos se permite adjuntar factura */}
       {tipo === "gasto" && (
         <Form.Group className="mb-3" controlId="factura">
           <Form.Label>Factura Adjunta</Form.Label>
@@ -188,9 +173,11 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
         </Form.Group>
       )}
 
-      <Button variant="primary" type="submit">
-        Agregar Registro
-      </Button>
+      <div className="btn-agregar-container">
+        <Button type="submit" className="btn-agregar-registro">
+          Agregar Registro
+        </Button>
+      </div>
     </Form>
   );
 };
