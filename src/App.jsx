@@ -41,8 +41,14 @@ const AppContent = () => {
     "/proyecto",
     "/CrearProyecto",
     "/project-dashboard",
-    "/",
-"/gastos"
+    "/gastos",
+    "/gasto-detail",
+    "/" 
+
+   
+
+
+
   ];
 
   return (

@@ -1,4 +1,3 @@
-// src/services/gastosService.js
 import { db } from "../database/firebaseconfig";
 import {
   collection,
@@ -8,9 +7,10 @@ import {
   updateDoc,
   deleteDoc,
   query,
-  where
+  where,
 } from "firebase/firestore";
 
+// ✅ Crear gasto
 export const createGasto = async (gastoData) => {
   const docRef = await addDoc(collection(db, "gastos"), {
     ...gastoData,
@@ -19,6 +19,7 @@ export const createGasto = async (gastoData) => {
   return docRef.id;
 };
 
+// ✅ Obtener gastos filtrados por proyecto
 export const getGastos = async (projectId) => {
   let q;
   if (projectId) {
@@ -34,11 +35,16 @@ export const getGastos = async (projectId) => {
   return gastos;
 };
 
+// ✅ Actualizar gasto con fecha de edición
 export const updateGasto = async (gastoId, gastoData) => {
   const gastoDoc = doc(db, "gastos", gastoId);
-  await updateDoc(gastoDoc, gastoData);
+  await updateDoc(gastoDoc, {
+    ...gastoData,
+    updatedAt: new Date(), // Se guarda cuándo fue editado
+  });
 };
 
+// ✅ Eliminar gasto
 export const deleteGasto = async (gastoId) => {
   const gastoDoc = doc(db, "gastos", gastoId);
   await deleteDoc(gastoDoc);
