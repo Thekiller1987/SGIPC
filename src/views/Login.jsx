@@ -1,92 +1,183 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Card, Form, Button, Alert } from "react-bootstrap";
-import LoginForm from "../components/LoginForm";
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { appfirebase } from "../database/firebaseconfig";
-import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useAuth } from "../database/authcontext";
-import "../App.css";
+import "../logincss/LoginRegister.css";
 
 const Login = () => {
+  const [isFlipped, setIsFlipped] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState(null);
-
-  const { user } = useAuth();
+  const [successMessage, setSuccessMessage] = useState("");
   const navigate = useNavigate();
+  const auth = getAuth(appfirebase);
 
-  const handleSubmit = async (e) => {
+  const clearFields = () => {
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setError(null);
+  };
+
+  const handleToggleFlip = (flipState) => {
+    setIsFlipped(flipState);
+    clearFields();
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const auth = getAuth(appfirebase);
+    setError(null);
 
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Usuario autenticado");
       navigate("/inicio");
     } catch (err) {
-      console.error("Error de autenticación:", err);
-      switch (err.code) {
-        case "auth/invalid-email":
-          setError("Formato de correo electrónico inválido.");
-          break;
-        case "auth/user-disabled":
-          setError("Esta cuenta de usuario ha sido deshabilitada.");
-          break;
-        case "auth/user-not-found":
-          setError("Usuario no encontrado. Verifica tus credenciales.");
-          break;
-        case "auth/wrong-password":
-          setError("Contraseña incorrecta. Verifica tus credenciales.");
-          break;
-        case "auth/too-many-requests":
-          setError(
-            "Demasiados intentos fallidos. Inténtalo de nuevo más tarde."
-          );
-          break;
-        default:
-          setError("Error de autenticación. Verifica tus credenciales.");
+      if (err.code === "auth/wrong-password") {
+        setError("⚠ Contraseña incorrecta.");
+      } else if (err.code === "auth/user-not-found") {
+        setError("⚠ Usuario no encontrado.");
+      } else {
+        setError("⚠ Error al iniciar sesión.");
       }
     }
   };
 
-  if (user) {
-    navigate("/inicio");
-  }
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    setError(null);
+
+    if (!email || !password || !confirmPassword) {
+      return setError("⚠ Todos los campos son obligatorios.");
+    }
+
+    if (password !== confirmPassword) {
+      return setError("⚠ Las contraseñas no coinciden.");
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      setSuccessMessage("✅ Registro exitoso");
+      setTimeout(() => {
+        setSuccessMessage("");
+        handleToggleFlip(false); // volver a login
+      }, 2000);
+    } catch (err) {
+      setError("⚠ Error al registrarse: " + err.message);
+    }
+  };
 
   return (
-    <Container className="d-flex vh-100 justify-content-center align-items-center">
-      <Card style={{ width: "25rem" }} className="p-4">
-        <Card.Body>
-          <Card.Title className="text-center mb-4">Iniciar Sesión</Card.Title>
-          {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Correo Electrónico</Form.Label>
-              <Form.Control
-                type="email"
-                placeholder="Ingresa tu correo electrónico"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </Form.Group>
+    <div className={`login-container ${isFlipped ? "flipped" : ""}`}>
+      {/* Mensaje flotante de éxito */}
+      {successMessage && (
+        <div className="popup-success">{successMessage}</div>
+      )}
 
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Contraseña"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </Form.Group>
+      <div className="form-toggle mb-4">
+        <span
+          className={!isFlipped ? "activo" : ""}
+          onClick={() => handleToggleFlip(false)}
+        >
+          Iniciar Sesión
+        </span>
+        <label className="switch">
+          <input
+            type="checkbox"
+            checked={isFlipped}
+            onChange={() => handleToggleFlip(!isFlipped)}
+          />
+          <span className="slider" />
+        </label>
+        <span
+          className={isFlipped ? "activo" : ""}
+          onClick={() => handleToggleFlip(true)}
+        >
+          Registrarse
+        </span>
+      </div>
 
-            <Button variant="primary" type="submit" className="w-100">
-              Iniciar Sesión
-            </Button>
-          </Form>
-        </Card.Body>
-      </Card>
-    </Container>
+      <div className="card-login">
+        <div className="card-login-inner">
+          {/* Iniciar Sesión */}
+          <div className="card-front">
+            <h2 className="titulo-formulario">Iniciar Sesión</h2>
+            {error && <p className="error-msg">{error}</p>}
+            <form onSubmit={handleLogin}>
+              <div className="input-icon">
+                <span className="icon">📧</span>
+                <input
+                  type="email"
+                  placeholder="Correo electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-icon">
+                <span className="icon">🔒</span>
+                <input
+                  type="password"
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="btn-formulario">
+                Iniciar Sesión
+              </button>
+            </form>
+          </div>
+
+          {/* Registrarse */}
+          <div className="card-back">
+            <h2 className="titulo-formulario">Registrarse</h2>
+            {error && <p className="error-msg">{error}</p>}
+            <form onSubmit={handleRegister}>
+              <div className="input-icon">
+                <span className="icon">📧</span>
+                <input
+                  type="email"
+                  placeholder="Correo electrónico"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-icon">
+                <span className="icon">🔒</span>
+                <input
+                  type="password"
+                  placeholder="Contraseña"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <div className="input-icon">
+                <span className="icon">🔁</span>
+                <input
+                  type="password"
+                  placeholder="Confirmar contraseña"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                  required
+                />
+              </div>
+              <button type="submit" className="btn-formulario">
+                Registrar
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 };
 

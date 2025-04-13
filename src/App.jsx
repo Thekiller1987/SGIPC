@@ -23,6 +23,7 @@ import PagosListView from "./views/PagosListView";
 import ProyectosOverview from "./views/ProyectosOverview";
 import CreateProjectView from "./views/CreateProjectView";
 
+
 const AppContent = () => {
   const location = useLocation();
 
@@ -39,7 +40,8 @@ const AppContent = () => {
     "/budget-visualization",
     "/proyecto",
     "/CrearProyecto",
-    "/project-dashboard"
+    "/project-dashboard",
+    "/" //login
 
   ];
 
