@@ -138,6 +138,15 @@
   height: 30px;
 }
 
+/* 📌 Tamaño personalizado solo para el ícono de sesión */
+.icon-sesion {
+  width: 42px !important;
+  height: 42px !important;
+  object-fit: contain;
+}
+
+
+
 /* Diseño responsive para tablets/laptops más pequeños */
 @media (max-width: 1280px) {
   .sidebar {

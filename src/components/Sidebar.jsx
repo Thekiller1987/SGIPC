@@ -12,6 +12,7 @@ import estadisticaIcon from "../assets/iconos/estadistica.png";
 import gmailIcon from "../assets/iconos/gmail.png";
 import moneyIcon from "../assets/iconos/money.png";
 import shoppingIcon from "../assets/iconos/shopping.png";
+import sesion from "../assets/iconos/sesion.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -42,7 +43,6 @@ const Sidebar = () => {
       </button>
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        {/* LOGO con clase condicional */}
         <div
           className={`sidebar-logo ${isOpen ? "logo-abajo" : "logo-arriba"}`}
           onClick={() => goTo("/inicio")}
@@ -51,7 +51,6 @@ const Sidebar = () => {
           <img src={logo} alt="Logo" className="sidebar-logo-img" />
         </div>
 
-        {/* NAVEGACIÓN */}
         <div className="sidebar-nav">
           <div className="sidebar-item" onClick={() => goTo("/actividades")}>
             <img src={checkIcon} alt="Tareas" className="sidebar-icon icon-check" />
@@ -70,6 +69,9 @@ const Sidebar = () => {
           </div>
           <div className="sidebar-item" onClick={() => alert("Sección en construcción")}>
             <img src={estadisticaIcon} alt="Estadísticas" className="sidebar-icon icon-stats" />
+          </div>
+          <div className="sidebar-item" onClick={() => goTo("/Sesion")}>
+            <img src={sesion} alt="Sesión" className="sidebar-icon icon-sesion" />
           </div>
         </div>
       </div>
