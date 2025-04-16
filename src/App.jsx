@@ -22,12 +22,16 @@ import AgregarPago from "./views/AgregarPago";
 import PagosListView from "./views/PagosListView";
 import ProyectosOverview from "./views/ProyectosOverview";
 import CreateProjectView from "./views/CreateProjectView";
-
+import GestionUsuariosView from "./views/GestionUsuariosView";
+import RegistrarUsuario from "./components/usuarios/RegistrarUsuario";
+import ListaUsuarios from "./components/usuarios/ListaUsuarios";
+import NoAutorizado from "./views/NoAutorizado";
 
 const AppContent = () => {
   const location = useLocation();
 
   const noHeaderRoutes = [
+    "/",
     "/gastos-overview",
     "/proveedores",
     "/presupuesto",
@@ -35,7 +39,6 @@ const AppContent = () => {
     "/AgregarPago",
     "/agregar-proveedor",
     "/listar-pagos",
-    "/actividades",
     "/inicio",
     "/budget-visualization",
     "/proyecto",
@@ -43,12 +46,10 @@ const AppContent = () => {
     "/project-dashboard",
     "/gastos",
     "/gasto-detail",
-    "/" 
-
-   
-
-
-
+    "/gestion-usuarios",
+    "/registrar-usuario",
+    "/lista-usuarios",
+    "/no-autorizado"
   ];
 
   return (
@@ -57,21 +58,27 @@ const AppContent = () => {
       <main>
         <Routes>
           <Route path="/" element={<Login />} />
-          <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} />} />
-          <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} />} />
-          <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} />} />
-          <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} />
-          <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} />} />
-          <Route path="/gastos" element={<ProtectedRoute element={<GastosManagement />} />} />
-          <Route path="/gastos-overview" element={<ProtectedRoute element={<GastosOverview />} />} />
-          <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
-          <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
-          <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} />} />
-          <Route path="/presupuesto" element={<ProtectedRoute element={<PresupuestoView />} />} />
-          <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
-          <Route path="/AgregarPago" element={<ProtectedRoute element={<AgregarPago />} />} />
-          <Route path="/listar-pagos" element={<ProtectedRoute element={<PagosListView />} />} />
-          <Route path="/CrearProyecto" element={<ProtectedRoute element={<CreateProjectView />} />} />
+          <Route path="/no-autorizado" element={<NoAutorizado />} />
+
+          {/* Rutas con control por rol */}
+          <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
+          <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
+          <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
+          <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} roles={["administrador", "ingeniero", "lector"]} />} />
+          <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} roles={["administrador"]} />} />
+          <Route path="/gastos" element={<ProtectedRoute element={<GastosManagement />} roles={["administrador"]} />} />
+          <Route path="/gastos-overview" element={<ProtectedRoute element={<GastosOverview />} roles={["administrador"]} />} />
+          <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} roles={["administrador"]} />} />
+          <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} roles={["administrador"]} />} />
+          <Route path="/detalle-proveedor" element={<ProtectedRoute element={<Detalleproveedor />} roles={["administrador"]} />} />
+          <Route path="/presupuesto" element={<ProtectedRoute element={<PresupuestoView />} roles={["administrador", "ingeniero"]} />} />
+          <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} roles={["administrador"]} />} />
+          <Route path="/AgregarPago" element={<ProtectedRoute element={<AgregarPago />} roles={["administrador", "contador"]} />} />
+          <Route path="/listar-pagos" element={<ProtectedRoute element={<PagosListView />} roles={["administrador", "contador"]} />} />
+          <Route path="/CrearProyecto" element={<ProtectedRoute element={<CreateProjectView />} roles={["administrador"]} />} />
+          <Route path="/gestion-usuarios" element={<ProtectedRoute element={<GestionUsuariosView />} roles={["administrador"]} />} />
+          <Route path="/registrar-usuario" element={<ProtectedRoute element={<RegistrarUsuario />} roles={["administrador"]} />} />
+          <Route path="/lista-usuarios" element={<ProtectedRoute element={<ListaUsuarios />} roles={["administrador"]} />} />
         </Routes>
       </main>
     </>
