@@ -216,22 +216,60 @@ h1 {
 
 
 
+/* 📱 Mejoras para teléfonos (menos de 600px) */
+@media screen and (max-width: 600px) {
+  .formulario-usuario {
+    padding: 1.5rem;
+    min-height: auto;
+    width: 100%;
+    max-width: 95vw;
+  }
 
-/* 📱 Responsivo */
-@media screen and (max-width: 768px) {
+  .formulario-usuario h2 {
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
   .formulario-grid {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
   }
-  .input-full {
-    grid-column: span 1;
+
+  .formulario-usuario input,
+  .formulario-usuario select {
+    padding: 0.5rem;
+    font-size: 0.95rem;
   }
+
   .formulario-botones {
     flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding: 0;
   }
+
   .btn-guardar,
-  .btn-cancelar,
-  .btn-crear-usuario {
-    width: 100%;
+  .btn-cancelar {
+    height: 50px;
+    font-size: 1rem;
+    max-width: 100%;
+  }
+
+  .modal-form {
+    padding: 1rem;
+    align-items: flex-start; /* Para que en teléfonos no quede demasiado abajo */
+    overflow-y: auto;
+  }
+
+  .usuarios-tabla th,
+  .usuarios-tabla td {
+    font-size: 0.9rem;
+    padding: 0.7rem;
+  }
+
+  .usuarios-tabla th {
+    font-size: 1rem;
   }
 }
 
@@ -265,4 +303,81 @@ h1 {
 /* Estilo para ocultar el botón de crear usuario cuando se está en modo edición */
 .formulario-usuario.crear-usuario .btn-guardar {
   display: none;
+}
+/* ✅ Contenedor general con scroll horizontal */
+.tabla-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ✅ Estilo de la tabla sin alterar diseño */
+.tabla-usuarios {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  font-family: 'Arapey', serif;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ✅ Cabeceras y celdas */
+.tabla-usuarios th {
+  background-color: #D35400;
+  color: white;
+  padding: 1rem;
+  text-align: left;
+  font-size: 1.1rem;
+}
+
+.tabla-usuarios td {
+  padding: 0.9rem 1rem;
+  color: #000;
+  font-size: 1rem;
+}
+
+.tabla-usuarios tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+/* ✅ Botones */
+.tabla-usuarios button {
+  margin-right: 0.5rem;
+  padding: 0.4rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  cursor: pointer;
+  background-color: #D35400;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.tabla-usuarios button:hover {
+  background-color: #a84300;
+}
+
+.btn-eliminar {
+  background-color: #c0392b !important;
+}
+
+.btn-eliminar:hover {
+  background-color: #992d22 !important;
+}
+
+/* 📱 Adaptación en móviles */
+@media screen and (max-width: 768px) {
+  .tabla-usuarios th,
+  .tabla-usuarios td {
+    padding: 0.7rem;
+    font-size: 0.9rem;
+  }
+
+  .tabla-usuarios button {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+  }
 }

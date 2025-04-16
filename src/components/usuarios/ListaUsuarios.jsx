@@ -1,4 +1,3 @@
-// src/components/usuarios/ListaUsuarios.jsx
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
 import RegistrarUsuario from './RegistrarUsuario';
@@ -43,31 +42,35 @@ const ListaUsuarios = () => {
       {mostrarTabla && (
         <>
           <h2>Lista de Usuarios</h2>
-          <table>
-            <thead>
-              <tr>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Correo</th>
-                <th>Rol</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tbody>
-              {usuarios.map((u) => (
-                <tr key={u.id}>
-                  <td>{u.nombre}</td>
-                  <td>{u.apellido}</td>
-                  <td>{u.correo}</td>
-                  <td>{u.rol}</td>
-                  <td>
-                    <button onClick={() => setUsuarioEnEdicion(u)}>Editar</button>
-                    <button className="btn-eliminar" onClick={() => handleEliminar(u.id)}>Eliminar</button>
-                  </td>
+          <div className="tabla-responsive">
+            <table className="tabla-usuarios">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                  <th>Teléfono</th>
+                  <th>Rol</th>
+                  <th>Acciones</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {usuarios.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.nombre}</td>
+                    <td>{u.apellido}</td>
+                    <td>{u.correo}</td>
+                    <td>{u.telefono}</td>
+                    <td>{u.rol}</td>
+                    <td>
+                      <button onClick={() => setUsuarioEnEdicion(u)}>Editar</button>
+                      <button className="btn-eliminar" onClick={() => handleEliminar(u.id)}>Eliminar</button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>
