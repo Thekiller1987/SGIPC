@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
-/* 🧾 Estilo general de la tarjeta */
+/* 🎯 Tarjeta contenedora */
 .dpv-card {
   background-color: white;
   border: 3px solid #D35400;
@@ -10,14 +10,9 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   box-sizing: border-box;
   margin: 2rem 0 2rem 120px;
-  /* margen por el sidebar */
   width: calc(85vw - 140px);
-  /* ahora ocupa casi toda la pantalla */
   max-width: 100%;
-  /* sin restricción */
 }
-
-
 
 /* 📱 Tablet */
 @media (max-width: 991px) {
@@ -71,6 +66,28 @@
   object-fit: cover;
   border-radius: 15px;
   margin-bottom: 2rem;
+  cursor: pointer;
+}
+
+/* 🖼️ Modal de imagen ampliada */
+.modal-imagen-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-imagen {
+  max-width: 90%;
+  max-height: 90%;
+  border-radius: 15px;
+  box-shadow: 0 0 25px #D35400;
 }
 
 /* 📂 Imagen editable */
@@ -90,6 +107,7 @@
   min-width: 140px;
   flex-shrink: 0;
 }
+
 .dpv-campo-imagen input[type="file"] {
   border: 2px solid #D35400;
   padding: 0.5rem;
@@ -134,6 +152,7 @@
   margin-bottom: 1.5rem;
 }
 
+/* 🧾 Inputs */
 .dpv-input,
 .dpv-textarea {
   border: 2px solid #D35400;
@@ -207,4 +226,13 @@
   background-color: #ce5f15;
   color: #000;
   border: 2px solid #D35400;
+}
+
+
+/* 🖥️ Pantallas medianas (ajuste de alineación izquierda) */
+@media (min-width: 992px) and (max-width: 1280px) {
+  .dpv-card {
+    margin-left: 1px; /* más pegada a la izquierda */
+    width: calc(90vw - 80px); /* ocupa un poco más */
+  }
 }

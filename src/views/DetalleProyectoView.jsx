@@ -1,4 +1,3 @@
-// DetalleProyectoView.jsx
 import React, { useState } from "react";
 import { useProject } from "../context/ProjectContext";
 import editarIcono from "../assets/iconos/edit.png";
@@ -15,7 +14,8 @@ const DetalleProyectoView = () => {
   const [modoEdicion, setModoEdicion] = useState(false);
   const [preview, setPreview] = useState(project.imagen || null);
   const [nuevaImagen, setNuevaImagen] = useState(null);
-  
+  const [mostrarModalImagen, setMostrarModalImagen] = useState(false);
+
   const [datosEditables, setDatosEditables] = useState({
     ...project,
     fechaInicio: formatFechaParaInput(project?.fechaInicio),
@@ -88,10 +88,9 @@ const DetalleProyectoView = () => {
     if (window.confirm("¿Deseás eliminar este proyecto?")) {
       await deleteProject(project.id);
       alert("Proyecto eliminado.");
-      navigate("/proyecto"); // 🔁 redirecciona después del borrado
+      navigate("/proyecto");
     }
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -129,7 +128,14 @@ const DetalleProyectoView = () => {
           />
         </div>
 
-        {preview && <img src={preview} alt="Vista previa" className="dpv-imagen" />}
+        {preview && (
+          <img
+            src={preview}
+            alt="Vista previa"
+            className="dpv-imagen"
+            onClick={() => setMostrarModalImagen(true)}
+          />
+        )}
 
         {modoEdicion && (
           <div className="dpv-campo-imagen">
@@ -199,6 +205,12 @@ const DetalleProyectoView = () => {
           </>
         )}
       </div>
+
+      {mostrarModalImagen && (
+        <div className="modal-imagen-overlay" onClick={() => setMostrarModalImagen(false)}>
+          <img src={preview} alt="Vista ampliada" className="modal-imagen" />
+        </div>
+      )}
     </div>
   );
 };
