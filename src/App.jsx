@@ -8,12 +8,10 @@ import { ProjectProvider } from './context/ProjectContext';
 import Login from "./views/Login";
 import Encabezado from "./components/Encabezado";
 import Inicio from "./views/Inicio";
-import Projects from "./views/Projects";
 import ProjectDashboard from "./views/ProjectDashboard";
 import ActividadesList from "./components/actividadeslist/ActividadesList";
 import BudgetVisualization from "./views/BudgetVisualization";
 import GastosManagement from "./views/GastosManagement";
-import GastosListView from "./views/GastosListView";
 import GastosOverview from "./views/GastosOverview";
 import GastoDetail from "./views/GastoDetail";
 import ProveedoresOverview from "./views/ProveedoresOverview";
@@ -22,6 +20,8 @@ import PresupuestoView from "./views/PresupuestoView";
 import FormularioProveedor from "./components/Proveedores/FormularioProveedor";
 import AgregarPago from "./views/AgregarPago";
 import PagosListView from "./views/PagosListView";
+import ProyectosOverview from "./views/ProyectosOverview";
+import CreateProjectView from "./views/CreateProjectView";
 
 const AppContent = () => {
   const location = useLocation();
@@ -35,7 +35,12 @@ const AppContent = () => {
     "/agregar-proveedor",
     "/listar-pagos",
     "/actividades",
-    "/inicio"
+    "/inicio",
+    "/budget-visualization",
+    "/proyecto",
+    "/CrearProyecto",
+    "/project-dashboard"
+
   ];
 
   return (
@@ -45,12 +50,11 @@ const AppContent = () => {
         <Routes>
           <Route path="/" element={<Login />} />
           <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} />} />
-          <Route path="/projects" element={<ProtectedRoute element={<Projects />} />} />
+          <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} />} />
           <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} />} />
           <Route path="/actividades" element={<ProtectedRoute element={<ActividadesList />} />} />
           <Route path="/budget-visualization" element={<ProtectedRoute element={<BudgetVisualization />} />} />
           <Route path="/gastos" element={<ProtectedRoute element={<GastosManagement />} />} />
-          <Route path="/GastosListView" element={<ProtectedRoute element={<GastosListView />} />} />
           <Route path="/gastos-overview" element={<ProtectedRoute element={<GastosOverview />} />} />
           <Route path="/gasto-detail" element={<ProtectedRoute element={<GastoDetail />} />} />
           <Route path="/proveedores" element={<ProtectedRoute element={<ProveedoresOverview />} />} />
@@ -59,6 +63,7 @@ const AppContent = () => {
           <Route path="/agregar-proveedor" element={<ProtectedRoute element={<FormularioProveedor />} />} />
           <Route path="/AgregarPago" element={<ProtectedRoute element={<AgregarPago />} />} />
           <Route path="/listar-pagos" element={<ProtectedRoute element={<PagosListView />} />} />
+          <Route path="/CrearProyecto" element={<ProtectedRoute element={<CreateProjectView />} />} />
         </Routes>
       </main>
     </>

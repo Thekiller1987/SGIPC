@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../InicioCss/Inicio.css";
+import "../Iniciocss/Inicio.css";
 import Lottie from "lottie-react";
 import GruaAnimacion from "../assets/iconos/animaciongrua.json";
 
@@ -8,7 +8,7 @@ const Inicio = () => {
   const navigate = useNavigate();
 
   const handleGoToProjects = () => {
-    navigate("/projects");
+    navigate("/proyecto");
   };
 
   return (
@@ -31,5 +31,7 @@ const Inicio = () => {
     </div>
   );
 };
+
+//// no funciona culpa puchichu
 
 export default Inicio;

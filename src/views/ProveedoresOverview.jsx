@@ -26,7 +26,6 @@ const ProveedoresOverview = () => {
         console.error("Error al obtener proveedores:", error);
       }
     };
-
     if (projectId) fetchData();
   }, [project, projectId]);
 

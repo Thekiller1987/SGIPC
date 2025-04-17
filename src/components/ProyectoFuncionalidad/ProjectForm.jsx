@@ -1,20 +1,9 @@
-// src/components/ProyectoFuncionalidad/ProjectForm.jsx
-import React, { useState, useRef } from "react";
-import { Form, Button, Alert } from "react-bootstrap";
+import React, { useState } from "react";
+import "../../ProveedoresCss/CrearProyecto.css";
 import { createProject } from "../../services/projectsService";
+import { useNavigate } from "react-router-dom";
 
-// Función auxiliar para convertir un archivo en Base64
-const toBase64 = (file) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = (error) => reject(error);
-  });
-};
-
-const ProjectForm = ({ onProjectCreated }) => {
-  // Estados para los campos
+const ProjectForm = () => {
   const [nombre, setNombre] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [cliente, setCliente] = useState("");
@@ -22,157 +11,130 @@ const ProjectForm = ({ onProjectCreated }) => {
   const [estado, setEstado] = useState("En progreso");
   const [fechaInicio, setFechaInicio] = useState("");
   const [fechaFin, setFechaFin] = useState("");
-  const [files, setFiles] = useState([]);  
-  const [error, setError] = useState(null);
+  const [imagen, setImagen] = useState(null);
+  const [preview, setPreview] = useState(null);
+  const [errores, setErrores] = useState({});
 
-  // 1. Creamos la referencia para el input de archivos
-  const fileInputRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Convierte todos los archivos seleccionados a Base64 y los almacena en `files`
-  const handleFileChange = async (e) => {
-    const selectedFiles = e.target.files;
-    const promises = [];
-    for (const file of selectedFiles) {
-      promises.push(toBase64(file));
-    }
-    try {
-      const base64Files = await Promise.all(promises);
-      setFiles(base64Files); // Guarda un array de strings Base64
-    } catch (err) {
-      console.error("Error al convertir archivos a Base64:", err);
-      setError("Ocurrió un error al procesar los archivos.");
+  const validar = () => {
+    const nuevosErrores = {};
+    if (!nombre.trim()) nuevosErrores.nombre = "Campo requerido";
+    if (!descripcion.trim()) nuevosErrores.descripcion = "Campo requerido";
+    if (!cliente.trim()) nuevosErrores.cliente = "Campo requerido";
+    if (!presupuesto || isNaN(presupuesto) || Number(presupuesto) < 0)
+      nuevosErrores.presupuesto = "Debe ser un número positivo";
+    if (!fechaInicio) nuevosErrores.fechaInicio = "Seleccione una fecha";
+    if (!fechaFin) nuevosErrores.fechaFin = "Seleccione una fecha";
+    if (!imagen) nuevosErrores.imagen = "Debe subir una imagen";
+    return nuevosErrores;
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImagen(file);
+      setPreview(URL.createObjectURL(file));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const nuevosErrores = validar();
+    if (Object.keys(nuevosErrores).length > 0) {
+      setErrores(nuevosErrores);
+      return;
+    }
+
     try {
-      // Armamos el objeto con los campos del proyecto
-      const projectData = {
-        nombre,
-        descripcion,
-        cliente,
-        presupuesto: Number(presupuesto),
-        estado,
-        fechaInicio: fechaInicio ? new Date(fechaInicio) : null,
-        fechaFin: fechaFin ? new Date(fechaFin) : null,
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64Image = reader.result;
+
+        const projectData = {
+          nombre,
+          descripcion,
+          cliente,
+          presupuesto: Number(presupuesto),
+          estado,
+          fechaInicio: fechaInicio ? new Date(fechaInicio) : null,
+          fechaFin: fechaFin ? new Date(fechaFin) : null,
+          imagen: base64Image,
+        };
+
+        await createProject(projectData);
+        navigate("/proyecto");
       };
-
-      // Creamos el proyecto en Firestore, enviando también los archivos en Base64
-      const projectId = await createProject(projectData, files);
-
-      // Si se creó el proyecto con éxito y tenemos un callback, lo llamamos
-      if (onProjectCreated) onProjectCreated(projectId);
-
-      // Limpieza de campos
-      setNombre("");
-      setDescripcion("");
-      setCliente("");
-      setPresupuesto("");
-      setEstado("En progreso");
-      setFechaInicio("");
-      setFechaFin("");
-      setFiles([]);
-      setError(null);
-
-      // 2. Limpieza manual del input file
-      if (fileInputRef.current) {
-        fileInputRef.current.value = "";
-      }
-
-    } catch (err) {
-      console.error("Error al crear proyecto:", err);
-      setError(err.message);
+      reader.readAsDataURL(imagen);
+    } catch (error) {
+      console.error("Error al crear proyecto:", error);
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      {error && <Alert variant="danger">{error}</Alert>}
+    <div className="crear-proyecto-container">
+      <div className="header-proyecto">
+        <h2 className="titulo-crear">Crear Proyecto</h2>
+        <button type="submit" className="btn-agregar-proyecto" onClick={handleSubmit}>
+          Agregar
+        </button>
+      </div>
 
-      <Form.Group controlId="nombre" className="mb-3">
-        <Form.Label>Nombre</Form.Label>
-        <Form.Control
-          type="text"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
-          required
-        />
-      </Form.Group>
+      <form className="formulario-proyecto" onSubmit={handleSubmit}>
+        <div className="fila-formulario">
+          <label>Nombre del Proyecto:</label>
+          <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+          {errores.nombre && <span className="error-texto">{errores.nombre}</span>}
+        </div>
 
-      <Form.Group controlId="descripcion" className="mb-3">
-        <Form.Label>Descripción</Form.Label>
-        <Form.Control
-          type="text"
-          value={descripcion}
-          onChange={(e) => setDescripcion(e.target.value)}
-        />
-      </Form.Group>
+        <div className="fila-formulario">
+          <label>Descripción:</label>
+          <input type="text" value={descripcion} onChange={(e) => setDescripcion(e.target.value)} />
+          {errores.descripcion && <span className="error-texto">{errores.descripcion}</span>}
+        </div>
 
-      <Form.Group controlId="cliente" className="mb-3">
-        <Form.Label>Cliente</Form.Label>
-        <Form.Control
-          type="text"
-          value={cliente}
-          onChange={(e) => setCliente(e.target.value)}
-        />
-      </Form.Group>
+        <div className="fila-formulario">
+          <label>Cliente:</label>
+          <input type="text" value={cliente} onChange={(e) => setCliente(e.target.value)} />
+          {errores.cliente && <span className="error-texto">{errores.cliente}</span>}
+        </div>
 
-      <Form.Group controlId="presupuesto" className="mb-3">
-        <Form.Label>Presupuesto</Form.Label>
-        <Form.Control
-          type="number"
-          value={presupuesto}
-          onChange={(e) => setPresupuesto(e.target.value)}
-        />
-      </Form.Group>
+        <div className="fila-formulario">
+          <label>Presupuesto:</label>
+          <input type="number" value={presupuesto} onChange={(e) => setPresupuesto(e.target.value)} />
+          {errores.presupuesto && <span className="error-texto">{errores.presupuesto}</span>}
+        </div>
 
-      <Form.Group controlId="estado" className="mb-3">
-        <Form.Label>Estado</Form.Label>
-        <Form.Control
-          as="select"
-          value={estado}
-          onChange={(e) => setEstado(e.target.value)}
-        >
-          <option>En progreso</option>
-          <option>Finalizado</option>
-          <option>Cancelado</option>
-        </Form.Control>
-      </Form.Group>
+        <div className="fila-formulario">
+          <label>Estado:</label>
+          <div className="fila-estados">
+            <label><input type="radio" value="En progreso" checked={estado === "En progreso"} onChange={(e) => setEstado(e.target.value)} /> En Progreso</label>
+            <label><input type="radio" value="Finalizado" checked={estado === "Finalizado"} onChange={(e) => setEstado(e.target.value)} /> Finalizado</label>
+            <label><input type="radio" value="Cancelado" checked={estado === "Cancelado"} onChange={(e) => setEstado(e.target.value)} /> Cancelado</label>
+          </div>
+        </div>
 
-      <Form.Group controlId="fechaInicio" className="mb-3">
-        <Form.Label>Fecha de Inicio</Form.Label>
-        <Form.Control
-          type="date"
-          value={fechaInicio}
-          onChange={(e) => setFechaInicio(e.target.value)}
-        />
-      </Form.Group>
+        <div className="fila-fechas">
+          <div className="campo-fecha">
+            <label>Fecha in:</label>
+            <input type="date" value={fechaInicio} onChange={(e) => setFechaInicio(e.target.value)} />
+            {errores.fechaInicio && <span className="error-texto">{errores.fechaInicio}</span>}
+          </div>
+          <div className="campo-fecha">
+            <label>Fecha fin:</label>
+            <input type="date" value={fechaFin} onChange={(e) => setFechaFin(e.target.value)} />
+            {errores.fechaFin && <span className="error-texto">{errores.fechaFin}</span>}
+          </div>
+        </div>
 
-      <Form.Group controlId="fechaFin" className="mb-3">
-        <Form.Label>Fecha de Fin</Form.Label>
-        <Form.Control
-          type="date"
-          value={fechaFin}
-          onChange={(e) => setFechaFin(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="documentos" className="mb-3">
-        <Form.Label>Documentos (Adjuntar archivos)</Form.Label>
-        {/* 3. Referencia para poder limpiar manualmente el valor del input */}
-        <Form.Control
-          ref={fileInputRef}
-          type="file"
-          multiple
-          onChange={handleFileChange}
-        />
-      </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Crear Proyecto
-      </Button>
-    </Form>
+        <div className="fila-formulario">
+          <label>Imagen del proyecto:</label>
+          <input type="file" accept="image/*" onChange={handleImageChange} />
+          {errores.imagen && <span className="error-texto">{errores.imagen}</span>}
+          {preview && <img src={preview} alt="Vista previa" className="preview-imagen" />}
+        </div>
+      </form>
+    </div>
   );
 };
 

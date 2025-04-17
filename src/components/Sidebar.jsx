@@ -34,14 +34,24 @@ const Sidebar = () => {
         className={`sidebar-toggle ${isOpen ? "open" : ""}`}
         onClick={toggleSidebar}
       >
-        {isOpen ? <X size={28} color="white" /> : <Menu size={28} color="white" />}
+        {isOpen ? (
+          <X size={28} color="white" />
+        ) : (
+          <Menu size={28} color="white" />
+        )}
       </button>
 
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
-        <div className="sidebar-logo">
+        {/* LOGO con clase condicional */}
+        <div
+          className={`sidebar-logo ${isOpen ? "logo-abajo" : "logo-arriba"}`}
+          onClick={() => goTo("/inicio")}
+          style={{ cursor: "pointer" }}
+        >
           <img src={logo} alt="Logo" className="sidebar-logo-img" />
         </div>
 
+        {/* NAVEGACIÓN */}
         <div className="sidebar-nav">
           <div className="sidebar-item" onClick={() => goTo("/actividades")}>
             <img src={checkIcon} alt="Tareas" className="sidebar-icon icon-check" />
