@@ -1,44 +1,104 @@
+/* Fondo oscuro con desenfoque */
 .popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0,0,0,0.6);
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 2000;
+  backdrop-filter: blur(2px);
+  animation: fadeIn 0.3s ease;
 }
 
+/* Tarjeta blanca */
 .popup-contenido {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 12px;
+  background-color: #ffffff;
+  padding: 2.5rem 2rem;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  width: 90%;
+  max-width: 400px;
   text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  font-family: 'Arapey', serif;
+  animation: popupScale 0.3s ease;
 }
 
+/* Mensaje */
+.popup-contenido p {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+/* Botones uniformes */
 .popup-botones {
-  margin-top: 1.5rem;
   display: flex;
   justify-content: center;
   gap: 1rem;
 }
 
-.btn-confirmar {
-  background-color: #c0392b;
-  color: white;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
+.popup-botones button {
+  flex: 1;
+  min-width: 120px;
+  max-width: 180px;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  font-family: 'Arapey', serif;
+  font-weight: bold;
+  border-radius: 10px;
   cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
 }
 
+.btn-confirmar {
+  background-color: #bbb; /* Gris como cancelar */
+  color: #333;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-confirmar:hover {
+  background-color: #e74c3c; /* Rojo al pasar el mouse */
+  color: white;
+  transform: scale(1.05);
+}
+
+
+/* Botón cancelar: gris por defecto, se sombreará rojo al pasar */
 .btn-cancelar {
   background-color: #bbb;
-  border: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 6px;
-  cursor: pointer;
+  color: #333;
+}
+
+.btn-cancelar:hover {
+  background-color: #e74c3c; /* 🔥 Rojo suave en hover */
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popupScale {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
 }

@@ -1,0 +1,258 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+:root {
+  --dg-padding-desktop: 2rem;
+  --dg-padding-mobile: 1rem;
+  --dg-max-width: 900px;
+  --dg-sidebar-width: 120px;
+}
+
+.detalle-gasto-layout {
+  display: flex;
+  background-color: #3A3A3A;
+  min-height: 100vh;
+  font-family: 'Arapey', serif;
+}
+
+.dg-contenido-principal {
+  flex: 1;
+  padding: var(--dg-padding-desktop);
+  display: flex;
+  justify-content: center;
+  width: calc(100% - var(--dg-sidebar-width));
+  box-sizing: border-box;
+}
+
+.detalle-gasto-card {
+  background-color: white;
+  border: 2px solid #D35400;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5), 0 0 0 2px #D35400;
+  padding: 2rem;
+  margin: 1.5rem auto;
+  max-width: var(--dg-max-width);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.dg-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+}
+
+.dg-titulo {
+  font-size: 1.6rem;
+  font-weight: bold;
+  color: black;
+}
+
+.dg-iconos {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.dg-icono {
+  border: 2px solid #D35400;
+  background-color: white;
+  border-radius: 8px;
+  padding: 4px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dg-icono img {
+  width: 20px;
+  height: 20px;
+}
+
+.dg-icono:hover {
+  transform: scale(1.1);
+}
+
+.dg-campo {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.dg-campo label {
+  font-weight: bold;
+  color: black;
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+
+.dg-campo-col {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.dg-input,
+.dg-select {
+  border: 2px solid #D35400;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  width: 100%;
+  font-family: 'Arapey', serif;
+  font-size: 1rem;
+  background-color: white;
+  color: black;
+}
+
+.dg-select {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='20,50 70,100 120,50' stroke='%23D35400' stroke-width='15' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.8rem center;
+  background-size: 1rem;
+  padding-right: 2rem;
+}
+
+.dg-valor {
+  border: 2px solid #D35400;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  background-color: white;
+  color: black;
+}
+
+.dg-error {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  font-family: 'Arapey', serif;
+}
+
+.dg-factura {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.dg-btn-adjunta {
+  background-color: #D35400;
+  color: white;
+  padding: 0.4rem 1rem;
+  border: none;
+  font-family: 'Arapey', serif;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.dg-btn-adjunta:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+}
+
+.dg-factura-nombre {
+  border: 2px solid #D35400;
+  padding: 0.4rem 1rem;
+  font-family: 'Arapey', serif;
+  color: #000;
+  background-color: white;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.toast-exito {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #28a745;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-family: 'Arapey', serif;
+  font-size: 1rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+  z-index: 9999;
+  animation: aparecerDesaparecer 3s ease-in-out;
+}
+
+@keyframes aparecerDesaparecer {
+  0% { opacity: 0; transform: translateY(20px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(20px); }
+}
+
+/* 📱 Responsive */
+@media (max-width: 768px) {
+  .dg-contenido-principal {
+    padding: var(--dg-padding-mobile);
+  }
+
+  .detalle-gasto-card {
+    width: 95%;
+    padding: 1.2rem;
+  }
+
+  .dg-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .dg-iconos {
+    align-self: flex-end;
+  }
+
+  .dg-titulo {
+    font-size: 1.4rem;
+    text-align: left;
+  }
+
+  .dg-campo {
+    margin-bottom: 0.8rem;
+  }
+
+  .dg-campo label {
+    font-size: 0.95rem;
+  }
+
+  .dg-input,
+  .dg-select,
+  .dg-valor,
+  .dg-btn-adjunta,
+  .dg-factura-nombre {
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .dg-titulo {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .dg-header {
+    align-items: center;
+  }
+
+  .dg-campo label {
+    font-size: 0.9rem;
+  }
+
+  .dg-input,
+  .dg-select,
+  .dg-valor,
+  .dg-btn-adjunta,
+  .dg-factura-nombre {
+    font-size: 0.9rem;
+  }
+
+  .detalle-gasto-card {
+    padding: 1rem;
+  }
+}

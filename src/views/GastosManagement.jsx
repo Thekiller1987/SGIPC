@@ -1,52 +1,60 @@
 // src/views/GastosManagement.jsx
-import React, { useState } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { useLocation, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../components/Sidebar";
 import GastosForm from "../components/Gastos/GastosForm";
+import "../GastosCss/GastosForm.css";
+import { useProject } from "../context/ProjectContext"; // Importa el contexto
 
 const GastosManagement = () => {
-  const location = useLocation();
+  const { project } = useProject(); // Usá el contexto
   const navigate = useNavigate();
-  // Recibimos projectId y projectName
-  const projectId = location.state?.projectId;
-  const projectName = location.state?.projectName;
 
   const [refresh, setRefresh] = useState(false);
+  const handleGastoCreated = () => setRefresh(!refresh);
+  const handleVerGastos = () =>
+    navigate("/gastos-overview", { state: { projectId: project?.id, projectName: project?.nombre } });
 
-  const handleGastoCreated = () => {
-    setRefresh(!refresh);
-  };
+  useEffect(() => {
+    document.body.style.background = "#2f2f2f";
+    return () => {
+      document.body.style.background = "";
+    };
+  }, []);
 
-  const handleVerGastos = () => {
-    // Pasamos projectId y projectName a GastosOverview
-    navigate("/gastos-overview", {
-      state: { projectId, projectName },
-    });
-  };
-
-  if (!projectId) {
+  if (!project) {
     return (
-      <Container className="mt-5 pt-5">
-        <h2>Error: No se proporcionó un projectId</h2>
-      </Container>
+      <div className="layout-formulario-gasto">
+        <Sidebar />
+        <div className="gastos-container">
+          <h2>Error: No hay proyecto seleccionado</h2>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Container className="mt-5 pt-5">
-      <Row>
-        <Col md={6}>
-          <h2>Agregar Gasto / Ingreso</h2>
-          <GastosForm projectId={projectId} onGastoCreated={handleGastoCreated} />
-        </Col>
-      </Row>
-      <div className="mt-4">
-        <Button variant="info" onClick={handleVerGastos}>
-          Ver Gastos
-        </Button>
+    <div className="layout-formulario-gasto">
+      <Sidebar />
+      <div className="contenido-gastos">
+        <h1 className="titulo-fondo-oscurito">Agregar Gasto / Ingreso</h1>
+  
+        <div className="gastos-formulario-wrapper">
+          {/* ✅ Nombre del proyecto ahora DENTRO del card blanco */}
+          <h2 className="nombre-proyecto-gasto">{project.nombre}</h2>
+  
+          <div className="btn-ver-gastos-container">
+            <button className="btn-ver-gastos" onClick={handleVerGastos}>
+              Ver Gastos
+            </button>
+          </div>
+  
+          <GastosForm projectId={project.id} onGastoCreated={handleGastoCreated} />
+        </div>
       </div>
-    </Container>
+    </div>
   );
+  
 };
 
 export default GastosManagement;
