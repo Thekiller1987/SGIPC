@@ -28,7 +28,7 @@ body {
 .contenido-presupuesto {
   flex: 1;
   padding: var(--layout-padding);
-  margin-left: clamp(70px, 10vw, 120px);
+  margin-inline: clamp(100px, 12vw, 140px);
   box-sizing: border-box;
   animation: fadeIn 0.5s ease;
 }
@@ -204,9 +204,9 @@ button {
   display: none !important;
 }
 
-<<<<<<< HEAD
+
 /* Tabla estructuras */
-=======
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -331,7 +331,7 @@ button {
 .btn-eliminar:hover {
   background-color: #e74c3c;
 }
->>>>>>> ae370bd15924823274ee4a794f94b0e1309c89a8
+
 .lista-estructuras {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -425,3 +425,9 @@ button {
  
 .contenido-presupuesto {
   margin-left: clamp(100px, 12vw, 140px); }
+
+  *,
+*::before,
+*::after {
+  font-family: 'Arapey', serif !important;
+}
