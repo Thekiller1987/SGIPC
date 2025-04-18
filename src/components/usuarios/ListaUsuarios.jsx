@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { getFirestore, collection, onSnapshot, deleteDoc, doc } from 'firebase/firestore';
-import RegistrarUsuario from './RegistrarUsuario';
+import FormularioUsuario from './FormularioUsuario';
 
 const ListaUsuarios = () => {
   const [usuarios, setUsuarios] = useState([]);
@@ -26,59 +26,58 @@ const ListaUsuarios = () => {
   };
 
   return (
-    <div className="container-fluid py-4 bg-dark text-white min-vh-100">
+    <div className="usuarios-container">
       {!mostrarTabla && (
-        <button className="btn btn-warning mb-4" onClick={() => setMostrarTabla(true)}>
+        <button className="btn-crear" onClick={() => setMostrarTabla(true)}>
           Ver Lista de Usuarios
         </button>
       )}
 
       {usuarioEnEdicion && (
-        <RegistrarUsuario
-          modoEdicion
-          datosUsuario={usuarioEnEdicion}
-          onGuardar={() => setUsuarioEnEdicion(null)}
+        <FormularioUsuario
+          usuario={usuarioEnEdicion}
+          cerrarFormulario={() => setUsuarioEnEdicion(null)}
         />
       )}
 
       {mostrarTabla && (
         <>
-          <h1 className="mb-4">Lista de Usuarios</h1>
-
-          <div className="tabla-responsive">
-  <table className="tabla-usuarios">
-    <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Correo</th>
-        <th>Teléfono</th>
-        <th>Rol</th>
-        <th>Acciones</th>
-      </tr>
-    </thead>
-    <tbody>
-      {usuarios.map((u) => (
-        <tr key={u.id}>
-          <td>{u.nombre}</td>
-          <td>{u.apellido}</td>
-          <td>{u.correo}</td>
-          <td>{u.telefono}</td>
-          <td>{u.rol}</td>
-          <td>
-            <button className="btn-accion editar">
-              <img src="/iconos/edit.png" alt="editar" />
-            </button>
-            <button className="btn-accion eliminar">
-              <img src="/iconos/delete.png" alt="eliminar" />
-            </button>
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  </table>
-</div>
-
+          <h1>Gestión de Usuarios</h1>
+          <div className="tabla-contenedor">
+            <table className="usuarios-tabla">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
+                  <th>Correo</th>
+                  <th>Teléfono</th>
+                  <th>Rol</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {usuarios.map((u) => (
+                  <tr key={u.id}>
+                    <td>{u.nombre}</td>
+                    <td>{u.apellido}</td>
+                    <td>{u.correo}</td>
+                    <td>{u.telefono}</td>
+                    <td>{u.rol}</td>
+                    <td>
+                      <div className="usuarios-iconos">
+                        <button onClick={() => setUsuarioEnEdicion(u)}>
+                          <img src="/iconos/edit.png" alt="Editar" />
+                        </button>
+                        <button onClick={() => handleEliminar(u.id)}>
+                          <img src="/iconos/delete.png" alt="Eliminar" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </>
       )}
     </div>

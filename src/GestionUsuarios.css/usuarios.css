@@ -1,22 +1,24 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
-/* 🌑 Fondo y contenedor general */
+/* 🎯 CONTENEDOR PRINCIPAL */
 .usuarios-container {
   padding: 3rem 2rem;
   background-color: #121212;
   min-height: 100vh;
   font-family: 'Arapey', serif;
   color: white;
+  box-sizing: border-box;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 1.5rem;
+.usuarios-container h1 {
+  font-size: clamp(2rem, 4vw, 40px);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2.5rem;
 }
 
-/* 🔘 Botón crear usuario */
-.btn-crear,
-.btn-crear-usuario {
+/* 🔘 BOTÓN CREAR */
+.usuarios-container .btn-crear {
   background-color: #D35400;
   color: white;
   border: none;
@@ -30,161 +32,231 @@ h1 {
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
-.btn-crear:hover,
-.btn-crear-usuario:hover {
+.usuarios-container .btn-crear:hover {
   background-color: #27ae60;
   transform: scale(1.05);
 }
 
-/* 📋 Tabla de usuarios */
-.usuarios-tabla {
-  width: 100%;
-  border-collapse: collapse;
+/* 📦 TARJETA CONTENEDORA DE LA TABLA */
+.usuarios-container .tabla-contenedor {
   background-color: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  max-width: 1100px;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: auto;
 }
 
-.usuarios-tabla th {
-  background-color: #D35400;
-  color: white;
-  padding: 1rem;
-  text-align: left;
-  font-size: 1.1rem;
+/* 📊 TABLA estilo "Caja" */
+.usuarios-container .usuarios-tabla {
+  width: 100%;
+  min-width: 1000px;
+  border-collapse: collapse;
+  font-family: 'Arapey', serif;
+  background-color: white;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  white-space: nowrap;
 }
 
-.usuarios-tabla td {
-  padding: 0.9rem 1rem;
-  color: #000;
-  font-size: 1rem;
+.usuarios-container .usuarios-tabla th,
+.usuarios-container .usuarios-tabla td {
+  border: 1px solid #ccc;
+  padding: 12px;
+  font-size: 18px;
+  text-align: center;
+  vertical-align: middle;
+  color: #000000;
+  white-space: nowrap;
 }
 
-.usuarios-tabla tr:nth-child(even) {
-  background-color: #f5f5f5;
+.usuarios-container .usuarios-tabla th {
+  background-color: #f2f2f2;
+  font-weight: bold;
 }
 
-/* 🛠️ Botones de acción */
-.btn-accion {
-  border: none;
-  padding: 0.5rem;
-  border-radius: 10px;
+/* Misma altura para filas alternas */
+.usuarios-container .usuarios-tabla tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.usuarios-container .usuarios-tabla tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+/* Hover claro */
+.usuarios-container .usuarios-tabla tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* 🛠️ ICONOS DE ACCIÓN (como en caja) */
+.usuarios-container .usuarios-iconos {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.usuarios-container .usuarios-iconos button {
+  background: #f0f0f0;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 7px;
   cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-right: 0.4rem;
+  transition: transform 0.2s ease-in-out;
 }
 
-.btn-accion img {
-  width: 20px;
-  height: 20px;
-}
-
-.btn-accion.editar {
+.usuarios-container .usuarios-iconos button:hover {
+  transform: scale(1.1);
   background-color: #D35400;
 }
 
-.btn-accion.editar:hover {
-  background-color: #a84300;
-  transform: scale(1.05);
+.usuarios-container .usuarios-iconos img {
+  width: 22px;
+  height: 22px;
 }
 
-.btn-accion.eliminar {
-  background-color: #c0392b;
+
+/* 🛠️ ESPACIADO POR COLUMNA */
+.usuarios-container .usuarios-tabla th:nth-child(1),
+.usuarios-container .usuarios-tabla td:nth-child(1) {
+  width: 15%;
 }
 
-.btn-accion.eliminar:hover {
-  background-color: #992d22;
-  transform: scale(1.05);
+.usuarios-container .usuarios-tabla th:nth-child(2),
+.usuarios-container .usuarios-tabla td:nth-child(2) {
+  width: 15%;
 }
 
-/* 🪟 Modal general */
-.modal-form {
+.usuarios-container .usuarios-tabla th:nth-child(3),
+.usuarios-container .usuarios-tabla td:nth-child(3) {
+  width: 28%;
+}
+
+.usuarios-container .usuarios-tabla th:nth-child(4),
+.usuarios-container .usuarios-tabla td:nth-child(4) {
+  width: 12%;
+}
+
+.usuarios-container .usuarios-tabla th:nth-child(5),
+.usuarios-container .usuarios-tabla td:nth-child(5) {
+  width: 15%;
+}
+
+.usuarios-container .usuarios-tabla th:nth-child(6),
+.usuarios-container .usuarios-tabla td:nth-child(6) {
+  width: 15%;
+}
+
+/* 🛠️ ICONOS DE ACCIÓN */
+.usuarios-container .usuarios-iconos {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.usuarios-container .usuarios-iconos button {
+  background: #f0f0f0;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  padding: 7px;
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.usuarios-container .usuarios-iconos button:hover {
+  transform: scale(1.1);
+  background-color: #D35400;
+}
+
+.usuarios-container .usuarios-iconos img {
+  width: 22px;
+  height: 22px;
+}
+
+/* 📄 FORMULARIO MODAL */
+.usuarios-container .modal-form {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100vh;
-  overflow-y: auto;
   background: rgba(0, 0, 0, 0.75);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
   padding: 2rem;
+  overflow-y: auto;
 }
 
-/* 📄 Formulario */
-.formulario-usuario {
+.usuarios-container .formulario-usuario {
   background-color: white;
   padding: 2.5rem;
   border-radius: 25px;
   width: 95%;
   max-width: 700px;
-  font-family: 'Arapey', serif;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  animation: fadeIn 0.3s ease;
   display: flex;
   flex-direction: column;
-  min-height: 550px; /* 👈 Asegura altura mínima */
+  animation: fadeIn 0.3s ease;
+  font-family: 'Arapey', serif;
+  min-height: 550px;
 }
 
-.formulario-usuario h2 {
+.usuarios-container .formulario-usuario h2 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
   text-align: center;
   color: #333;
 }
 
-/* 🧾 Inputs en dos columnas */
-.formulario-grid {
+/* 🧾 INPUTS EN GRID */
+.usuarios-container .formulario-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.2rem;
   margin-bottom: 1.5rem;
 }
 
-.formulario-usuario label {
-  display: block;
+.usuarios-container .formulario-usuario label {
   margin-bottom: 0.4rem;
   font-weight: bold;
   color: #333;
 }
 
-.formulario-usuario input,
-.formulario-usuario select {
+.usuarios-container .formulario-usuario input,
+.usuarios-container .formulario-usuario select {
   width: 100%;
   padding: 0.6rem;
   border: 2px solid #D35400;
   border-radius: 10px;
   font-size: 1rem;
-  font-family: 'Arapey', serif;
 }
 
-/* 🧷 Inputs que ocupan toda la fila */
-.input-full {
+/* ⬅️ INPUT COMPLETO */
+.usuarios-container .input-full {
   grid-column: span 2;
 }
 
-/* ✅ Botones */
-.formulario-botones {
+/* ✅ BOTONES DE FORMULARIO */
+.usuarios-container .formulario-botones {
   display: flex;
   justify-content: center;
-  align-items: flex-end; /* 👈 Corrige el desalineado */
+  align-items: flex-end;
   gap: 2rem;
   margin-top: 2rem;
-  padding: 0 1rem;
   flex-wrap: wrap;
 }
 
-.btn-guardar,
-.btn-cancelar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
+.usuarios-container .btn-guardar,
+.usuarios-container .btn-cancelar {
   max-width: 250px;
   height: 60px;
-  padding: 0;
+  width: 100%;
   font-size: 1.1rem;
   font-family: 'Arapey', serif;
   font-weight: bold;
@@ -194,191 +266,68 @@ h1 {
   color: black;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-  line-height: 1;
-  margin: 0; /* 🔧 quita cualquier desfase extra */
 }
 
-.btn-guardar:hover {
+.usuarios-container .btn-guardar:hover {
   background-color: #27ae60;
   color: white;
-  transform: translateY(-2px);
 }
 
-.btn-cancelar:hover {
+.usuarios-container .btn-cancelar:hover {
   background-color: #b15013;
   color: white;
-  transform: translateY(-2px);
 }
 
-
-
-
-
-
-
-/* 📱 Mejoras para teléfonos (menos de 600px) */
-@media screen and (max-width: 600px) {
-  .formulario-usuario {
-    padding: 1.5rem;
-    min-height: auto;
-    width: 100%;
-    max-width: 95vw;
-  }
-
-  .formulario-usuario h2 {
-    font-size: 1.6rem;
-    margin-bottom: 1rem;
-  }
-
-  .formulario-grid {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-  }
-
-  .formulario-usuario input,
-  .formulario-usuario select {
-    padding: 0.5rem;
-    font-size: 0.95rem;
-  }
-
-  .formulario-botones {
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 1.5rem;
-    padding: 0;
-  }
-
-  .btn-guardar,
-  .btn-cancelar {
-    height: 50px;
-    font-size: 1rem;
-    max-width: 100%;
-  }
-
-  .modal-form {
-    padding: 1rem;
-    align-items: flex-start; /* Para que en teléfonos no quede demasiado abajo */
-    overflow-y: auto;
-  }
-
-  .usuarios-tabla th,
-  .usuarios-tabla td {
-    font-size: 0.9rem;
-    padding: 0.7rem;
-  }
-
-  .usuarios-tabla th {
-    font-size: 1rem;
-  }
-}
-
-/* ✨ Animación */
+/* 🎬 ANIMACIÓN */
 @keyframes fadeIn {
   from { opacity: 0; transform: scale(0.95); }
   to { opacity: 1; transform: scale(1); }
 }
 
-/* 📦 Contenedor tabla */
-.encabezado-tabla {
-  display: flex;
-  justify-content: flex-end;
-  padding: 1rem 1.5rem 0.5rem;
-}
-
-.tabla-contenedor {
-  background-color: white;
-  padding: 1rem 0 2rem;
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
-  margin-top: 2rem;
-}
-
-.btn-guardar,
-.btn-cancelar {
-  display: inline-block !important;
-  visibility: visible !important;
-}
-
-/* Estilo para ocultar el botón de crear usuario cuando se está en modo edición */
-.formulario-usuario.crear-usuario .btn-guardar {
-  display: none;
-}
-/* ✅ Contenedor general con scroll horizontal */
-.tabla-responsive {
-  width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* ✅ Estilo de la tabla sin alterar diseño */
-.tabla-usuarios {
-  width: max-content; /* ✅ Solo se adapta al contenido */
-  min-width: 100%;
-  border-collapse: collapse;
-  background-color: white;
-  border-radius: 20px;
-  overflow: hidden;
-  font-family: 'Arapey', serif;
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-}
-
-
-/* ✅ Cabeceras y celdas */
-.tabla-usuarios th {
-  background-color: #D35400;
-  color: white;
-  padding: 1rem;
-  text-align: left;
-  font-size: 1.1rem;
-}
-
-.tabla-usuarios td {
-  padding: 0.9rem 1rem;
-  color: #000;
-  font-size: 1rem;
-}
-
-.tabla-usuarios tr:nth-child(even) {
-  background-color: #f5f5f5;
-}
-
-/* ✅ Botones */
-.tabla-usuarios button {
-  margin-right: 0.5rem;
-  padding: 0.4rem 0.7rem;
-  border: none;
-  border-radius: 8px;
-  font-weight: bold;
-  font-size: 0.9rem;
-  cursor: pointer;
-  background-color: #D35400;
-  color: white;
-  transition: all 0.3s ease;
-}
-
-.tabla-usuarios button:hover {
-  background-color: #a84300;
-}
-
-.btn-eliminar {
-  background-color: #c0392b !important;
-}
-
-.btn-eliminar:hover {
-  background-color: #992d22 !important;
-}
-
-/* 📱 Adaptación en móviles */
+/* 📱 RESPONSIVE */
 @media screen and (max-width: 768px) {
-  .tabla-usuarios th,
-  .tabla-usuarios td {
-    padding: 0.7rem;
-    font-size: 0.9rem;
+  .usuarios-container .formulario-usuario {
+    padding: 1.5rem;
+    width: 100%;
+    max-width: 95vw;
+    min-height: auto;
   }
 
-  .tabla-usuarios button {
-    padding: 0.3rem 0.5rem;
-    font-size: 0.8rem;
+  .usuarios-container .formulario-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .usuarios-container .formulario-botones {
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+
+  .usuarios-container .btn-guardar,
+  .usuarios-container .btn-cancelar {
+    height: 50px;
+    font-size: 1rem;
+  }
+
+  .usuarios-container .usuarios-tabla th,
+  .usuarios-container .usuarios-tabla td {
+    font-size: 0.95rem;
+    padding: 10px;
+  }
+
+  .usuarios-container .usuarios-iconos {
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .usuarios-container h1 {
+    font-size: 26px;
+  }
+
+  .usuarios-container .tabla-contenedor {
+    padding: 15px;
   }
 }

@@ -22,15 +22,6 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
     }
   }, [usuario]);
 
-  useEffect(() => {
-    // Forzar visibilidad de los botones al montar
-    const botonGuardar = document.querySelector(".btn-guardar");
-    if (botonGuardar) {
-      botonGuardar.style.display = "inline-block";
-      botonGuardar.style.visibility = "visible";
-    }
-  }, []);
-
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -58,7 +49,7 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
 
   return (
     <div className="modal-form">
-      <form className="formulario-usuario" onSubmit={handleSubmit} style={{ minHeight: "600px" }}>
+      <form className="formulario-usuario" onSubmit={handleSubmit}>
         <h2>{usuario ? "Editar Usuario" : "Crear Usuario"}</h2>
 
         <div className="formulario-grid">
@@ -123,7 +114,6 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
           </div>
         </div>
 
-        {/* ✅ Corrección: sin estilos inline conflictivos */}
         <div className="formulario-botones">
           <button type="submit" className="btn-guardar">
             Guardar

@@ -54,66 +54,70 @@ const GestionUsuariosView = () => {
   };
 
   return (
-    <div className="dashboard-container">
-      <Sidebar />
-      <div className="contenido-principal">
-        <h1 className="titulo-modulo-izquierda">Gestión de Usuarios</h1>
-
-        <div className="tabla-contenedor">
-          <div className="encabezado-tabla"></div>
-
-          <div className="tabla-responsive">
-            <table className="usuarios-tabla">
-              <thead>
-                <tr>
-                  <th>Nombre</th>
-                  <th>Apellido</th>
-                  <th>Correo</th>
-                  <th>Teléfono</th>
-                  <th>Rol</th>
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tbody>
-                {usuarios.map((usuario) => (
-                  <tr key={usuario.id}>
-                    <td>{usuario.nombre}</td>
-                    <td>{usuario.apellido}</td>
-                    <td>{usuario.correo}</td>
-                    <td>{usuario.telefono}</td>
-                    <td>{usuario.rol}</td>
-                    <td>
-                      <button className="btn-accion editar" onClick={() => abrirFormulario(usuario)}>
-                        <img src={editIcon} alt="Editar" />
-                      </button>
-                      <button className="btn-accion eliminar" onClick={() => confirmarEliminacion(usuario.id)}>
-                        <img src={deleteIcon} alt="Eliminar" />
-                      </button>
-                    </td>
+    <div className="usuarios-container">
+      <div className="dashboard-container">
+        <Sidebar />
+        <div className="contenido-principal">
+          <h1 className="titulo-modulo-izquierda">Gestión de Usuarios</h1>
+  
+          <div className="tabla-contenedor">
+            <div className="encabezado-tabla"></div>
+  
+            <div className="tabla-responsive">
+              <table className="usuarios-tabla">
+                <thead>
+                  <tr>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {usuarios.map((usuario) => (
+                    <tr key={usuario.id}>
+                      <td>{usuario.nombre}</td>
+                      <td>{usuario.apellido}</td>
+                      <td>{usuario.correo}</td>
+                      <td>{usuario.telefono}</td>
+                      <td>{usuario.rol}</td>
+                      <td>
+                        <div className="usuarios-iconos">
+                          <button className="btn-accion editar" onClick={() => abrirFormulario(usuario)}>
+                            <img src={editIcon} alt="Editar" />
+                          </button>
+                          <button className="btn-accion eliminar" onClick={() => confirmarEliminacion(usuario.id)}>
+                            <img src={deleteIcon} alt="Eliminar" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
+  
+          {mostrarFormulario && (
+            <FormularioUsuario
+              usuario={usuarioSeleccionado}
+              cerrarFormulario={cerrarFormulario}
+            />
+          )}
+  
+          {mostrarPopup && (
+            <ConfirmPopup
+              mensaje="¿Estás seguro de eliminar este usuario?"
+              onConfirmar={handleConfirmarEliminar}
+              onCancelar={handleCancelarEliminar}
+            />
+          )}
         </div>
-
-        {mostrarFormulario && (
-          <FormularioUsuario
-            usuario={usuarioSeleccionado}
-            cerrarFormulario={cerrarFormulario}
-          />
-        )}
-
-        {mostrarPopup && (
-          <ConfirmPopup
-            mensaje="¿Estás seguro de eliminar este usuario?"
-            onConfirmar={handleConfirmarEliminar}
-            onCancelar={handleCancelarEliminar}
-          />
-        )}
       </div>
     </div>
   );
-};
+  };
 
 export default GestionUsuariosView;

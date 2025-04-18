@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useProject } from "../context/ProjectContext";
-import { useAuth } from "../database/authcontext";
 import editarIcono from "../assets/iconos/edit.png";
 import eliminarIcono from "../assets/iconos/delete.png";
 import checkIcon from "../assets/iconos/check.png";
@@ -10,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 
 const DetalleProyectoView = () => {
   const navigate = useNavigate();
-  const { userData } = useAuth();
+
   const { project, setProject } = useProject();
   const [modoEdicion, setModoEdicion] = useState(false);
   const [preview, setPreview] = useState(project.imagen || null);
@@ -37,10 +36,17 @@ const DetalleProyectoView = () => {
   const handleEditar = async () => {
     if (modoEdicion) {
       try {
-        const fechaInicioValida = datosEditables.fechaInicio ? new Date(`${datosEditables.fechaInicio}T00:00:00`) : null;
-        const fechaFinValida = datosEditables.fechaFin ? new Date(`${datosEditables.fechaFin}T00:00:00`) : null;
+        const fechaInicioValida = datosEditables.fechaInicio
+          ? new Date(`${datosEditables.fechaInicio}T00:00:00`)
+          : null;
+        const fechaFinValida = datosEditables.fechaFin
+          ? new Date(`${datosEditables.fechaFin}T00:00:00`)
+          : null;
 
-        if ((fechaInicioValida && isNaN(fechaInicioValida.getTime())) || (fechaFinValida && isNaN(fechaFinValida.getTime()))) {
+        if (
+          (fechaInicioValida && isNaN(fechaInicioValida.getTime())) ||
+          (fechaFinValida && isNaN(fechaFinValida.getTime()))
+        ) {
           alert("Formato de fecha inválido.");
           return;
         }
@@ -106,24 +112,20 @@ const DetalleProyectoView = () => {
     <div className="dpv-wrapper">
       <div className="dpv-card">
         <div className="dpv-header">
-          {userData?.rol === "administrador" && (
-            <>
-              <img
-                src={modoEdicion ? checkIcon : editarIcono}
-                alt={modoEdicion ? "Guardar" : "Editar"}
-                className="dpv-icono"
-                onClick={handleEditar}
-                title={modoEdicion ? "Guardar cambios" : "Editar proyecto"}
-              />
-              <img
-                src={eliminarIcono}
-                alt="Eliminar"
-                className="dpv-icono"
-                onClick={handleEliminar}
-                title="Eliminar proyecto"
-              />
-            </>
-          )}
+          <img
+            src={modoEdicion ? checkIcon : editarIcono}
+            alt={modoEdicion ? "Guardar" : "Editar"}
+            className="dpv-icono"
+            onClick={handleEditar}
+            title={modoEdicion ? "Guardar cambios" : "Editar proyecto"}
+          />
+          <img
+            src={eliminarIcono}
+            alt="Eliminar"
+            className="dpv-icono"
+            onClick={handleEliminar}
+            title="Eliminar proyecto"
+          />
         </div>
 
         {preview && (
@@ -133,6 +135,13 @@ const DetalleProyectoView = () => {
             className="dpv-imagen"
             onClick={() => setMostrarModalImagen(true)}
           />
+        )}
+
+        {modoEdicion && (
+          <div className="dpv-campo-imagen">
+            <label>Cambiar imagen:</label>
+            <input type="file" accept="image/*" onChange={handleImagenChange} />
+          </div>
         )}
 
         {modoEdicion ? (
