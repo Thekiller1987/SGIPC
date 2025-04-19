@@ -304,3 +304,70 @@
     align-items: stretch;
   }
 }
+
+
+.layout-proyectos {
+  background-color: #3A3A3A;
+  min-height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  color: white; /* Asegúrate de definir el color del texto */
+}
+
+@media (max-width: 1200px) {
+  .layout-proyectos {
+    padding: 1.5rem; /* Reducimos padding para pantallas medianas */
+  }
+}
+
+@media (max-width: 768px) {
+  .layout-proyectos {
+    padding: 1rem; /* Reducimos padding para pantallas pequeñas */
+  }
+  .some-element { /* Ajustar otros elementos en pantallas más pequeñas */
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .layout-proyectos {
+    padding: 0.5rem; /* Minimizar padding en pantallas muy pequeñas */
+  }
+  /* También puedes cambiar el diseño de elementos, como cambiar el layout */
+  .some-element {
+    display: block; /* Hacer que algunos elementos se apilen */
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+
+@media (max-width: 325px) {
+  .layout-proyectos {
+    padding: 0rem; 
+  }
+  
+  .some-element {
+    display: block; 
+    width: 100%;
+    text-align: center;
+  }
+}
+
+
+@media (max-width: 290px) {
+  .layout-proyectos {
+    padding: 0rem; 
+    margin: 0; 
+    display: flex;
+    flex-direction: column; 
+  }
+  
+  .some-element {
+    display: block; 
+    width: 100%;
+    text-align: center;
+  }
+}
+

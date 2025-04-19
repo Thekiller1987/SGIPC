@@ -120,7 +120,7 @@ const ProyectosOverview = () => {
             Nuevo proyecto +
           </button>
         </div>
-
+        <div className="scroll-horizontal-wrapper">
         <div className="lista-proyectos">
           {filtered.map((project, index) => {
             const fechaFormateada = project.createdAt?.seconds
@@ -177,6 +177,7 @@ const ProyectosOverview = () => {
               </div>
             );
           })}
+        </div>
         </div>
       </div>
     </div>

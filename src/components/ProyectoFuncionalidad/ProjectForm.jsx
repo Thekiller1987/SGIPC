@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../ProveedoresCss/CrearProyecto.css";
 import { createProject } from "../../services/projectsService";
 import { useNavigate } from "react-router-dom";
@@ -14,9 +14,32 @@ const ProjectForm = () => {
   const [imagen, setImagen] = useState(null);
   const [preview, setPreview] = useState(null);
   const [errores, setErrores] = useState({});
+  const [isOffline, setIsOffline] = useState(!navigator.onLine); // Detecta si está offline
 
   const navigate = useNavigate();
 
+  // Maneja el estado de la conexión
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOffline(false);
+      syncOfflineProjects(); // Sincroniza proyectos guardados localmente
+    };
+    const handleOffline = () => {
+      setIsOffline(true);
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    setIsOffline(!navigator.onLine);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
+
+  // Función para validar el formulario
   const validar = () => {
     const nuevosErrores = {};
     if (!nombre.trim()) nuevosErrores.nombre = "Campo requerido";
@@ -29,6 +52,7 @@ const ProjectForm = () => {
     return nuevosErrores;
   };
 
+  // Función para manejar el cambio de imagen
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -37,6 +61,7 @@ const ProjectForm = () => {
     }
   };
 
+  // Función para comprimir imagen
   const compressImage = (file, maxWidth = 800, maxHeight = 800, quality = 0.6) => {
     return new Promise((resolve) => {
       const reader = new FileReader();
@@ -46,13 +71,13 @@ const ProjectForm = () => {
           const canvas = document.createElement("canvas");
           let width = img.width;
           let height = img.height;
-  
+
           if (width > maxWidth || height > maxHeight) {
             const scale = Math.min(maxWidth / width, maxHeight / height);
             width *= scale;
             height *= scale;
           }
-  
+
           canvas.width = width;
           canvas.height = height;
           const ctx = canvas.getContext("2d");
@@ -65,7 +90,8 @@ const ProjectForm = () => {
       reader.readAsDataURL(file);
     });
   };
-  
+
+  // Función para manejar el envío del formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     const nuevosErrores = validar();
@@ -73,21 +99,21 @@ const ProjectForm = () => {
       setErrores(nuevosErrores);
       return;
     }
-  
+
     try {
       let base64Image = null;
-  
+
       if (imagen) {
         base64Image = await compressImage(imagen);
-  
+
         // Validación: si supera 1MB, mostrar error
-        const base64Length = base64Image.length * (3/4); // Estimación real del tamaño
+        const base64Length = base64Image.length * (3 / 4); // Estimación real del tamaño
         if (base64Length > 1048487) {
           alert("La imagen sigue siendo muy grande después de la compresión. Intente con otra imagen más liviana.");
           return;
         }
       }
-  
+
       const projectData = {
         nombre,
         descripcion,
@@ -98,14 +124,33 @@ const ProjectForm = () => {
         fechaFin: fechaFin ? new Date(fechaFin) : null,
         imagen: base64Image,
       };
-  
-      await createProject(projectData);
-      navigate("/proyecto");
+
+      if (isOffline) {
+        // Guarda el proyecto localmente si está offline
+        localStorage.setItem('offlineProject', JSON.stringify(projectData));
+        alert("Estás offline. El proyecto se guardará localmente y se sincronizará cuando se conecte a internet.");
+      } else {
+        await createProject(projectData);
+        navigate("/proyecto");
+      }
     } catch (error) {
       console.error("Error al crear proyecto:", error);
     }
   };
-  
+
+  // Función para sincronizar proyectos guardados localmente cuando vuelva la conexión
+  const syncOfflineProjects = () => {
+    const offlineProject = localStorage.getItem('offlineProject');
+    if (offlineProject) {
+      const projectData = JSON.parse(offlineProject);
+      createProject(projectData).then(() => {
+        localStorage.removeItem('offlineProject'); // Elimina el proyecto guardado localmente después de sincronizar
+      
+      }).catch((error) => {
+        console.error("Error al sincronizar proyecto:", error);
+      });
+    }
+  };
 
   return (
     <div className="crear-proyecto-container">
