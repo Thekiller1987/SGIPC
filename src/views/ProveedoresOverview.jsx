@@ -10,15 +10,15 @@ import "../Proveedorcss/ProveedorOverview.css";
 
 const ProveedoresOverview = () => {
   const [proveedores, setProveedores] = useState([]);
-  const [filtro, setFiltro] = useState(""); // 🔍 búsqueda
-  const [isOffline, setIsOffline] = useState(!navigator.onLine); // 🌐 estado de conexión
+  const [filtro, setFiltro] = useState(""); //  búsqueda
+  const [isOffline, setIsOffline] = useState(!navigator.onLine); //  estado de conexión
   const navigate = useNavigate();
   const location = useLocation();
 
   const { project } = location.state || {};
   const projectId = project?.id || localStorage.getItem("projectId");
 
-  // 🌐 Detección de conexión
+  //  Detección de conexión
   useEffect(() => {
     const handleOnline = () => setIsOffline(false);
     const handleOffline = () => setIsOffline(true);

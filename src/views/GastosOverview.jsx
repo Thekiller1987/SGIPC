@@ -15,19 +15,25 @@ const GastosOverview = () => {
   const projectName = project?.nombre;
 
   const [gastos, setGastos] = useState([]);
-  const [filtro, setFiltro] = useState(""); // ✅ Búsqueda
+  const [filtro, setFiltro] = useState("");
+  const [offline, setOffline] = useState(false); // ✅ Estado de conexión
 
   useEffect(() => {
     const fetchData = async () => {
-      if (projectId) {
-        try {
-          const data = await getGastos(projectId);
-          setGastos(data);
-        } catch (error) {
-          console.error("Error al obtener gastos:", error);
+      if (!projectId) return;
+
+      try {
+        const data = await getGastos(projectId);
+        setGastos(data);
+        setOffline(false);
+      } catch (error) {
+        console.error("Error al obtener gastos:", error);
+        if (!navigator.onLine) {
+          setOffline(true);
         }
       }
     };
+
     fetchData();
   }, [projectId]);
 
@@ -65,6 +71,13 @@ const GastosOverview = () => {
           <h2 className="titulo-proyecto">
             {projectName ? projectName : "Proyecto sin nombre"}
           </h2>
+
+          {/* ✅ Mensaje de modo offline */}
+          {offline && (
+            <div style={{ color: "orange", marginBottom: "10px" }}>
+              ⚠ Estás sin conexión. Mostrando datos almacenados en caché.
+            </div>
+          )}
 
           {/* ✅ Barra de búsqueda */}
           <div className="barra-superior-proveedores">
