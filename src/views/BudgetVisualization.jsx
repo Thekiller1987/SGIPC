@@ -11,20 +11,30 @@ const BudgetVisualization = () => {
 
   const [totalGastado, setTotalGastado] = useState(0);
   const [additionalFunds, setAdditionalFunds] = useState(0);
+  const [offline, setOffline] = useState(false);
 
   useEffect(() => {
     const fetchTransacciones = async () => {
-      if (project?.id) {
+      if (!project?.id) return;
+
+      try {
         const transacciones = await getGastos(project.id);
         const gastos = transacciones.filter(t => t.tipo === 'gasto');
-        const sumaGastos = gastos.reduce((acc, trans) => acc + Number(trans.monto || 0), 0);
-        setTotalGastado(sumaGastos);
-
         const ingresos = transacciones.filter(t => t.tipo === 'ingreso');
+
+        const sumaGastos = gastos.reduce((acc, trans) => acc + Number(trans.monto || 0), 0);
         const sumaIngresos = ingresos.reduce((acc, trans) => acc + Number(trans.monto || 0), 0);
+
+        setTotalGastado(sumaGastos);
         setAdditionalFunds(sumaIngresos);
+      } catch (error) {
+        console.error("Error obteniendo datos de gastos:", error);
+        if (!navigator.onLine) {
+          setOffline(true);
+        }
       }
     };
+
     fetchTransacciones();
   }, [project]);
 
@@ -38,6 +48,12 @@ const BudgetVisualization = () => {
 
       <div className="contenido-principal">
         <h1 className="titulo-modulo-izquierda">Presupuesto del Proyecto</h1>
+
+        {offline && (
+          <div style={{ color: 'orange', marginBottom: '10px' }}>
+            ⚠ Estás sin conexión. Mostrando datos desde la caché local (si están disponibles).
+          </div>
+        )}
 
         <div className="presupuesto-card">
           <div className="nombre-y-botones">
