@@ -1,4 +1,3 @@
-// src/views/PagosListView.jsx
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { collection, query, where, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
@@ -9,6 +8,7 @@ import { format } from 'date-fns';
 import editIcon from '../assets/iconos/edit.png';
 import checkIcon from '../assets/iconos/check.png';
 import deleteIcon from '../assets/iconos/delete.png';
+import iconoBuscar from '../assets/iconos/search.png'; // ✅ Ícono de búsqueda
 
 const PagosListView = () => {
   const location = useLocation();
@@ -16,6 +16,8 @@ const PagosListView = () => {
   const [pagos, setPagos] = useState([]);
   const [editandoId, setEditandoId] = useState(null);
   const [formEdit, setFormEdit] = useState({});
+  const [showToast, setShowToast] = useState(false);
+  const [filtroBusqueda, setFiltroBusqueda] = useState(""); // ✅ Filtro de texto
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,8 +53,8 @@ const PagosListView = () => {
     try {
       const ref = doc(db, 'pagos', id);
       const [year, month, day] = formEdit.fecha.split("-");
-      const fechaLocal = new Date(year, month - 1, day); // 👈 zona local
-  
+      const fechaLocal = new Date(year, month - 1, day);
+
       await updateDoc(ref, {
         proveedorEmpleado: formEdit.proveedorEmpleado,
         metodoPago: formEdit.metodoPago,
@@ -60,17 +62,19 @@ const PagosListView = () => {
         moneda: formEdit.moneda,
         fecha: fechaLocal
       });
-  
+
       const actualizados = pagos.map(p =>
         p.id === id ? { ...p, ...formEdit, fecha: fechaLocal } : p
       );
       setPagos(actualizados);
       cancelarEdicion();
+
+      setShowToast(true);
+      setTimeout(() => setShowToast(false), 3000);
     } catch (error) {
       console.error("Error actualizando pago:", error);
     }
   };
-  
 
   const eliminarPago = async (id) => {
     if (confirm("¿Deseas eliminar este pago?")) {
@@ -84,6 +88,21 @@ const PagosListView = () => {
     setFormEdit(prev => ({ ...prev, [name]: value }));
   };
 
+  // ✅ Filtro de pagos
+  const pagosFiltrados = pagos.filter(p => {
+    const proveedor = p.proveedorEmpleado?.toLowerCase() || "";
+    const metodo = p.metodoPago?.toLowerCase() || "";
+    const moneda = p.moneda?.toLowerCase() || "";
+    const fecha = p.fecha?.toDate ? format(p.fecha.toDate(), 'dd/MM/yyyy') : "";
+
+    return (
+      proveedor.includes(filtroBusqueda.toLowerCase()) ||
+      metodo.includes(filtroBusqueda.toLowerCase()) ||
+      moneda.includes(filtroBusqueda.toLowerCase()) ||
+      fecha.includes(filtroBusqueda)
+    );
+  });
+
   return (
     <div className="dashboard-container">
       <Sidebar />
@@ -92,6 +111,20 @@ const PagosListView = () => {
 
         <div className="tabla-contenedor tabla-ancha">
           <h2 className="nombre-proyecto">{project?.nombre}</h2>
+
+          {/* ✅ Cuadro de búsqueda */}
+          <div className="barra-superior-proveedores">
+            <div className="input-con-icono">
+              <img src={iconoBuscar} alt="Buscar" className="icono-dentro-input" />
+              <input
+                type="text"
+                className="input-busqueda"
+                placeholder="Buscar Pago ..."
+                value={filtroBusqueda}
+                onChange={(e) => setFiltroBusqueda(e.target.value)}
+              />
+            </div>
+          </div>
 
           <div className="scroll-tabla">
             <table className="tabla-pagos">
@@ -105,7 +138,7 @@ const PagosListView = () => {
                 </tr>
               </thead>
               <tbody>
-                {pagos.map((pago) => {
+                {pagosFiltrados.map((pago) => {
                   const esEditando = editandoId === pago.id;
                   const fecha = pago.fecha?.toDate ? pago.fecha.toDate() : new Date(pago.fecha);
 
@@ -169,6 +202,10 @@ const PagosListView = () => {
           </button>
         </div>
       </div>
+
+      {showToast && (
+        <div className="toast-exito-pago">✅ Pago actualizado con éxito</div>
+      )}
     </div>
   );
 };

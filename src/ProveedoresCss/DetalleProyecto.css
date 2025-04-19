@@ -236,3 +236,36 @@
     width: calc(90vw - 80px); /* ocupa un poco más */
   }
 }
+
+.toast-exito-proveedor {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: #27ae60;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  font-family: 'Arapey', serif;
+  z-index: 3000;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}

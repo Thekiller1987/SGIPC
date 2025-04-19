@@ -11,6 +11,8 @@ import {
   where,
 } from "firebase/firestore";
 
+import { initializeFirestore, persistentLocalCache } from "firebase/firestore";
+
 const coleccion = collection(db, "proveedores");
 
 // Crear proveedor

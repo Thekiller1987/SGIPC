@@ -61,8 +61,15 @@ const FormularioProveedor = () => {
       },
       proyectoId: projectId,
     };
-    await guardarProveedor(proveedor);
-    navigate("/proveedores", { state: { projectId } });
+
+    try {
+      await guardarProveedor(proveedor);
+    } catch (error) {
+      // Si estás offline, igual redirigimos
+      console.warn("Guardado localmente. Se sincronizará cuando haya conexión.");
+    } finally {
+      navigate("/proveedores", { state: { projectId } });
+    }
   };
 
   return (
@@ -158,16 +165,15 @@ const FormularioProveedor = () => {
             </div>
 
             <div className="botones-formulario">
-  <button type="submit" className="btn-agregar">Agregar</button>
-  <button
-    type="button"
-    className="btn-cancelar"
-    onClick={() => navigate("/proveedores", { state: { projectId } })}
-  >
-    Cancelar
-  </button>
-</div>
-
+              <button type="submit" className="btn-agregar">Agregar</button>
+              <button
+                type="button"
+                className="btn-cancelar"
+                onClick={() => navigate("/proveedores", { state: { projectId } })}
+              >
+                Cancelar
+              </button>
+            </div>
           </form>
         </div>
       </div>

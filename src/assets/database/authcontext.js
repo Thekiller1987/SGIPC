@@ -32,3 +32,24 @@ export const AuthProvider = ({ children }) => {
         </AuthContext.Provider>
     );
 };
+
+  // Detectar estado de conexión
+  useEffect(() => {
+    const handleOnline = () => {
+      console.log("¡Conexión restablecida!");
+      // Opcional: Mostrar una notificación más amigable (puedes usar un componente de notificación en lugar de alert)
+      alert("¡Conexión restablecida!");
+    };
+    const handleOffline = () => {
+      console.log("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
+      alert("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
+    };
+
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
