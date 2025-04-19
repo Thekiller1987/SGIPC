@@ -17,10 +17,14 @@ export const AuthProvider = ({ children }) => {
     // Cambia el estado de conexión a internet
     const handleOnline = () => {
       setIsOffline(false); // Cambia a online
+      console.log("¡Conexión restablecida!");
+      alert("¡Conexión restablecida!");
     };
 
     const handleOffline = () => {
       setIsOffline(true); // Cambia a offline
+      console.log("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
+      alert("Estás offline. Los cambios se sincronizarán cuando vuelvas a conectarte.");
     };
 
     window.addEventListener("online", handleOnline);  // Evento cuando está online
@@ -40,7 +44,7 @@ export const AuthProvider = ({ children }) => {
       window.removeEventListener("offline", handleOffline);
       unsubscribe();
     };
-  }, []);
+  }, []); // Solo se ejecuta al montar el componente
 
   const logout = async () => {
     const auth = getAuth(appfirebase);
