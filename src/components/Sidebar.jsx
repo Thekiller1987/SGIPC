@@ -13,7 +13,7 @@ import gmailIcon from "../assets/iconos/gmail.png";
 import moneyIcon from "../assets/iconos/money.png";
 import shoppingIcon from "../assets/iconos/shopping.png";
 import sesion from "../assets/iconos/sesion.png";
-
+import Documento from "../assets/iconos/documento.png";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -70,13 +70,17 @@ const Sidebar = () => {
           <div className="sidebar-item" onClick={() => alert("Sección en construcción")}>
             <img src={estadisticaIcon} alt="Estadísticas" className="sidebar-icon icon-stats" />
           </div>
+
+          <div className="sidebar-item" onClick={() => goTo("/listar-archivos")}>
+                <img src={Documento} alt="Usuarios" className="sidebar-icon icon-sesion" />
+          </div>
+
+          
               <div className="sidebar-item" onClick={() => goTo("/gestion-usuarios")}>
                 <img src={sesion} alt="Usuarios" className="sidebar-icon icon-sesion" />
           </div>
 
-          <div className="sidebar-item" onClick={() => goTo("/listar-archivos")}>
-                <img src={sesion} alt="Usuarios" className="sidebar-icon icon-sesion" />
-          </div>
+          
 
         </div>
       </div>
