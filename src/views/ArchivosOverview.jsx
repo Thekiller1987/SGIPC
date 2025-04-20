@@ -258,6 +258,7 @@ const ArchivoOverview = () => {
                     <th>Acción</th>
                   </tr>
                 </thead>
+
                 <tbody>
                   {documentosFiltrados.map((documento) => {
                     const esEditando = editandoId === documento.id;
@@ -298,7 +299,21 @@ const ArchivoOverview = () => {
                                 className="archivo-overview-input"
                               />
                             </td>
-                            <td className="archivo-overview-acciones">
+                          </>
+                        ) : (
+                          <>
+                            <td>{documento.nombre}</td>
+                            <td>{documento.tipoDocumento}</td>
+                            <td>{formatFecha(documento.fechaSubida)}</td>
+                            {editandoId && <td></td>}{" "}
+                           
+                          </>
+                        )}
+
+                        {/* Acciones */}
+                        <td className="archivo-overview-acciones">
+                          {esEditando ? (
+                            <>
                               <button
                                 onClick={() => guardarCambios(documento.id)}
                               >
@@ -307,14 +322,9 @@ const ArchivoOverview = () => {
                               <button onClick={cancelarEdicion}>
                                 <img src={deleteIcon} alt="Cancelar" />
                               </button>
-                            </td>
-                          </>
-                        ) : (
-                          <>
-                            <td>{documento.nombre}</td>
-                            <td>{documento.tipoDocumento}</td>
-                            <td>{formatFecha(documento.fechaSubida)}</td>
-                            <td className="archivo-overview-acciones">
+                            </>
+                          ) : (
+                            <>
                               <button
                                 onClick={() => {
                                   const link = document.createElement("a");
@@ -341,9 +351,9 @@ const ArchivoOverview = () => {
                               >
                                 <img src={deleteIcon} alt="Eliminar" />
                               </button>
-                            </td>
-                          </>
-                        )}
+                            </>
+                          )}
+                        </td>
                       </tr>
                     );
                   })}
