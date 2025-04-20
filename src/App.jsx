@@ -26,6 +26,8 @@ import GestionUsuariosView from "./views/GestionUsuariosView";
 import RegistrarUsuario from "./components/usuarios/RegistrarUsuario";
 import ListaUsuarios from "./components/usuarios/ListaUsuarios";
 import NoAutorizado from "./views/NoAutorizado";
+import DocumentosYPlanosView from "./views/DocumentosYPlanosView";
+import ArchivosOverview from "./views/ArchivosOverview";
 
 const AppContent = () => {
   const location = useLocation();
@@ -49,7 +51,9 @@ const AppContent = () => {
     "/gestion-usuarios",
     "/registrar-usuario",
     "/lista-usuarios",
-    "/no-autorizado"
+    "/no-autorizado",
+    "/Documentos",
+    "/listar-archivos"
   ];
 
   return (
@@ -79,6 +83,8 @@ const AppContent = () => {
           <Route path="/gestion-usuarios" element={<ProtectedRoute element={<GestionUsuariosView />} roles={["administrador"]} />} />
           <Route path="/registrar-usuario" element={<ProtectedRoute element={<RegistrarUsuario />} roles={["administrador"]} />} />
           <Route path="/lista-usuarios" element={<ProtectedRoute element={<ListaUsuarios />} roles={["administrador"]} />} />
+          <Route path="/Documentos" element={<ProtectedRoute element={<DocumentosYPlanosView />} roles={["administrador"]} />} />
+          <Route path="/listar-archivos" element={<ProtectedRoute element={<ArchivosOverview />} roles={["administrador"]} />} />
         </Routes>
       </main>
     </>

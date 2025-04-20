@@ -1,0 +1,164 @@
+/* Estilos generales */
+.doc-plan-app-container {
+  display: flex;
+  height: 100vh;
+  flex-direction: column; /* Aplica columna para pantallas más pequeñas */
+}
+
+.doc-plan-content-wrapper {
+  flex: 1;
+  background: #2f2f2f;
+  padding: 20px; /* Reduce el padding en pantallas pequeñas */
+  overflow-y: auto;
+}
+
+.doc-plan-container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%; /* Asegura que ocupe todo el ancho disponible */
+}
+
+.doc-plan-title {
+  font-family: 'Arapey', serif;
+  color: #ffffff;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.doc-plan-form-upload {
+  background: #fff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.doc-plan-form-group {
+  margin-bottom: 20px;
+}
+
+.doc-plan-label {
+  display: block;
+  font-family: 'Arapey', serif;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.doc-plan-input,
+.doc-plan-select {
+  width: 100%;
+  padding: 8px;
+  font-family: 'Arapey', serif;
+  border: 2px solid #D35400;
+  border-radius: 4px;
+}
+
+.doc-plan-submit-btn {
+  display: block;
+  margin: 0 auto;
+  padding: 10px 20px;
+  background-color: #D35400;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Arapey', serif;
+  color: #000;
+  cursor: pointer;
+}
+
+.doc-plan-submit-btn:hover {
+  background-color: #aa4909;
+}
+
+.doc-plan-uploaded-file {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.doc-plan-uploaded-title {
+  font-family: 'Arapey', serif;
+  color: #ffffff;
+}
+
+.doc-plan-file-link {
+  color: #ffffff;
+  font-family: 'Arapey', serif;
+  text-decoration: none;
+}
+
+.doc-plan-file-link:hover {
+  text-decoration: underline;
+}
+
+.doc-plan-project-name {
+  font-family: 'Arapey', serif;
+  font-size: 40px;
+  color: #000000;
+  margin-bottom: 20px;
+  padding-bottom: 5px;
+}
+
+.doc-plan-toast-success {
+  margin-top: 20px;
+  padding: 12px 20px;
+  background-color: #D35400;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+  10%, 90% {
+      opacity: 1;
+      transform: translateY(0);
+  }
+  100% {
+      opacity: 0;
+      transform: translateY(-10px);
+  }
+}
+
+/* Media Query para pantallas más pequeñas (menos de 365px) */
+@media (max-width: 365px) {
+  .doc-plan-content-wrapper {
+      padding: 10px; /* Menos padding en pantallas pequeñas */
+  }
+
+  .doc-plan-title {
+      font-size: 20px; /* Reducir el tamaño del título */
+  }
+
+  .doc-plan-project-name {
+      font-size: 24px; /* Reducir el tamaño del nombre del proyecto */
+  }
+
+  .doc-plan-input,
+  .doc-plan-select {
+      padding: 6px; /* Reducir padding en inputs */
+  }
+
+  .doc-plan-submit-btn {
+      padding: 8px 16px; /* Reducir el tamaño del botón */
+  }
+
+  .doc-plan-uploaded-title {
+      font-size: 16px; /* Reducir el tamaño del título de archivo */
+  }
+
+  .doc-plan-toast-success {
+      padding: 10px 15px; /* Reducir el tamaño del toast */
+      font-size: 14px; /* Reducir el tamaño de fuente */
+  }
+
+  .doc-plan-container {
+      padding: 10px; /* Ajustar el padding */
+      width: 100%; /* Asegura que ocupe todo el ancho disponible */
+  }
+
+  .doc-plan-form-upload {
+      padding: 15px; /* Reducir padding en formularios */
+  }
+}

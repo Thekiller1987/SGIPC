@@ -73,6 +73,11 @@ const Sidebar = () => {
               <div className="sidebar-item" onClick={() => goTo("/gestion-usuarios")}>
                 <img src={sesion} alt="Usuarios" className="sidebar-icon icon-sesion" />
           </div>
+
+          <div className="sidebar-item" onClick={() => goTo("/listar-archivos")}>
+                <img src={sesion} alt="Usuarios" className="sidebar-icon icon-sesion" />
+          </div>
+
         </div>
       </div>
     </>
