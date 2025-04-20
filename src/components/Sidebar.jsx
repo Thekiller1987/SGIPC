@@ -52,36 +52,96 @@ const Sidebar = () => {
         </div>
 
         <div className="sidebar-nav">
-          <div className="sidebar-item" onClick={() => goTo("/actividades")}>
-            <img src={checkIcon} alt="Tareas" className="sidebar-icon icon-check" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Actividades"
+            onClick={() => goTo("/actividades")}
+          >
+            <img
+              src={checkIcon}
+              alt="Tareas"
+              className="sidebar-icon icon-check"
+            />
           </div>
-          <div className="sidebar-item" onClick={() => goTo("/presupuesto")}>
-            <img src={calculatorIcon} alt="Calculadora" className="sidebar-icon icon-calc" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Calculadora"
+            onClick={() => goTo("/presupuesto")}
+          >
+            <img
+              src={calculatorIcon}
+              alt="Calculadora"
+              className="sidebar-icon icon-calc"
+            />
           </div>
-          <div className="sidebar-item" onClick={() => goTo("/budget-visualization")}>
-            <img src={moneyIcon} alt="Budget" className="sidebar-icon icon-money" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Presupuesto"
+            onClick={() => goTo("/budget-visualization")}
+          >
+            <img
+              src={moneyIcon}
+              alt="Budget"
+              className="sidebar-icon icon-money"
+            />
           </div>
-          <div className="sidebar-item" onClick={() => goTo("/listar-pagos")}>
-            <img src={shoppingIcon} alt="Pagos" className="sidebar-icon icon-shop" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Caja"
+            onClick={() => goTo("/listar-pagos")}
+          >
+            <img
+              src={shoppingIcon}
+              alt="Pagos"
+              className="sidebar-icon icon-shop"
+            />
           </div>
-          <div className="sidebar-item" onClick={() => goTo("/proveedores")}>
-            <img src={gmailIcon} alt="Proveedores" className="sidebar-icon icon-mail" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Proveedores"
+            onClick={() => goTo("/proveedores")}
+          >
+            <img
+              src={gmailIcon}
+              alt="Proveedores"
+              className="sidebar-icon icon-mail"
+            />
           </div>
-          <div className="sidebar-item" onClick={() => alert("Sección en construcción")}>
-            <img src={estadisticaIcon} alt="Estadísticas" className="sidebar-icon icon-stats" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Estadistica"
+            onClick={() => alert("Sección en construcción")}
+          >
+            <img
+              src={estadisticaIcon}
+              alt="Estadísticas"
+              className="sidebar-icon icon-stats"
+            />
           </div>
 
-          <div className="sidebar-item" onClick={() => goTo("/listar-archivos")}>
-                <img src={Documento} alt="Usuarios" className="sidebar-icon icon-sesion" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Archivos"
+            onClick={() => goTo("/listar-archivos")}
+          >
+            <img
+              src={Documento}
+              alt="Archivos"
+              className="sidebar-icon icon-sesion"
+            />
           </div>
 
-          
-              <div className="sidebar-item" onClick={() => goTo("/gestion-usuarios")}>
-                <img src={sesion} alt="Usuarios" className="sidebar-icon icon-sesion" />
+          <div
+            className="sidebar-item"
+            data-tooltip="Usuarios"
+            onClick={() => goTo("/gestion-usuarios")}
+          >
+            <img
+              src={sesion}
+              alt="Usuarios"
+              className="sidebar-icon icon-sesion"
+            />
           </div>
-
-          
-
         </div>
       </div>
     </>

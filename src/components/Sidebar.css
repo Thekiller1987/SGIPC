@@ -147,6 +147,51 @@
 
 
 
+.sidebar-item {
+  position: relative;
+}
+
+.sidebar-item::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  left: 8%; /* Centra horizontalmente respecto al contenedor (icono) */
+  top: 50%; /* Coloca el tooltip en el centro vertical del icono */
+  transform: translate(-50%, -50%); /* Centra el tooltip en ambos ejes (X e Y) */
+  background: #D35400;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  white-space: nowrap;
+  opacity: 0; /* Inicialmente invisible */
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease; /* Añadimos transición para opacidad y movimiento */
+  font-size: 12px;
+  z-index: 10;
+  width: 75px; /* Ancho fijo */
+  height: 30px; /* Alto fijo */
+  text-align: center; /* Centra el texto */
+  line-height: 30px; /* Alinea el texto verticalmente */
+  overflow: hidden; /* Si el texto es más largo, lo recorta */
+  text-overflow: ellipsis; /* Muestra "..." si el texto es demasiado largo */
+}
+
+.sidebar-item:hover::after {
+  opacity: 1; /* Hace que se vuelva visible al pasar el ratón */
+  transform: translate(-50%, -50%) scale(1.1); /* Puede añadir un ligero escalado si lo deseas */
+}
+
+/* Para la animación de desplazamiento, se ajusta también el movimiento */
+.sidebar-item::after {
+  transform: translateY(-50%) translateX(10px);
+}
+
+.sidebar-item:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0); /* Desplazamiento suave cuando se muestra */
+}
+
+
+
 /* Diseño responsive para tablets/laptops más pequeños */
 @media (max-width: 1280px) {
   .sidebar {
