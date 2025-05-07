@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProject } from "../context/ProjectContext";
+import { useAuth } from "../database/authcontext"; // ✅ agregado
 import "./Sidebar.css";
 
 import { Menu, X } from "lucide-react";
@@ -14,10 +15,12 @@ import moneyIcon from "../assets/iconos/money.png";
 import shoppingIcon from "../assets/iconos/shopping.png";
 import sesion from "../assets/iconos/sesion.png";
 import Documento from "../assets/iconos/documento.png";
+
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
   const { project } = useProject();
+  const { logout } = useAuth(); // ✅ agregado
 
   const toggleSidebar = () => setIsOpen(!isOpen);
 
@@ -26,6 +29,16 @@ const Sidebar = () => {
       navigate(ruta, { state: { project } });
     } else {
       alert("No hay proyecto seleccionado.");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await logout();           // ✅ cierra sesión
+      localStorage.clear();     // ✅ limpia localStorage
+      window.location.replace("/"); // ✅ recarga evitando navegación hacia atrás
+    } catch (error) {
+      console.error("Error al cerrar sesión:", error);
     }
   };
 
@@ -142,6 +155,18 @@ const Sidebar = () => {
               className="sidebar-icon icon-sesion"
             />
           </div>
+
+          <div
+            className="sidebar-item"
+            data-tooltip="Cerrar sesión"
+            onClick={handleLogout}
+          >
+            <img
+              src={sesion}
+              alt="Cerrar sesión"
+              className="sidebar-icon icon-sesion"
+            />
+          </div>
         </div>
       </div>
     </>
@@ -149,3 +174,4 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+  
