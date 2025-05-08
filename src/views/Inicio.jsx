@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../Iniciocss/Inicio.css";
 import Lottie from "lottie-react";
 import GruaAnimacion from "../assets/iconos/animaciongrua.json";
+import InstalarApp from "../components/InstalarApp"; // <-- nuevo
 
 const Inicio = () => {
   const navigate = useNavigate();
@@ -23,15 +24,16 @@ const Inicio = () => {
         <p className="inicio-descripcion">
           Gestiona tus proyectos de construcción de forma integral.<br />
           Accede rápidamente a tus proyectos, revisa el progreso y administra documentos.
-       </p>
+        </p>
+
         <button className="btn-principal" onClick={handleGoToProjects}>
           Ir a Gestión de Proyectos
         </button>
       </div>
+
+      <InstalarApp /> {/* <-- aquí va el botón */}
     </div>
   );
 };
-
-//// no funciona culpa puchichu
 
 export default Inicio;
