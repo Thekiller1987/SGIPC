@@ -1,0 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
+
+/* 🎨 Estilo global del body */
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #1E1E1E; /* Fondo gris oscuro general */
+  font-family: 'Arapey', serif;
+}
+
+/* 📦 Contenedor general del dashboard */
+.kpi-dashboard-container {
+  margin-left: 152px; /* 120px sidebar + 2rem desplazamiento izquierdo */
+  padding: 2rem;
+  background-color: #1E1E1E;
+  color: white;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 🧾 Título principal */
+.kpi-dashboard-container h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 2.5rem;
+  color: white;
+}
+
+/* 📘 Descripción */
+.kpi-dashboard-container p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  text-align: center;
+  color: #D1D7DE;
+}
+
+/* 🧱 Grid de KPIs */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+/* 📊 Tarjeta para cada KPI */
+.kpi-card {
+  background-color: white;
+  border: 2px solid #D35400; /* Borde naranja */
+  border-radius: 15px;
+  padding: 1.5rem;
+  color: black;
+}
+
+/* 📌 Tarjeta resumen bajo los gráficos */
+.kpi-summary {
+  margin-top: 1.5rem;
+  border: 2px solid #D35400;
+  border-radius: 10px;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.3rem;
+  color: black;
+}
+
+.kpi-summary strong {
+  font-size: 1.6rem;
+  color: #D35400;
+}
+
+/* 📍 Asegura que los textos de Chart.js sean negros */
+.chartjs-render-monitor text,
+.chartjs-render-monitor tspan {
+  fill: black !important;
+}
+
+/* 📊 Color del gráfico de pie (si no definido por dataset) */
+canvas {
+  background-color: white;
+  border-radius: 10px;
+}
+
+/* 📱 Ajuste responsive si quieres centrar en pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .kpi-dashboard-container {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+html, body, #root {
+  background-color: #1E1E1E;
+  height: 100%;
+}

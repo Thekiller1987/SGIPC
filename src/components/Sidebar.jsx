@@ -110,7 +110,7 @@ const Sidebar = () => {
           <div
             className="sidebar-item"
             data-tooltip="Estadistica"
-            onClick={() => alert("Sección en construcción")}
+            onClick={() => goTo("/kpi-dashboard")}
           >
             <img
               src={estadisticaIcon}
