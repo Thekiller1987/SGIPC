@@ -50,7 +50,7 @@ const Login = () => {
         const rol = userData.rol;
 
         // Redirección según rol
-        if (rol === "lector") navigate("/tareas");
+        if (rol === "lector") navigate("/inicio");
         else if (rol === "contador") navigate("/gastos-overview");
         else if (rol === "ingeniero") navigate("/inicio");
         else if (rol === "administrador") navigate("/inicio");
