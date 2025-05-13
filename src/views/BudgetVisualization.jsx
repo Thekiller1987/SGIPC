@@ -10,8 +10,19 @@ const BudgetVisualization = () => {
   const project = location.state?.project;
 
   const [totalGastado, setTotalGastado] = useState(0);
-  const [additionalFunds, setAdditionalFunds] = useState(0);
+  const [totalIngresos, setTotalIngresos] = useState(0);
   const [offline, setOffline] = useState(false);
+
+  const tasasCambio = {
+    USD: 37,
+    EUR: 40.77,
+    NIO: 1
+  };
+
+  const convertirAMonedaLocal = (monto, moneda) => {
+    const tasa = tasasCambio[moneda] || 1;
+    return Number(monto) * tasa;
+  };
 
   useEffect(() => {
     const fetchTransacciones = async () => {
@@ -19,14 +30,22 @@ const BudgetVisualization = () => {
 
       try {
         const transacciones = await getGastos(project.id);
+
         const gastos = transacciones.filter(t => t.tipo === 'gasto');
         const ingresos = transacciones.filter(t => t.tipo === 'ingreso');
 
-        const sumaGastos = gastos.reduce((acc, trans) => acc + Number(trans.monto || 0), 0);
-        const sumaIngresos = ingresos.reduce((acc, trans) => acc + Number(trans.monto || 0), 0);
+        const sumaGastos = gastos.reduce((acc, trans) => {
+          const montoCordobas = convertirAMonedaLocal(trans.monto || 0, trans.moneda || 'NIO');
+          return acc + montoCordobas;
+        }, 0);
+
+        const sumaIngresos = ingresos.reduce((acc, trans) => {
+          const montoCordobas = convertirAMonedaLocal(trans.monto || 0, trans.moneda || 'NIO');
+          return acc + montoCordobas;
+        }, 0);
 
         setTotalGastado(sumaGastos);
-        setAdditionalFunds(sumaIngresos);
+        setTotalIngresos(sumaIngresos);
       } catch (error) {
         console.error("Error obteniendo datos de gastos:", error);
         if (!navigator.onLine) {
@@ -39,7 +58,7 @@ const BudgetVisualization = () => {
   }, [project]);
 
   const montoInicial = project?.presupuesto ? Number(project.presupuesto) : 0;
-  const presupuestoTotal = montoInicial + additionalFunds;
+  const presupuestoTotal = montoInicial + totalIngresos;
   const saldoDisponible = presupuestoTotal - totalGastado;
 
   return (
@@ -77,18 +96,23 @@ const BudgetVisualization = () => {
           <div className="presupuesto-datos">
             <div>
               <p className="presupuesto-label">Monto Inicial :</p>
-              <div className="presupuesto-box">${montoInicial.toLocaleString()}</div>
+              <div className="presupuesto-box">C${montoInicial.toLocaleString()}</div>
+            </div>
+
+            <div>
+              <p className="presupuesto-label">Ingresos Adicionales:</p>
+              <div className="presupuesto-box">C${totalIngresos.toLocaleString()}</div>
             </div>
 
             <div>
               <p className="presupuesto-label">Monto Gastado:</p>
-              <div className="presupuesto-box">${totalGastado.toLocaleString()}</div>
+              <div className="presupuesto-box">C${totalGastado.toLocaleString()}</div>
             </div>
           </div>
 
           <div className="presupuesto-saldo">
             <p className="presupuesto-label">Saldo Disponible:</p>
-            <div className="presupuesto-box">${saldoDisponible.toLocaleString()}</div>
+            <div className="presupuesto-box">C${saldoDisponible.toLocaleString()}</div>
           </div>
         </div>
       </div>

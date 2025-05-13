@@ -1,7 +1,10 @@
-// src/components/Gastos/GastosForm.jsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button, Alert } from "react-bootstrap";
 import { createGasto } from "../../services/gastosService";
+import {
+  getCategoriasPorProyecto,
+  guardarNuevaCategoria,
+} from "../../services/categoriasService";
 import "../../GastosCss/GastosForm.css";
 
 const toBase64 = (file) => {
@@ -18,27 +21,39 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
   const [categoria, setCategoria] = useState("");
   const [fecha, setFecha] = useState("");
   const [monto, setMonto] = useState("");
+  const [moneda, setMoneda] = useState("NIO");
   const [facturaBase64, setFacturaBase64] = useState(null);
+  const [nombreArchivo, setNombreArchivo] = useState(""); // ✅ NUEVO
   const [error, setError] = useState(null);
 
-  const [defaultCategorias, setDefaultCategorias] = useState(() => {
-    const stored = localStorage.getItem("defaultCategorias");
-    return stored
-      ? JSON.parse(stored)
-      : ["Materiales", "Mano de obra", "Transporte"];
-  });
-
+  const [categorias, setCategorias] = useState([]);
   const [showNewCategory, setShowNewCategory] = useState(false);
   const [newCategory, setNewCategory] = useState("");
+
+  useEffect(() => {
+    const cargarCategorias = async () => {
+      const categoriasFirestore = await getCategoriasPorProyecto(projectId);
+      setCategorias(categoriasFirestore);
+    };
+    cargarCategorias();
+  }, [projectId]);
 
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
+
+    const maxSize = 750 * 1024; // 750KB ≈ 1MB Base64
+    if (file.size > maxSize) {
+      setError("El archivo es demasiado grande. Máximo permitido: 750 KB.");
+      return;
+    }
+
     try {
       const base64 = await toBase64(file);
       setFacturaBase64(base64);
+      setNombreArchivo(file.name); // ✅ guardar nombre
     } catch {
-      setError("No se pudo procesar la factura.");
+      setError("No se pudo procesar el archivo.");
     }
   };
 
@@ -53,23 +68,52 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
     }
   };
 
-  const handleAddNewCategory = () => {
-    if (newCategory.trim() && !defaultCategorias.includes(newCategory)) {
-      const updated = [...defaultCategorias, newCategory];
-      setDefaultCategorias(updated);
-      localStorage.setItem("defaultCategorias", JSON.stringify(updated));
-      setCategoria(newCategory);
-      setNewCategory("");
-      setShowNewCategory(false);
+  const handleAddNewCategory = async () => {
+    if (newCategory.trim() && !categorias.includes(newCategory)) {
+      try {
+        const nuevasCategorias = await guardarNuevaCategoria(projectId, newCategory);
+        setCategorias(nuevasCategorias);
+        setCategoria(newCategory);
+        setNewCategory("");
+        setShowNewCategory(false);
+      } catch (err) {
+        console.error("Error al guardar categoría:", err);
+        setError("No se pudo guardar la nueva categoría.");
+      }
     }
+  };
+
+  const getSimboloMoneda = (codigo) => {
+    switch (codigo) {
+      case "USD": return "$";
+      case "EUR": return "€";
+      case "NIO": return "C$";
+      default: return "";
+    }
+  };
+
+  const formatNumber = (value) => {
+    const num = value.replace(/[^\d.]/g, "");
+    const parts = num.split(".");
+    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return parts.join(".");
+  };
+
+  const cleanNumber = (value) => {
+    return parseFloat(value.replace(/,/g, ""));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
 
+    if (!tipo) return setError("Debe seleccionar un tipo de transacción.");
+    if (!fecha) return setError("Debe ingresar una fecha.");
+    if (!monto || isNaN(cleanNumber(monto)) || cleanNumber(monto) <= 0) {
+      return setError("Debe ingresar un monto válido.");
+    }
     if (tipo === "gasto" && !categoria) {
-      return setError("Seleccione o agregue una categoría para gastos.");
+      return setError("Debe seleccionar o agregar una categoría para el gasto.");
     }
 
     try {
@@ -77,23 +121,32 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
         projectId,
         tipo,
         ...(tipo === "gasto" && { categoria }),
-        fecha: fecha || null,
-        monto: Number(monto),
-        ...(tipo === "gasto" && { facturaBase64 }),
+        fecha,
+        monto: cleanNumber(monto),
+        moneda,
+        ...(tipo === "gasto" && { facturaBase64, nombreArchivo }), // ✅ incluir nombreArchivo
       };
 
       const id = await createGasto(gasto);
       if (onGastoCreated) onGastoCreated(id);
 
+      // Limpiar formulario
       setTipo("");
       setCategoria("");
       setFecha("");
       setMonto("");
+      setMoneda("NIO");
       setFacturaBase64(null);
+      setNombreArchivo(""); // ✅ limpiar también el nombre
       setNewCategory("");
       setShowNewCategory(false);
-    } catch {
-      setError("No se pudo crear el registro.");
+    } catch (err) {
+      console.error("Error al crear el registro:", err);
+      if (err?.message?.includes("facturaBase64") && err?.message?.includes("1048487")) {
+        setError("El archivo adjunto excede el límite permitido de 1MB.");
+      } else {
+        setError(err.message || "No se pudo crear el registro.");
+      }
     }
   };
 
@@ -116,10 +169,8 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
             <Form.Label>Categoría de Gasto</Form.Label>
             <Form.Select value={categoria} onChange={handleCategoriaChange}>
               <option value="">Seleccione...</option>
-              {defaultCategorias.map((cat, idx) => (
-                <option key={idx} value={cat}>
-                  {cat}
-                </option>
+              {categorias.map((cat, idx) => (
+                <option key={idx} value={cat}>{cat}</option>
               ))}
               <option value="nueva">-- Agregar nueva categoría --</option>
             </Form.Select>
@@ -135,10 +186,7 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
                 onChange={(e) => setNewCategory(e.target.value)}
               />
               <div className="btn-agregar-categoria-container">
-                <Button
-                  onClick={handleAddNewCategory}
-                  className="btn-agregar-categoria"
-                >
+                <Button onClick={handleAddNewCategory} className="btn-agregar-categoria">
                   Agregar Categoría
                 </Button>
               </div>
@@ -149,21 +197,29 @@ const GastosForm = ({ projectId, onGastoCreated }) => {
 
       <Form.Group className="mb-3" controlId="fecha">
         <Form.Label>Fecha</Form.Label>
-        <Form.Control
-          type="date"
-          value={fecha}
-          onChange={(e) => setFecha(e.target.value)}
-        />
+        <Form.Control type="date" value={fecha} onChange={(e) => setFecha(e.target.value)} />
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="monto">
         <Form.Label>Monto</Form.Label>
-        <Form.Control
-          type="number"
-          value={monto}
-          onChange={(e) => setMonto(e.target.value)}
-          required
-        />
+        <div className="d-flex align-items-center">
+          <Form.Select
+            value={moneda}
+            onChange={(e) => setMoneda(e.target.value)}
+            style={{ maxWidth: "90px", marginRight: "10px" }}
+          >
+            <option value="USD">$</option>
+            <option value="EUR">€</option>
+            <option value="NIO">C$</option>
+          </Form.Select>
+          <Form.Control
+            type="text"
+            value={monto}
+            onChange={(e) => setMonto(formatNumber(e.target.value))}
+            placeholder={`Ingrese monto (${getSimboloMoneda(moneda)})`}
+            required
+          />
+        </div>
       </Form.Group>
 
       {tipo === "gasto" && (

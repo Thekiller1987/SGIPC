@@ -1,4 +1,3 @@
-// src/components/pagos/FormularioPago.jsx
 import React, { useState, useEffect } from "react";
 import "../../PagosCss/FormularioPago.css";
 import { obtenerProveedores } from "../../services/firebaseProveedores";
@@ -34,15 +33,13 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
       metodoPago,
       monto,
       moneda,
-      fecha: fechaLocal,
+      fecha: fechaLocal, // ⬅️ esta fecha se guarda como la del gasto
     });
   };
 
   return (
     <form className="formulario-pago" onSubmit={handleSubmit}>
-      <h3 className="form-nombre-proyecto">
-        {nombreProyecto || "Proyecto Sin Nombre"}
-      </h3>
+      <h3 className="form-nombre-proyecto">{nombreProyecto || "Proyecto Sin Nombre"}</h3>
 
       <label>Proveedor/Empleado:</label>
       <input
@@ -82,8 +79,8 @@ const FormularioPago = ({ onSubmit, nombreProyecto, projectId }) => {
           className="form-moneda-select"
         >
           <option value="C$">C$</option>
-          <option value="US$">US$</option>
-          <option value="€$">€$</option>
+          <option value="USD">USD</option>
+          <option value="EUR">EUR</option>
         </select>
       </div>
 

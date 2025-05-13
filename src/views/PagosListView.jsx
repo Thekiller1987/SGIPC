@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { collection, query, where, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import {
+  collection,
+  query,
+  where,
+  getDocs,
+  deleteDoc,
+  doc,
+  updateDoc,
+  getDoc
+} from 'firebase/firestore';
 import { db } from '../database/firebaseconfig';
 import Sidebar from '../components/Sidebar';
 import '../PagosCss/ListaPagos.css';
@@ -8,7 +17,7 @@ import { format } from 'date-fns';
 import editIcon from '../assets/iconos/edit.png';
 import checkIcon from '../assets/iconos/check.png';
 import deleteIcon from '../assets/iconos/delete.png';
-import iconoBuscar from '../assets/iconos/search.png'; // ✅ Ícono de búsqueda
+import iconoBuscar from '../assets/iconos/search.png';
 
 const PagosListView = () => {
   const location = useLocation();
@@ -17,7 +26,7 @@ const PagosListView = () => {
   const [editandoId, setEditandoId] = useState(null);
   const [formEdit, setFormEdit] = useState({});
   const [showToast, setShowToast] = useState(false);
-  const [filtroBusqueda, setFiltroBusqueda] = useState(""); // ✅ Filtro de texto
+  const [filtroBusqueda, setFiltroBusqueda] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -55,6 +64,7 @@ const PagosListView = () => {
       const [year, month, day] = formEdit.fecha.split("-");
       const fechaLocal = new Date(year, month - 1, day);
 
+      // Actualizar el pago
       await updateDoc(ref, {
         proveedorEmpleado: formEdit.proveedorEmpleado,
         metodoPago: formEdit.metodoPago,
@@ -62,6 +72,23 @@ const PagosListView = () => {
         moneda: formEdit.moneda,
         fecha: fechaLocal
       });
+
+      // Obtener gastoId directamente del documento
+      const pagoSnap = await getDoc(ref);
+      const pagoActual = pagoSnap.data();
+      const gastoId = pagoActual?.gastoId;
+
+      if (gastoId) {
+        await updateDoc(doc(db, "gastos", gastoId), {
+          proveedorEmpleado: formEdit.proveedorEmpleado,
+          categoria: formEdit.metodoPago,
+          monto: parseFloat(formEdit.monto),
+          moneda: formEdit.moneda === "C$" ? "NIO" : formEdit.moneda,
+          fecha: fechaLocal.toISOString().split("T")[0]
+        });
+      } else {
+        console.warn("⚠️ El pago no tiene gastoId, no se pudo actualizar el gasto.");
+      }
 
       const actualizados = pagos.map(p =>
         p.id === id ? { ...p, ...formEdit, fecha: fechaLocal } : p
@@ -72,23 +99,41 @@ const PagosListView = () => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 3000);
     } catch (error) {
-      console.error("Error actualizando pago:", error);
+      console.error("Error actualizando pago y gasto:", error);
     }
   };
 
-  const eliminarPago = async (id) => {
-    if (confirm("¿Deseas eliminar este pago?")) {
-      await deleteDoc(doc(db, 'pagos', id));
+const eliminarPago = async (id) => {
+  if (confirm("¿Deseas eliminar este pago?")) {
+    try {
+      // 1. Obtener el documento del pago para conocer el gastoId
+      const refPago = doc(db, 'pagos', id);
+      const pagoSnap = await getDoc(refPago);
+      const pago = pagoSnap.data();
+
+      // 2. Eliminar el gasto vinculado si existe gastoId
+      if (pago?.gastoId) {
+        const refGasto = doc(db, 'gastos', pago.gastoId);
+        await deleteDoc(refGasto);
+      }
+
+      // 3. Eliminar el pago
+      await deleteDoc(refPago);
+
+      // 4. Actualizar estado local
       setPagos(pagos.filter(p => p.id !== id));
+    } catch (error) {
+      console.error("Error eliminando pago y gasto vinculado:", error);
     }
-  };
+  }
+};
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormEdit(prev => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Filtro de pagos
   const pagosFiltrados = pagos.filter(p => {
     const proveedor = p.proveedorEmpleado?.toLowerCase() || "";
     const metodo = p.metodoPago?.toLowerCase() || "";
@@ -112,7 +157,6 @@ const PagosListView = () => {
         <div className="tabla-contenedor tabla-ancha">
           <h2 className="nombre-proyecto">{project?.nombre}</h2>
 
-          {/* ✅ Cuadro de búsqueda */}
           <div className="barra-superior-proveedores">
             <div className="input-con-icono">
               <img src={iconoBuscar} alt="Buscar" className="icono-dentro-input" />
