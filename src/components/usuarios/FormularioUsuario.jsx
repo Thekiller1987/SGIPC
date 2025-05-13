@@ -24,15 +24,7 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const usuarioData = {
-      nombre,
-      apellido,
-      correo,
-      telefono,
-      fechaNacimiento,
-      rol,
-    };
+    const usuarioData = { nombre, apellido, correo, telefono, fechaNacimiento, rol };
 
     try {
       if (usuario) {
@@ -55,52 +47,27 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
         <div className="formulario-grid">
           <div>
             <label>Nombre:</label>
-            <input
-              type="text"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              required
-            />
+            <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} required />
           </div>
 
           <div>
             <label>Apellido:</label>
-            <input
-              type="text"
-              value={apellido}
-              onChange={(e) => setApellido(e.target.value)}
-              required
-            />
+            <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} required />
           </div>
 
           <div className="input-full">
             <label>Correo:</label>
-            <input
-              type="email"
-              value={correo}
-              onChange={(e) => setCorreo(e.target.value)}
-              required
-            />
+            <input type="email" value={correo} onChange={(e) => setCorreo(e.target.value)} required />
           </div>
 
           <div>
             <label>Teléfono:</label>
-            <input
-              type="text"
-              value={telefono}
-              onChange={(e) => setTelefono(e.target.value)}
-              required
-            />
+            <input type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} required />
           </div>
 
           <div>
             <label>Fecha de nacimiento:</label>
-            <input
-              type="date"
-              value={fechaNacimiento}
-              onChange={(e) => setFechaNacimiento(e.target.value)}
-              required
-            />
+            <input type="date" value={fechaNacimiento} onChange={(e) => setFechaNacimiento(e.target.value)} required />
           </div>
 
           <div className="input-full">
@@ -115,12 +82,8 @@ const FormularioUsuario = ({ usuario = null, cerrarFormulario }) => {
         </div>
 
         <div className="formulario-botones">
-          <button type="submit" className="btn-guardar">
-            Guardar
-          </button>
-          <button type="button" className="btn-cancelar" onClick={cerrarFormulario}>
-            Cancelar
-          </button>
+          <button type="submit" className="botonguardarsexy">Guardar</button>
+          <button type="button" className="cancelarsexy" onClick={cerrarFormulario}>Cancelar</button>
         </div>
       </form>
     </div>

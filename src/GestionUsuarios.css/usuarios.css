@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Arapey:wght@400;700&display=swap');
 
+/* Fondo del body y html */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #3A3A3A; /* Fondo gris uniforme como la otra vista */
+}
+
 /* 🎯 CONTENEDOR PRINCIPAL */
 .usuarios-container {
   padding: 3rem 2rem;
-  background-color: #121212;
   min-height: 100vh;
+  background-color: #3A3A3A;
   font-family: 'Arapey', serif;
   color: white;
   box-sizing: border-box;
@@ -77,77 +85,14 @@
   font-weight: bold;
 }
 
-/* Misma altura para filas alternas */
-.usuarios-container .usuarios-tabla tr:nth-child(even) {
-  background-color: #ffffff;
-}
-
+/* 🧾 Alternancia de filas */
+.usuarios-container .usuarios-tabla tr:nth-child(even),
 .usuarios-container .usuarios-tabla tr:nth-child(odd) {
   background-color: #ffffff;
 }
 
-/* Hover claro */
 .usuarios-container .usuarios-tabla tr:hover {
   background-color: #f9f9f9;
-}
-
-/* 🛠️ ICONOS DE ACCIÓN (como en caja) */
-.usuarios-container .usuarios-iconos {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.usuarios-container .usuarios-iconos button {
-  background: #f0f0f0;
-  border: 1px solid #000000;
-  border-radius: 8px;
-  padding: 7px;
-  cursor: pointer;
-  transition: transform 0.2s ease-in-out;
-}
-
-.usuarios-container .usuarios-iconos button:hover {
-  transform: scale(1.1);
-  background-color: #D35400;
-}
-
-.usuarios-container .usuarios-iconos img {
-  width: 22px;
-  height: 22px;
-}
-
-
-/* 🛠️ ESPACIADO POR COLUMNA */
-.usuarios-container .usuarios-tabla th:nth-child(1),
-.usuarios-container .usuarios-tabla td:nth-child(1) {
-  width: 15%;
-}
-
-.usuarios-container .usuarios-tabla th:nth-child(2),
-.usuarios-container .usuarios-tabla td:nth-child(2) {
-  width: 15%;
-}
-
-.usuarios-container .usuarios-tabla th:nth-child(3),
-.usuarios-container .usuarios-tabla td:nth-child(3) {
-  width: 28%;
-}
-
-.usuarios-container .usuarios-tabla th:nth-child(4),
-.usuarios-container .usuarios-tabla td:nth-child(4) {
-  width: 12%;
-}
-
-.usuarios-container .usuarios-tabla th:nth-child(5),
-.usuarios-container .usuarios-tabla td:nth-child(5) {
-  width: 15%;
-}
-
-.usuarios-container .usuarios-tabla th:nth-child(6),
-.usuarios-container .usuarios-tabla td:nth-child(6) {
-  width: 15%;
 }
 
 /* 🛠️ ICONOS DE ACCIÓN */
@@ -175,6 +120,32 @@
 .usuarios-container .usuarios-iconos img {
   width: 22px;
   height: 22px;
+}
+
+/* 🛠️ ESPACIADO POR COLUMNA */
+.usuarios-container .usuarios-tabla th:nth-child(1),
+.usuarios-container .usuarios-tabla td:nth-child(1) {
+  width: 15%;
+}
+.usuarios-container .usuarios-tabla th:nth-child(2),
+.usuarios-container .usuarios-tabla td:nth-child(2) {
+  width: 15%;
+}
+.usuarios-container .usuarios-tabla th:nth-child(3),
+.usuarios-container .usuarios-tabla td:nth-child(3) {
+  width: 28%;
+}
+.usuarios-container .usuarios-tabla th:nth-child(4),
+.usuarios-container .usuarios-tabla td:nth-child(4) {
+  width: 12%;
+}
+.usuarios-container .usuarios-tabla th:nth-child(5),
+.usuarios-container .usuarios-tabla td:nth-child(5) {
+  width: 15%;
+}
+.usuarios-container .usuarios-tabla th:nth-child(6),
+.usuarios-container .usuarios-tabla td:nth-child(6) {
+  width: 15%;
 }
 
 /* 📄 FORMULARIO MODAL */
@@ -243,17 +214,17 @@
 }
 
 /* ✅ BOTONES DE FORMULARIO */
-.usuarios-container .formulario-botones {
+.formulario-botones {
   display: flex;
   justify-content: center;
-  align-items: flex-end;
+  align-items: center;
   gap: 2rem;
   margin-top: 2rem;
   flex-wrap: wrap;
 }
 
-.usuarios-container .btn-guardar,
-.usuarios-container .btn-cancelar {
+.botonguardarsexy,
+.cancelarsexy {
   max-width: 250px;
   height: 60px;
   width: 100%;
@@ -262,18 +233,24 @@
   font-weight: bold;
   border-radius: 15px;
   border: none;
-  background-color: #bdc3c7;
-  color: black;
   transition: all 0.3s ease;
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.usuarios-container .btn-guardar:hover {
-  background-color: #27ae60;
+.botonguardarsexy {
+  background-color: #bdc3c7;
+  color: black;
+}
+.botonguardarsexy:hover {
+  background-color: #b15013;
   color: white;
 }
 
-.usuarios-container .btn-cancelar:hover {
+.cancelarsexy {
+  background-color: #bdc3c7;
+  color: black;
+}
+.cancelarsexy:hover {
   background-color: #b15013;
   color: white;
 }
@@ -299,14 +276,14 @@
     gap: 1rem;
   }
 
-  .usuarios-container .formulario-botones {
+  .formulario-botones {
     flex-direction: column;
     gap: 1rem;
     margin-top: 1.5rem;
   }
 
-  .usuarios-container .btn-guardar,
-  .usuarios-container .btn-cancelar {
+  .botonguardarsexy,
+  .cancelarsexy {
     height: 50px;
     font-size: 1rem;
   }
