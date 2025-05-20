@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  base: './', // ⬅️ Esta línea soluciona el error en Netlify
+  base: './', // 👈 OBLIGATORIO para que Netlify encuentre los assets
 });
