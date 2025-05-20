@@ -4,14 +4,15 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "../database/authcontext";
 
 const ProtectedRoute = ({ element, roles }) => {
-  const { user, userData } = useAuth();
+  const { user, userData, loading } = useAuth();
+
+  if (loading) return null; // 👈 importante: espera antes de tomar decisiones
 
   if (!user) return <Navigate to="/" replace />;
-  if (!userData) return null; // espera a que se cargue
+  if (!userData) return null;
 
   const userRole = userData.rol;
 
-  // Validar si el rol actual está permitido
   return roles.includes(userRole) ? element : <Navigate to="/no-autorizado" replace />;
 };
 
