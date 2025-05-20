@@ -66,7 +66,7 @@ const AppContent = () => {
           <Route path="/" element={<Login />} />
           <Route path="/no-autorizado" element={<NoAutorizado />} />
 
-          {/* Rutas con control por rol */}
+          {/* Rutas con control por rols */}
           <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
           <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
           <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
