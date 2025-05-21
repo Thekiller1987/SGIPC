@@ -1,4 +1,3 @@
-// ✅ ActividadesList.jsx COMPLETO Y FUNCIONAL CON CÍRCULO DE ESTADO INTERACTIVO
 import React, { useState, useEffect } from "react";
 import { db } from "../../database/firebaseconfig";
 import {
@@ -93,11 +92,14 @@ const ActividadesList = () => {
   };
 
   const guardarEdicion = async () => {
-    if (!editDatos.nombre.trim()) return;
+    const act = actividades.find((a) => a.id === editandoId);
     await updateDoc(doc(db, "actividades", editandoId), {
       nombre: editDatos.nombre,
       fechaInicio: editDatos.fechaInicio,
       fechaFin: editDatos.fechaFin,
+      ...(act.estado === "finalizado" && !act.fechaFinalizado && {
+        fechaFinalizado: new Date().toISOString().split("T")[0],
+      }),
     });
     setEditandoId(null);
     obtenerActividades(project?.id);
@@ -107,7 +109,7 @@ const ActividadesList = () => {
     const input = subtareaInput[id]?.trim();
     if (!input) return;
     const actividad = actividades.find((a) => a.id === id);
-    const nuevas = [...actividad.subtareas, { nombre: input, completado: false }];
+    const nuevas = [...actividad.subtareas, { nombre: input, completado: false, fechaCompletado: null }];
     await updateDoc(doc(db, "actividades", id), { subtareas: nuevas });
     setSubtareaInput({ ...subtareaInput, [id]: "" });
     setMenuAbierto(null);
@@ -131,7 +133,9 @@ const ActividadesList = () => {
   const toggleSubtarea = async (actividadId, index) => {
     const actividad = actividades.find((a) => a.id === actividadId);
     const nuevasSubtareas = [...actividad.subtareas];
-    nuevasSubtareas[index].completado = !nuevasSubtareas[index].completado;
+    const actual = nuevasSubtareas[index];
+    actual.completado = !actual.completado;
+    actual.fechaCompletado = actual.completado ? new Date().toISOString().split("T")[0] : null;
     await updateDoc(doc(db, "actividades", actividadId), { subtareas: nuevasSubtareas });
     obtenerActividades(project?.id);
   };
@@ -153,12 +157,19 @@ const ActividadesList = () => {
     const estados = ["enProceso", "finalizado", "cancelado"];
     const index = estados.indexOf(actividad.estado);
     const nuevoEstado = estados[(index + 1) % estados.length];
-    await updateDoc(doc(db, "actividades", actividad.id), { estado: nuevoEstado });
+
+    const updateData = { estado: nuevoEstado };
+
+    if (nuevoEstado === "finalizado" && !actividad.fechaFinalizado) {
+      updateData.fechaFinalizado = new Date().toISOString().split("T")[0];
+    }
+
+    await updateDoc(doc(db, "actividades", actividad.id), updateData);
     obtenerActividades(project?.id);
   };
 
   const colorEstado = (estado) => {
-    if (estado === "finalizado") return "#27ae60";
+    if (estado === "finalizado") return "#2ecc71";
     if (estado === "enProceso") return "#f1c40f";
     return "#e74c3c";
   };
@@ -176,14 +187,14 @@ const ActividadesList = () => {
 
   const handleEditActividad = (actividad) => {
     activarEdicion(actividad);
-    toggleMenu(null); // Cerrar el menú al hacer clic en Editar
+    toggleMenu(null);
   };
 
   return (
     <div className="layout">
       <Sidebar />
       <div className="contenido">
-        <h2 className="titulo">Tareas</h2>
+        <h2 className="titulo">Gestión de Tareas</h2>
         <div className="estado-leyenda">
           <span><span className="estado verde" /> Finalizado: {contadores.finalizado}</span>
           <span><span className="estado amarillo" /> En Proceso: {contadores.enProceso}</span>
@@ -201,37 +212,20 @@ const ActividadesList = () => {
               <div className="info-tarea">
                 <input type="checkbox" checked={todasCompletadas(act.subtareas)} readOnly onClick={(e) => e.preventDefault()} style={{ pointerEvents: 'none' }} />
                 <div style={{ cursor: "pointer", flex: 1 }} onClick={() => toggleVisibilidad(act.id)}>
-                  <strong>{act.nombre}</strong>
-                  <br />
-                  <small className="fecha-tarea">Inicio: {act.fechaInicio || "-"} | Fin: {act.fechaFin || "-"}</small>
+                  <strong>{act.nombre}</strong><br />
+                  <small className="fecha-tarea">
+                    Inicio: {act.fechaInicio || "-"} | Fin: {act.fechaFin || "-"}
+                    {act.fechaFinalizado && <> | Finalizado: <span className="fecha-final">{act.fechaFinalizado}</span></>}
+                  </small>
                 </div>
                 <div className="botones-tarea">
-                  <button
-                    className="btn-estado"
-                    title="Cambiar estado"
-                    onClick={() => cambiarEstadoCiclo(act)}
-                    style={{
-                      backgroundColor: colorEstado(act.estado),
-                      width: "18px",
-                      height: "18px",
-                      borderRadius: "50%",
-                      border: "none",
-                      cursor: "pointer",
-                      marginRight: "8px"
-                    }}
-                  ></button>
+                  <button className="btn-estado" onClick={() => cambiarEstadoCiclo(act)} style={{ backgroundColor: colorEstado(act.estado) }}></button>
                   <div className="menu-acciones">
-                    <button onClick={() => toggleMenu(act.id)}>
-                      <img src={flechaIcon} alt="acciones" style={{ width: '20px', height: '20px', cursor: 'pointer' }} />
-                    </button>
+                    <button onClick={() => toggleMenu(act.id)}><img src={flechaIcon} alt="acciones" /></button>
                     {menuAbierto === act.id && (
                       <div className="menu-opciones">
-                        <button onClick={() => handleEditActividad(act)}>
-                          <img src={editIcon} alt="editar" style={{ width: '16px', height: '16px', marginRight: '5px' }} /> Editar
-                        </button>
-                        <button onClick={() => eliminarActividad(act.id)}>
-                          <img src={deleteIcon} alt="eliminar" style={{ width: '16px', height: '16px', marginRight: '5px' }} /> Eliminar
-                        </button>
+                        <button onClick={() => handleEditActividad(act)}><img src={editIcon} alt="editar" /> Editar</button>
+                        <button onClick={() => eliminarActividad(act.id)}><img src={deleteIcon} alt="eliminar" /> Eliminar</button>
                       </div>
                     )}
                   </div>
@@ -239,22 +233,9 @@ const ActividadesList = () => {
               </div>
               {editandoId === act.id && (
                 <div className="form-editar-tarea">
-                  <input
-                    type="text"
-                    value={editDatos.nombre}
-                    onChange={(e) => setEditDatos({ ...editDatos, nombre: e.target.value })}
-                    placeholder="Nuevo nombre"
-                  />
-                  <input
-                    type="date"
-                    value={editDatos.fechaInicio}
-                    onChange={(e) => setEditDatos({ ...editDatos, fechaInicio: e.target.value })}
-                  />
-                  <input
-                    type="date"
-                    value={editDatos.fechaFin}
-                    onChange={(e) => setEditDatos({ ...editDatos, fechaFin: e.target.value })}
-                  />
+                  <input type="text" value={editDatos.nombre} onChange={(e) => setEditDatos({ ...editDatos, nombre: e.target.value })} />
+                  <input type="date" value={editDatos.fechaInicio} onChange={(e) => setEditDatos({ ...editDatos, fechaInicio: e.target.value })} />
+                  <input type="date" value={editDatos.fechaFin} onChange={(e) => setEditDatos({ ...editDatos, fechaFin: e.target.value })} />
                   <div className="botones-editar">
                     <button onClick={guardarEdicion}><img src={checkIcon} alt="guardar" /></button>
                     <button onClick={cancelarEdicion}><img src={closeIcon} alt="cancelar" /></button>
@@ -277,6 +258,9 @@ const ActividadesList = () => {
                         <>
                           <input type="checkbox" checked={sub.completado} onChange={() => toggleSubtarea(act.id, idx)} />
                           <span className={sub.completado ? "completado" : ""}>{sub.nombre}</span>
+                          {sub.completado && sub.fechaCompletado && (
+                            <small className="fecha-subtarea"> - Finalizado: {sub.fechaCompletado}</small>
+                          )}
                           <div className="subtarea-botones">
                             <button onClick={() => setEditandoSubtarea({ ...editandoSubtarea, [act.id]: idx })}><img src={editIcon} alt="edit" /></button>
                             <button onClick={() => eliminarSubtarea(act.id, idx)}><img src={deleteIcon} alt="delete" /></button>
@@ -286,12 +270,7 @@ const ActividadesList = () => {
                     </div>
                   ))}
                   <div className="agregar-subtarea">
-                    <input
-                      type="text"
-                      placeholder="Nueva subtarea"
-                      value={subtareaInput[act.id] || ""}
-                      onChange={(e) => setSubtareaInput({ ...subtareaInput, [act.id]: e.target.value })}
-                    />
+                    <input type="text" placeholder="Nueva subtarea" value={subtareaInput[act.id] || ""} onChange={(e) => setSubtareaInput({ ...subtareaInput, [act.id]: e.target.value })} />
                     <button onClick={() => agregarSubtarea(act.id)}>+</button>
                   </div>
                 </div>

@@ -55,6 +55,7 @@ const AppContent = () => {
     "/no-autorizado",
     "/Documentos",
     "/listar-archivos",
+    "/actividades",
     "/kpi-dashboard"
   ];
 
