@@ -14,7 +14,7 @@ import { useProject } from "../../context/ProjectContext";
 import Sidebar from "../../components/Sidebar";
 import editIcon from "../../assets/iconos/edit.png";
 import deleteIcon from "../../assets/iconos/delete.png";
-import flechaIcon from "../../assets/iconos/flecha.png";
+import flechaIcon from "../../assets/iconos/flecha.png"; // Aunque este parece estar oculto por CSS, lo mantengo por si lo re-habilitas.
 import checkIcon from "../../assets/iconos/check.png";
 import closeIcon from "../../assets/iconos/close.png";
 import "./ActividadesList.css";
@@ -29,10 +29,14 @@ const ActividadesList = () => {
   const [subtareaInput, setSubtareaInput] = useState({});
   const [editandoSubtarea, setEditandoSubtarea] = useState({});
   const [nuevoNombreSubtarea, setNuevoNombreSubtarea] = useState({});
-  const [menuAbierto, setMenuAbierto] = useState(null);
+  const [menuAbierto, setMenuAbierto] = useState(null); // Este estado es para el menú de acciones que parece estar oculto por CSS
   const [visibles, setVisibles] = useState({});
   const [contadores, setContadores] = useState({ finalizado: 0, enProceso: 0, cancelado: 0 });
   const { project } = useProject();
+
+  // Estados para el botón flotante de agregar subtarea (también ocultos por CSS)
+  const [showFloatingSubtaskInput, setShowFloatingSubtaskInput] = useState(null);
+  const [floatingSubtaskText, setFloatingSubtaskText] = useState("");
 
   useEffect(() => {
     const storedProject = JSON.parse(localStorage.getItem("project"));
@@ -83,6 +87,7 @@ const ActividadesList = () => {
       nombre: actividad.nombre,
       fechaInicio: actividad.fechaInicio || "",
       fechaFin: actividad.fechaFin || "",
+      fechaFinalizado: actividad.fechaFinalizado || "",
     });
   };
 
@@ -112,7 +117,7 @@ const ActividadesList = () => {
     const nuevas = [...actividad.subtareas, { nombre: input, completado: false, fechaCompletado: null }];
     await updateDoc(doc(db, "actividades", id), { subtareas: nuevas });
     setSubtareaInput({ ...subtareaInput, [id]: "" });
-    setMenuAbierto(null);
+    setMenuAbierto(null); // Resetea el menú si se usa
     obtenerActividades(project?.id);
   };
 
@@ -123,6 +128,7 @@ const ActividadesList = () => {
     await updateDoc(doc(db, "actividades", actividadId), { subtareas: nuevasSubtareas });
     setEditandoSubtarea({ ...editandoSubtarea, [actividadId]: null });
     setNuevoNombreSubtarea({ ...nuevoNombreSubtarea, [actividadId]: "" });
+    obtenerActividades(project?.id); // Añadido para actualizar la UI
   };
 
   const cancelarEdicionSubtarea = (actividadId) => {
@@ -139,6 +145,22 @@ const ActividadesList = () => {
     await updateDoc(doc(db, "actividades", actividadId), { subtareas: nuevasSubtareas });
     obtenerActividades(project?.id);
   };
+
+  // NUEVA FUNCIÓN: Para marcar/desmarcar todas las subtareas desde el checkbox principal
+  const toggleTodasSubtareas = async (actividadId, completar) => {
+    const actividad = actividades.find((a) => a.id === actividadId);
+    if (!actividad) return;
+
+    const nuevasSubtareas = actividad.subtareas.map((sub) => ({
+      ...sub,
+      completado: completar,
+      fechaCompletado: completar ? new Date().toISOString().split("T")[0] : null,
+    }));
+
+    await updateDoc(doc(db, "actividades", actividadId), { subtareas: nuevasSubtareas });
+    obtenerActividades(project?.id); // Vuelve a cargar las actividades para reflejar los cambios
+  };
+
 
   const eliminarSubtarea = async (actividadId, index) => {
     const actividad = actividades.find((a) => a.id === actividadId);
@@ -162,6 +184,8 @@ const ActividadesList = () => {
 
     if (nuevoEstado === "finalizado" && !actividad.fechaFinalizado) {
       updateData.fechaFinalizado = new Date().toISOString().split("T")[0];
+    } else if (nuevoEstado !== "finalizado") {
+      updateData.fechaFinalizado = null; // Clear date if not finalizado
     }
 
     await updateDoc(doc(db, "actividades", actividad.id), updateData);
@@ -190,6 +214,26 @@ const ActividadesList = () => {
     toggleMenu(null);
   };
 
+  // Functions for the floating add subtask button (mantengo la lógica aunque estén ocultos por CSS)
+  const handleFloatingAddSubtaskClick = (actId) => {
+    setShowFloatingSubtaskInput(actId === showFloatingSubtaskInput ? null : actId);
+    setFloatingSubtaskText("");
+  };
+
+  const handleFloatingSubtaskInputChange = (e) => {
+    setFloatingSubtaskText(e.target.value);
+  };
+
+  const handleFloatingAddSubtask = async (actId) => {
+    if (!floatingSubtaskText.trim()) return;
+    const actividad = actividades.find((a) => a.id === actId);
+    const nuevas = [...actividad.subtareas, { nombre: floatingSubtaskText, completado: false, fechaCompletado: null }];
+    await updateDoc(doc(db, "actividades", actId), { subtareas: nuevas });
+    setFloatingSubtaskText("");
+    setShowFloatingSubtaskInput(null);
+    obtenerActividades(project?.id);
+  };
+
   return (
     <div className="layout">
       <Sidebar />
@@ -210,7 +254,12 @@ const ActividadesList = () => {
           {actividades.map((act) => (
             <div key={act.id} className="tarjeta-tarea fade-in">
               <div className="info-tarea">
-                <input type="checkbox" checked={todasCompletadas(act.subtareas)} readOnly onClick={(e) => e.preventDefault()} style={{ pointerEvents: 'none' }} />
+                {/* CHECKBOX DE LA TAREA PRINCIPAL MODIFICADO */}
+                <input
+                  type="checkbox"
+                  checked={todasCompletadas(act.subtareas)}
+                  onChange={() => toggleTodasSubtareas(act.id, !todasCompletadas(act.subtareas))}
+                />
                 <div style={{ cursor: "pointer", flex: 1 }} onClick={() => toggleVisibilidad(act.id)}>
                   <strong>{act.nombre}</strong><br />
                   <small className="fecha-tarea">
@@ -218,17 +267,17 @@ const ActividadesList = () => {
                     {act.fechaFinalizado && <> | Finalizado: <span className="fecha-final">{act.fechaFinalizado}</span></>}
                   </small>
                 </div>
-                <div className="botones-tarea">
+                {/* Aquí he cambiado el div de botones-tarea para usar los nuevos btn-accion del CSS */}
+                <div className="acciones-tarea-principal">
                   <button className="btn-estado" onClick={() => cambiarEstadoCiclo(act)} style={{ backgroundColor: colorEstado(act.estado) }}></button>
-                  <div className="menu-acciones">
-                    <button onClick={() => toggleMenu(act.id)}><img src={flechaIcon} alt="acciones" /></button>
-                    {menuAbierto === act.id && (
-                      <div className="menu-opciones">
-                        <button onClick={() => handleEditActividad(act)}><img src={editIcon} alt="editar" /> Editar</button>
-                        <button onClick={() => eliminarActividad(act.id)}><img src={deleteIcon} alt="eliminar" /> Eliminar</button>
-                      </div>
-                    )}
-                  </div>
+                  {/* Botón de editar principal */}
+                  <button className="btn-accion edit-btn" onClick={() => handleEditActividad(act)}>
+                    <img src={editIcon} alt="editar" />
+                  </button>
+                  {/* Botón de eliminar principal */}
+                  <button className="btn-accion delete-btn" onClick={() => eliminarActividad(act.id)}>
+                    <img src={deleteIcon} alt="eliminar" />
+                  </button>
                 </div>
               </div>
               {editandoId === act.id && (
@@ -262,8 +311,14 @@ const ActividadesList = () => {
                             <small className="fecha-subtarea"> - Finalizado: {sub.fechaCompletado}</small>
                           )}
                           <div className="subtarea-botones">
-                            <button onClick={() => setEditandoSubtarea({ ...editandoSubtarea, [act.id]: idx })}><img src={editIcon} alt="edit" /></button>
-                            <button onClick={() => eliminarSubtarea(act.id, idx)}><img src={deleteIcon} alt="delete" /></button>
+                            {/* Botón de editar subtarea */}
+                            <button className="edit-subtask-btn" onClick={() => setEditandoSubtarea({ ...editandoSubtarea, [act.id]: idx })}>
+                                <img src={editIcon} alt="edit" />
+                            </button>
+                            {/* Botón de eliminar subtarea */}
+                            <button className="delete-subtask-btn" onClick={() => eliminarSubtarea(act.id, idx)}>
+                                <img src={deleteIcon} alt="delete" />
+                            </button>
                           </div>
                         </>
                       )}
@@ -274,6 +329,29 @@ const ActividadesList = () => {
                     <button onClick={() => agregarSubtarea(act.id)}>+</button>
                   </div>
                 </div>
+              )}
+              {/* Floating Add Subtask Button (oculto por CSS) */}
+              {visibles[act.id] && editandoId !== act.id && (
+                <>
+                  {showFloatingSubtaskInput === act.id && (
+                    <div className="floating-subtask-input">
+                      <input
+                        type="text"
+                        placeholder="Nueva subtarea flotante"
+                        value={floatingSubtaskText}
+                        onChange={handleFloatingSubtaskInputChange}
+                      />
+                      <button onClick={() => handleFloatingAddSubtask(act.id)}><img src={checkIcon} alt="add" /></button>
+                      <button onClick={() => setShowFloatingSubtaskInput(null)}><img src={closeIcon} alt="cancel" /></button>
+                    </div>
+                  )}
+                  <button
+                    className="floating-add-subtask-btn"
+                    onClick={() => handleFloatingAddSubtaskClick(act.id)}
+                  >
+                    <span>+</span>
+                  </button>
+                </>
               )}
             </div>
           ))}

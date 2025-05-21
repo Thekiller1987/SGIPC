@@ -1,290 +1,674 @@
 /* ActividadesList.css */
 
-/* ========== ESTRUCTURA GENERAL ========== */
+/* Variables de color basadas en el ejemplo proporcionado y "Obra Titan" */
+:root {
+  --naranja-principal: #D35400; /* Naranja oscuro, similar al de Obra Titan */
+  --verde-oscuro: #27ae60; /* Verde para finalizado */
+  --amarillo-proceso: #f1c40f; /* Amarillo para en proceso */
+  --rojo-cancelado: #e74c3c; /* Rojo para cancelado */
+  --gris-fondo-oscuro: #2c2c2c; /* Fondo oscuro tipo grafito */
+  --blanco-texto: #fff;
+  --gris-claro-borde: #ccc;
+  --gris-card-claro: #f8f8f8; /* Un gris muy claro para las tarjetas de tarea */
+  --gris-medio-iconos: #7f8c8d; /* Gris para los iconos */
+  --azul-botones: #2980b9; /* Azul para algunos botones/acciones */
+  --verde-claro-fecha: #A3D9A3; /* Verde más claro para la píldora de fecha, similar al ejemplo */
+  --gris-borde-tarjeta: #e0e0e0; /* Gris claro para el borde de la tarjeta */
+  --naranja-construccion: #e67e22; /* Naranja construcción para bordes */
+  --negro-iconos: #333; /* Color negro para iconos */
+}
+
+/* Estilos para el contenedor principal de ActividadesList */
 .layout {
   display: flex;
-  background-color: #0A111C; /* Fondo oscuro */
   min-height: 100vh;
-  font-family: 'Arapey', serif;
+  background-color: var(--gris-fondo-oscuro);
+  font-family: 'Roboto Slab', serif; /* Mantener Roboto Slab para un look más técnico */
 }
 
+/* Contenido principal de la lista de actividades */
 .contenido {
   flex: 1;
-  padding: 2rem;
-  color: #fff;
+  padding: var(--layout-padding, 2rem);
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: border-box;
+  animation: fadeIn 0.5s ease;
+  max-width: var(--max-content-width, 1000px); /* Ajustado ligeramente el max-width */
 }
 
-.titulo {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: #ffc107; /* Amarillo neón */
+/* Título principal de la sección */
+.contenido .titulo {
+  color: var(--blanco-texto);
+  font-weight: bold;
+  font-size: clamp(2rem, 6vw, 3.5rem);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  animation: slideIn 0.6s ease;
+  font-family: 'Roboto Slab', serif; /* Mantener la fuente del título */
 }
 
-.estado-leyenda {
+/* Leyenda de estados de las actividades - AHORA COMPLETAMENTE REDONDOS */
+.contenido .estado-leyenda {
   display: flex;
-  gap: 2rem;
-  margin-bottom: 1rem;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  color: var(--blanco-texto);
   font-size: 1rem;
+  flex-wrap: wrap;
+  animation: fadeIn 0.6s ease;
 }
 
-.estado {
+.contenido .estado-leyenda span {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 0.6em 1.2em;
+  border-radius: 999px; /* HACIENDO LOS BOTONES DE ESTADO COMPLETAMENTE REDONDOS */
+  font-size: 1.1rem;
+}
+
+.contenido .estado-leyenda .estado {
   display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 6px;
+  width: 14px;
+  height: 14px;
   border-radius: 50%;
 }
 
-.estado.verde {
-  background-color: #27ae60;
-}
+.contenido .estado-leyenda .verde { background-color: var(--verde-oscuro); }
+.contenido .estado-leyenda .amarillo { background-color: var(--amarillo-proceso); }
+.contenido .estado-leyenda .rojo { background-color: var(--rojo-cancelado); }
 
-.estado.amarillo {
-  background-color: #ffc107;
-}
-
-.estado.rojo {
-  background-color: #e74c3c;
-}
-
-/* ========== FORMULARIO DE TAREA ========== */
-.form-agregar {
+/* Formulario para agregar nuevas actividades */
+.contenido .form-agregar {
+  background-color: var(--blanco-texto);
+  padding: 2rem 1.5rem 2.5rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
   align-items: center;
+  justify-content: center;
+  animation: fadeInUp 0.6s ease;
+  width: 95%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.form-agregar input[type="text"],
-.form-agregar input[type="date"] {
-  padding: 8px;
-  border: 1px solid #ffc107;
-  background-color: #1c1c1c;
-  color: #fff;
-  border-radius: 6px;
+.contenido .form-agregar input,
+.contenido .form-agregar button {
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--gris-claro-borde);
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-family: 'Arapey', serif; /* Mantener Arapey para inputs */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.contenido .form-agregar input {
   flex: 1;
+  min-width: 180px;
 }
 
-.form-agregar button {
-  padding: 8px 16px;
-  background-color: #ffc107;
+.contenido .form-agregar input:focus {
+  outline: none;
+  border-color: var(--naranja-principal);
+  box-shadow: 0 0 0 3px rgba(211, 84, 0, 0.2);
+}
+
+/* Botón de agregar tarea (el gran "+") - REDONDO */
+.contenido .form-agregar button {
+  background-color: var(--naranja-principal);
+  color: var(--blanco-texto);
   border: none;
-  color: #0A111C;
-  font-weight: bold;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-
-.form-agregar button:hover {
-  transform: scale(1.05);
-}
-
-/* ========== TARJETAS DE TAREAS ========== */
-.lista-tareas {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: bold;
 }
 
-.tarjeta-tarea {
-  background-color: #ffffff;
-  color: #000;
-  padding: 1rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-.tarjeta-tarea:hover {
+.contenido .form-agregar button:hover {
+  background-color: #e67e22;
   transform: translateY(-2px);
 }
 
-.info-tarea {
+/* Lista de tareas */
+.contenido .lista-tareas {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem; /* Espacio compacto entre tarjetas */
+  align-items: center;
+}
+
+/* Tarjeta individual de tarea principal - Consistencia de tamaño y borde naranja */
+.contenido .tarjeta-tarea {
+  background-color: var(--gris-card-claro); /* Fondo blanco */
+  padding: 0.8rem 1.2rem;
+  border-radius: 8px;
+  border: 1px solid var(--gris-borde-tarjeta);
+  border-left: 5px solid var(--naranja-construccion); /* Borde naranja a la izquierda */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 95%;
+  max-width: 900px; /* Asegura que todas las tarjetas tengan el mismo ancho máximo */
+  box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+  animation: fadeInUp 0.6s ease; /* Animación de entrada suave */
 }
 
-.fecha-tarea,
-.fecha-subtarea {
-  font-size: 0.85rem;
-  color: #555;
+.contenido .tarjeta-tarea:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-.fecha-final {
-  color: #27ae60;
-  font-weight: bold;
-}
-
-.fecha-subtarea {
-  margin-left: 6px;
-  color: #27ae60;
-  font-size: 0.8rem;
-}
-
-/* ========== BOTONES Y MENÚS ========== */
-.botones-tarea {
+/* Contenedor de la información principal de la tarea (checkbox + texto) */
+.contenido .info-tarea {
   display: flex;
   align-items: center;
+  gap: 0.8rem; /* Espacio entre checkbox y texto */
+  flex-grow: 1; /* Permite que ocupe el espacio disponible */
 }
 
-.btn-estado {
-  width: 18px;
-  height: 18px;
+.contenido .info-tarea input[type="checkbox"] {
+  /* Estilo del checkbox - borde grueso y relleno naranja al marcar */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #666; /* Borde gris oscuro */
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.contenido .info-tarea input[type="checkbox"]:checked {
+  background-color: var(--naranja-principal); /* Relleno naranja */
+  border-color: var(--naranja-principal);
+}
+
+.contenido .info-tarea input[type="checkbox"]:checked::before {
+  content: '\2713'; /* Símbolo de check Unicode */
+  display: block;
+  color: var(--blanco-texto); /* Color del check */
+  font-size: 14px;
+}
+
+.contenido .info-tarea strong {
+  color: #333;
+  font-size: 1.1rem;
+  flex-grow: 1; /* El texto crece para ocupar el espacio */
+}
+
+/* Píldora de fecha en la tarea principal */
+.contenido .fecha-tarea-pill {
+  background-color: var(--verde-claro-fecha); /* Verde claro para la píldora de fecha */
+  color: #2196f3; /* Azul o verde */
+  font-size: 0.8rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 10px;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+.contenido .fecha-tarea-pill::before {
+    content: '⏰'; /* Icono de reloj */
+    font-size: 0.7em;
+    vertical-align: middle;
+}
+
+/* Contenedor de botones de acción de la tarea principal */
+.contenido .acciones-tarea-principal {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* Botón de estado circular (verde/amarillo/rojo) */
+.contenido .btn-estado {
+  width: 24px;
+  height: 24px;
   border-radius: 50%;
   border: none;
-  margin-right: 8px;
   cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  flex-shrink: 0;
 }
 
-.menu-acciones {
-  position: relative;
+.contenido .btn-estado.verde { background-color: var(--verde-oscuro); }
+.contenido .btn-estado.amarillo { background-color: var(--amarillo-proceso); }
+.contenido .btn-estado.rojo { background-color: var(--rojo-cancelado); }
+
+.contenido .btn-estado:hover {
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
 }
 
-.menu-acciones button {
-  background: none;
-  border: none;
+/* Botones de editar y eliminar para la tarea principal - Visibles y con estilo */
+.contenido .acciones-tarea-principal .btn-accion {
+  background-color: var(--blanco-texto); /* Fondo blanco */
+  border: 1px solid var(--gris-claro-borde); /* Borde gris claro */
+  border-radius: 50%; /* Botones redondos */
+  width: 32px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
 }
 
-.menu-opciones {
-  position: absolute;
-  top: 120%;
-  right: 0;
-  background-color: #1c1c1c;
-  border: 1px solid #ffc107;
-  border-radius: 8px;
-  padding: 0.5rem;
-  z-index: 99;
-  min-width: 140px;
+.contenido .acciones-tarea-principal .btn-accion:hover {
+  background-color: #f0f0f0;
+  border-color: var(--naranja-principal);
 }
 
-.menu-opciones button {
-  background: none;
-  border: none;
-  color: #fff;
+.contenido .acciones-tarea-principal .btn-accion.edit-btn img {
+  content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png'); /* Ícono de editar */
+  width: 16px;
+  height: 16px;
+  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%); /* Icono en gris oscuro */
+}
+
+.contenido .acciones-tarea-principal .btn-accion.delete-btn img {
+  content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png'); /* Ícono de eliminar */
+  width: 16px;
+  height: 16px;
+  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%); /* Icono en gris oscuro */
+}
+
+/* Hover específico para iconos de editar y eliminar */
+.contenido .acciones-tarea-principal .btn-accion.edit-btn:hover img {
+    filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%); /* Azul al hover */
+}
+
+.contenido .acciones-tarea-principal .btn-accion.delete-btn:hover img {
+    filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%); /* Rojo al hover */
+}
+
+
+/* Subtareas - Agrupadas y con estilos compactos */
+.contenido .subtareas {
+  margin-top: 0.8rem;
+  padding-left: 2rem;
+  border-left: 3px solid var(--gris-claro-borde);
+  width: calc(100% - 2rem);
+  box-sizing: border-box;
+}
+
+.contenido .subtarea-item {
   display: flex;
   align-items: center;
-  padding: 6px 8px;
-  width: 100%;
-  font-size: 0.9rem;
-}
-
-.menu-opciones button:hover {
-  background-color: #ffc107;
-  color: #000;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+  background-color: var(--gris-card-claro); /* Fondo blanco */
+  padding: 0.5rem 1rem;
   border-radius: 6px;
+  border: 1px solid var(--gris-borde-tarjeta);
+  border-left: 3px solid var(--naranja-construccion); /* Borde naranja fino */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
-/* ========== FORMULARIO DE EDICIÓN ========== */
-.form-editar-tarea {
-  margin-top: 1rem;
+.contenido .subtarea-item input[type="checkbox"] {
+  /* Mismo estilo de checkbox que la tarea principal */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid #888;
+  border-radius: 3px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.contenido .subtarea-item input[type="checkbox"]:checked {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-principal);
+}
+
+.contenido .subtarea-item input[type="checkbox"]:checked::before {
+  content: '\2713';
+  display: block;
+  color: var(--blanco-texto);
+  font-size: 12px;
+}
+
+.contenido .subtarea-item span {
+  flex-grow: 1;
+  color: #444;
+  font-size: 0.95rem;
+}
+
+.contenido .subtarea-item span.completado {
+  text-decoration: line-through;
+  color: #888;
+}
+
+.contenido .fecha-subtarea {
+  color: #777;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+  flex-shrink: 0;
+}
+
+/* Botones de edición y eliminación para subtareas */
+.contenido .subtarea-botones {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.contenido .subtarea-botones button {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  border-radius: 50%; /* Hacerlos redondos */
+  transition: background-color 0.2s ease;
+}
+
+.contenido .subtarea-botones button:hover {
+    background-color: #f0f0f0;
+}
+
+.contenido .subtarea-botones button.edit-subtask-btn img {
+    content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png'); /* Ícono de editar */
+}
+
+.contenido .subtarea-botones button.delete-subtask-btn img {
+    content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png'); /* Ícono de eliminar */
+}
+
+.contenido .subtarea-botones button img {
+  width: 18px;
+  height: 18px;
+  filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%); /* Gris */
+  transition: filter 0.2s ease;
+}
+
+.contenido .subtarea-botones button.edit-subtask-btn:hover img {
+  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%); /* Azul al hover */
+}
+
+.contenido .subtarea-botones button.delete-subtask-btn:hover img {
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%); /* Rojo al hover */
+}
+
+
+/* Formulario de edición de tarea (si se usa inline) */
+.contenido .form-editar-tarea {
+  background-color: #f0f0f0;
+  padding: 1rem;
+  border-radius: 10px;
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
+  gap: 0.8rem;
   align-items: center;
+  margin-top: 1rem;
+  border: 1px solid #ddd;
 }
 
-.form-editar-tarea input[type="text"],
-.form-editar-tarea input[type="date"] {
-  padding: 6px;
-  border: 1px solid #999;
+.contenido .form-editar-tarea input {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ccc;
   border-radius: 6px;
+  font-family: 'Arapey', serif;
 }
 
-.botones-editar button {
+.contenido .botones-editar {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.contenido .botones-editar button {
   background: none;
   border: none;
-  margin-right: 8px;
+  padding: 0.5rem;
   cursor: pointer;
 }
 
-/* ========== SUBTAREAS ========== */
-.subtareas {
+.contenido .botones-editar button img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
+}
+
+.contenido .botones-editar button:hover img {
+  transform: scale(1.1);
+}
+
+.contenido .botones-editar button img:first-child {
+  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(80deg) brightness(80%) contrast(120%);
+}
+
+.contenido .botones-editar button img:last-child {
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+}
+
+
+/* Agregar subtarea (integrada dentro de la tarjeta) */
+.contenido .agregar-subtarea {
+  display: flex;
+  gap: 0.8rem;
   margin-top: 1rem;
-  padding-left: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed #ddd;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.subtarea-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 0.5rem;
+.contenido .agregar-subtarea input {
+  flex-grow: 1;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--gris-claro-borde);
+  border-radius: 8px;
+  font-family: 'Arapey', serif;
 }
 
-.subtarea-botones {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.subtarea-item input[type="text"] {
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  flex: 1;
-}
-
-.agregar-subtarea {
-  margin-top: 0.8rem;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.agregar-subtarea input {
-  padding: 6px;
-  flex: 1;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.agregar-subtarea button {
-  padding: 6px 10px;
-  background-color: #ffc107;
-  color: #0A111C;
+.contenido .agregar-subtarea button {
+  background-color: var(--naranja-principal);
+  color: var(--blanco-texto);
   border: none;
-  border-radius: 6px;
-  font-weight: bold;
+  border-radius: 8px;
+  padding: 0.7rem 1.2rem;
+  font-size: 1.2rem;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.completado {
-  text-decoration: line-through;
-  color: #27ae60;
-  font-weight: bold;
+.contenido .agregar-subtarea button:hover {
+  background-color: #e67e22;
 }
 
-/* ========== ANIMACIONES ========== */
-.fade-in {
-  animation: fadeIn 0.3s ease-in;
+
+/* ESTILOS ELIMINADOS/OCULTOS */
+.contenido .floating-add-subtask-btn,
+.contenido .floating-subtask-input,
+.contenido .menu-acciones, /* El botón de tres puntos ya no se usa */
+.contenido .menu-opciones { /* El menú desplegable ya no se usa */
+  display: none !important;
 }
 
+
+/* Animaciones */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-30px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .contenido {
+    padding: var(--layout-padding-mobile, 1rem);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .contenido .lista-tareas {
+    align-items: stretch;
+  }
+
+  .contenido .form-agregar,
+  .contenido .tarjeta-tarea {
+    width: 100%;
+    max-width: none;
   }
 }
 
-/* ========== RESPONSIVO ========== */
-@media (max-width: 768px) {
-  .form-agregar {
-    flex-direction: column;
+/* Media query para pantallas muy pequeñas (e.g., teléfonos en modo retrato) */
+@media (max-width: 480px) {
+  .contenido .titulo {
+    font-size: 1.8rem;
   }
 
-  .form-editar-tarea {
-    flex-direction: column;
+  .contenido .form-agregar input,
+  .contenido .form-agregar button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
   }
 
-  .estado-leyenda {
-    flex-direction: column;
+  .contenido .tarjeta-tarea {
+    flex-direction: column; /* Apilar los elementos en pantallas pequeñas */
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem; /* Reducir padding */
   }
 
-  .contenido {
-    padding: 1rem;
+  .contenido .info-tarea {
+    flex-direction: column; /* Apilar la información de la tarea */
+    align-items: flex-start;
+    width: 100%;
   }
+
+  .contenido .info-tarea strong {
+      font-size: 1rem;
+  }
+
+  .contenido .fecha-tarea-pill {
+      margin-left: 0;
+      width: fit-content; /* Ajustar al contenido */
+      margin-top: 0.3rem; /* Espacio si se apila */
+  }
+
+  .contenido .acciones-tarea-principal {
+    justify-content: flex-end; /* Alinear a la derecha los botones */
+    width: 100%; /* Ocupar todo el ancho para una mejor alineación */
+    margin-top: 0.5rem; /* Espacio superior si se apila */
+  }
+
+  .contenido .form-editar-tarea input {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .contenido .subtarea-item {
+    flex-wrap: wrap;
+    padding: 0.4rem 0.6rem; /* Padding más pequeño para subtareas */
+  }
+
+  .contenido .subtarea-item > span {
+    flex-basis: 100%;
+    margin-bottom: 0.2rem;
+    font-size: 0.9rem;
+  }
+
+  .contenido .fecha-subtarea {
+    margin-left: 0;
+    width: 100%;
+    text-align: right;
+  }
+
+  .contenido .agregar-subtarea input,
+  .contenido .agregar-subtarea button {
+    font-size: 0.9rem;
+    padding: 0.6rem 1rem;
+  }
+}
+contenido .acciones-tarea-principal .btn-editar-tarea,
+.contenido .acciones-tarea-principal .btn-eliminar-tarea {
+    background: none;
+    border: none;
+    padding: 0.3rem;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contenido .acciones-tarea-principal .btn-editar-tarea:hover,
+.contenido .acciones-tarea-principal .btn-eliminar-tarea:hover {
+    background-color: #f0f0f0;
+}
+
+.contenido .acciones-tarea-principal .btn-editar-tarea img {
+    content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png');
+    width: 18px;
+    height: 18px;
+    filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
+    transition: filter 0.2s ease;
+}
+
+.contenido .acciones-tarea-principal .btn-eliminar-tarea img {
+    content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png');
+    width: 18px;
+    height: 18px;
+    filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
+    transition: filter 0.2s ease;
+}
+
+.contenido .acciones-tarea-principal .btn-editar-tarea:hover img {
+    filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%);
+}
+
+.contenido .acciones-tarea-principal .btn-eliminar-tarea:hover img {
+    filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
 }
