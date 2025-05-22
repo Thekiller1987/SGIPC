@@ -2,20 +2,32 @@
 
 /* Variables de color basadas en el ejemplo proporcionado y "Obra Titan" */
 :root {
-  --naranja-principal: #D35400; /* Naranja oscuro, similar al de Obra Titan */
-  --verde-oscuro: #27ae60; /* Verde para finalizado */
-  --amarillo-proceso: #f1c40f; /* Amarillo para en proceso */
-  --rojo-cancelado: #e74c3c; /* Rojo para cancelado */
-  --gris-fondo-oscuro: #2c2c2c; /* Fondo oscuro tipo grafito */
+  --naranja-principal: #D35400;
+  /* Naranja oscuro, similar al de Obra Titan */
+  --verde-oscuro: #27ae60;
+  /* Verde para finalizado */
+  --amarillo-proceso: #f1c40f;
+  /* Amarillo para en proceso */
+  --rojo-cancelado: #e74c3c;
+  /* Rojo para cancelado */
+  --gris-fondo-oscuro: #2c2c2c;
+  /* Fondo oscuro tipo grafito */
   --blanco-texto: #fff;
   --gris-claro-borde: #ccc;
-  --gris-card-claro: #f8f8f8; /* Un gris muy claro para las tarjetas de tarea */
-  --gris-medio-iconos: #7f8c8d; /* Gris para los iconos */
-  --azul-botones: #2980b9; /* Azul para algunos botones/acciones */
-  --verde-claro-fecha: #A3D9A3; /* Verde más claro para la píldora de fecha, similar al ejemplo */
-  --gris-borde-tarjeta: #e0e0e0; /* Gris claro para el borde de la tarjeta */
-  --naranja-construccion: #e67e22; /* Naranja construcción para bordes */
-  --negro-iconos: #333; /* Color negro para iconos */
+  --gris-card-claro: #f8f8f8;
+  /* Un gris muy claro para las tarjetas de tarea */
+  --gris-medio-iconos: #7f8c8d;
+  /* Gris para los iconos */
+  --azul-botones: #2980b9;
+  /* Azul para algunos botones/acciones */
+  --verde-claro-fecha: #A3D9A3;
+  /* Verde más claro para la píldora de fecha, similar al ejemplo */
+  --gris-borde-tarjeta: #e0e0e0;
+  /* Gris claro para el borde de la tarjeta */
+  --naranja-construccion: #e67e22;
+  /* Naranja construcción para bordes */
+  --negro-iconos: #333;
+  /* Color negro para iconos */
 }
 
 /* Estilos para el contenedor principal de ActividadesList */
@@ -23,7 +35,8 @@
   display: flex;
   min-height: 100vh;
   background-color: var(--gris-fondo-oscuro);
-  font-family: 'Roboto Slab', serif; /* Mantener Roboto Slab para un look más técnico */
+  font-family: 'Roboto Slab', serif;
+  /* Mantener Roboto Slab para un look más técnico */
 }
 
 /* Contenido principal de la lista de actividades */
@@ -34,7 +47,8 @@
   margin-right: auto;
   box-sizing: border-box;
   animation: fadeIn 0.5s ease;
-  max-width: var(--max-content-width, 1000px); /* Ajustado ligeramente el max-width */
+  max-width: var(--max-content-width, 1000px);
+  /* Ajustado ligeramente el max-width */
 }
 
 /* Título principal de la sección */
@@ -45,7 +59,8 @@
   margin-bottom: 1.5rem;
   text-align: center;
   animation: slideIn 0.6s ease;
-  font-family: 'Roboto Slab', serif; /* Mantener la fuente del título */
+  font-family: 'Roboto Slab', serif;
+  /* Mantener la fuente del título */
 }
 
 /* Leyenda de estados de las actividades - AHORA COMPLETAMENTE REDONDOS */
@@ -66,20 +81,29 @@
   gap: 0.7rem;
   background-color: rgba(255, 255, 255, 0.15);
   padding: 0.6em 1.2em;
-  border-radius: 999px; /* HACIENDO LOS BOTONES DE ESTADO COMPLETAMENTE REDONDOS */
+  border-radius: 999px;
+  /* HACIENDO LOS BOTONES DE ESTADO COMPLETAMENTE REDONDOS */
   font-size: 1.1rem;
 }
 
 .contenido .estado-leyenda .estado {
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
-.contenido .estado-leyenda .verde { background-color: var(--verde-oscuro); }
-.contenido .estado-leyenda .amarillo { background-color: var(--amarillo-proceso); }
-.contenido .estado-leyenda .rojo { background-color: var(--rojo-cancelado); }
+.contenido .estado-leyenda .verde {
+  background-color: var(--verde-oscuro);
+}
+
+.contenido .estado-leyenda .amarillo {
+  background-color: var(--amarillo-proceso);
+}
+
+.contenido .estado-leyenda .rojo {
+  background-color: var(--rojo-cancelado);
+}
 
 /* Formulario para agregar nuevas actividades */
 .contenido .form-agregar {
@@ -106,7 +130,8 @@
   border: 1px solid var(--gris-claro-borde);
   border-radius: 8px;
   font-size: 1.1rem;
-  font-family: 'Arapey', serif; /* Mantener Arapey para inputs */
+  font-family: 'Arapey', serif;
+  /* Mantener Arapey para inputs */
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -148,28 +173,31 @@
 .contenido .lista-tareas {
   display: flex;
   flex-direction: column;
-  gap: 0.8rem; /* Espacio compacto entre tarjetas */
+  gap: 0.8rem;
+  /* Espacio compacto entre tarjetas */
   align-items: center;
 }
 
 /* Tarjeta individual de tarea principal - Consistencia de tamaño y borde naranja */
 .contenido .tarjeta-tarea {
-  background-color: var(--gris-card-claro); /* Fondo blanco */
-  padding: 0.8rem 1.2rem;
-  border-radius: 8px;
-  border: 1px solid var(--gris-borde-tarjeta);
-  border-left: 5px solid var(--naranja-construccion); /* Borde naranja a la izquierda */
+  background-color: var(--gris-card-claro);
+  /* Fondo blanco */
+  padding: 1.8rem 1.5rem;
+  border-radius: 0px;
+    border: 2px solid var(--naranja-construccion);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 95%;
-  max-width: 900px; /* Asegura que todas las tarjetas tengan el mismo ancho máximo */
+  width: 98%;
+  max-width: 1200px;
   box-sizing: border-box;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
-  animation: fadeInUp 0.6s ease; /* Animación de entrada suave */
+  flex-wrap: wrap;
+  /* Permitir que los elementos se envuelvan */
+  animation: fadeInUp 0.6s ease;
+  /* Animación de entrada suave */
 }
 
 .contenido .tarjeta-tarea:hover {
@@ -181,8 +209,10 @@
 .contenido .info-tarea {
   display: flex;
   align-items: center;
-  gap: 0.8rem; /* Espacio entre checkbox y texto */
-  flex-grow: 1; /* Permite que ocupe el espacio disponible */
+  gap: 0.8rem;
+  /* Espacio entre checkbox y texto */
+  flex-grow: 1;
+  /* Permite que ocupe el espacio disponible */
 }
 
 .contenido .info-tarea input[type="checkbox"] {
@@ -190,9 +220,10 @@
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  width: 20px;
-  height: 20px;
-  border: 2px solid #666; /* Borde gris oscuro */
+  width: 35px;
+  height: 35px;
+  border: 3px solid #000000;
+  /* Borde gris oscuro */
   border-radius: 4px;
   cursor: pointer;
   display: flex;
@@ -203,27 +234,33 @@
 }
 
 .contenido .info-tarea input[type="checkbox"]:checked {
-  background-color: var(--naranja-principal); /* Relleno naranja */
+  background-color: var(--naranja-principal);
+  /* Relleno naranja */
   border-color: var(--naranja-principal);
 }
 
 .contenido .info-tarea input[type="checkbox"]:checked::before {
-  content: '\2713'; /* Símbolo de check Unicode */
+  content: '\2713';
+  /* Símbolo de check Unicode */
   display: block;
-  color: var(--blanco-texto); /* Color del check */
+  color: var(--blanco-texto);
+  /* Color del check */
   font-size: 14px;
 }
 
 .contenido .info-tarea strong {
   color: #333;
-  font-size: 1.1rem;
-  flex-grow: 1; /* El texto crece para ocupar el espacio */
+  font-size: 2rem;
+  flex-grow: 1;
+  /* El texto crece para ocupar el espacio */
 }
 
 /* Píldora de fecha en la tarea principal */
 .contenido .fecha-tarea-pill {
-  background-color: var(--verde-claro-fecha); /* Verde claro para la píldora de fecha */
-  color: #2196f3; /* Azul o verde */
+  background-color: var(--verde-claro-fecha);
+  /* Verde claro para la píldora de fecha */
+  color: #2196f3;
+  /* Azul o verde */
   font-size: 0.8rem;
   padding: 0.3rem 0.6rem;
   border-radius: 10px;
@@ -236,9 +273,10 @@
 }
 
 .contenido .fecha-tarea-pill::before {
-    content: '⏰'; /* Icono de reloj */
-    font-size: 0.7em;
-    vertical-align: middle;
+  content: '⏰';
+  /* Icono de reloj */
+  font-size: 0.7em;
+  vertical-align: middle;
 }
 
 /* Contenedor de botones de acción de la tarea principal */
@@ -257,32 +295,43 @@
   border: none;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
   flex-shrink: 0;
 }
 
-.contenido .btn-estado.verde { background-color: var(--verde-oscuro); }
-.contenido .btn-estado.amarillo { background-color: var(--amarillo-proceso); }
-.contenido .btn-estado.rojo { background-color: var(--rojo-cancelado); }
+.contenido .btn-estado.verde {
+  background-color: var(--verde-oscuro);
+}
+
+.contenido .btn-estado.amarillo {
+  background-color: var(--amarillo-proceso);
+}
+
+.contenido .btn-estado.rojo {
+  background-color: var(--rojo-cancelado);
+}
 
 .contenido .btn-estado:hover {
   transform: scale(1.1);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
 /* Botones de editar y eliminar para la tarea principal - Visibles y con estilo */
 .contenido .acciones-tarea-principal .btn-accion {
-  background-color: var(--blanco-texto); /* Fondo blanco */
-  border: 1px solid var(--gris-claro-borde); /* Borde gris claro */
-  border-radius: 50%; /* Botones redondos */
-  width: 32px;
-  height: 32px;
+  background-color: var(--blanco-texto);
+  /* Fondo blanco */
+  border: 1px solid var(--gris-claro-borde);
+  /* Borde gris claro */
+  border-radius: 20%;
+  /* Botones redondos */
+  width: 55px;
+  height: 48px;
   display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
   transition: background-color 0.2s ease, border-color 0.2s ease;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.08);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .contenido .acciones-tarea-principal .btn-accion:hover {
@@ -291,26 +340,32 @@
 }
 
 .contenido .acciones-tarea-principal .btn-accion.edit-btn img {
-  content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png'); /* Ícono de editar */
-  width: 16px;
-  height: 16px;
-  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%); /* Icono en gris oscuro */
+  content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png');
+  /* Ícono de editar */
+  width: 25px;
+  height: 25px;
+  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%);
+  /* Icono en gris oscuro */
 }
 
 .contenido .acciones-tarea-principal .btn-accion.delete-btn img {
-  content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png'); /* Ícono de eliminar */
-  width: 16px;
-  height: 16px;
-  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%); /* Icono en gris oscuro */
+  content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png');
+  /* Ícono de eliminar */
+  width: 25px;
+  height: 25px;
+  filter: invert(20%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(30%) contrast(90%);
+  /* Icono en gris oscuro */
 }
 
 /* Hover específico para iconos de editar y eliminar */
 .contenido .acciones-tarea-principal .btn-accion.edit-btn:hover img {
-    filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%); /* Azul al hover */
+  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%);
+  /* Azul al hover */
 }
 
 .contenido .acciones-tarea-principal .btn-accion.delete-btn:hover img {
-    filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%); /* Rojo al hover */
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+  /* Rojo al hover */
 }
 
 
@@ -328,11 +383,13 @@
   align-items: center;
   gap: 0.8rem;
   margin-bottom: 0.5rem;
-  background-color: var(--gris-card-claro); /* Fondo blanco */
+  background-color: var(--gris-card-claro);
+  /* Fondo blanco */
   padding: 0.5rem 1rem;
   border-radius: 6px;
   border: 1px solid var(--gris-borde-tarjeta);
-  border-left: 3px solid var(--naranja-construccion); /* Borde naranja fino */
+  border-left: 3px solid var(--naranja-construccion);
+  /* Borde naranja fino */
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
 }
 
@@ -378,7 +435,7 @@
 
 .contenido .fecha-subtarea {
   color: #777;
-  font-size: 0.75rem;
+  font-size: 1.2rem;
   margin-left: 0.5rem;
   flex-shrink: 0;
 }
@@ -397,35 +454,41 @@
   padding: 0.3rem;
   cursor: pointer;
   flex-shrink: 0;
-  border-radius: 50%; /* Hacerlos redondos */
+  border-radius: 50%;
+  /* Hacerlos redondos */
   transition: background-color 0.2s ease;
 }
 
 .contenido .subtarea-botones button:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .contenido .subtarea-botones button.edit-subtask-btn img {
-    content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png'); /* Ícono de editar */
+  content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png');
+  /* Ícono de editar */
 }
 
 .contenido .subtarea-botones button.delete-subtask-btn img {
-    content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png'); /* Ícono de eliminar */
+  content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png');
+  /* Ícono de eliminar */
 }
 
 .contenido .subtarea-botones button img {
   width: 18px;
   height: 18px;
-  filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%); /* Gris */
+  filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
+  /* Gris */
   transition: filter 0.2s ease;
 }
 
 .contenido .subtarea-botones button.edit-subtask-btn:hover img {
-  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%); /* Azul al hover */
+  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%);
+  /* Azul al hover */
 }
 
 .contenido .subtarea-botones button.delete-subtask-btn:hover img {
-  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%); /* Rojo al hover */
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+  /* Rojo al hover */
 }
 
 
@@ -521,26 +584,47 @@
 /* ESTILOS ELIMINADOS/OCULTOS */
 .contenido .floating-add-subtask-btn,
 .contenido .floating-subtask-input,
-.contenido .menu-acciones, /* El botón de tres puntos ya no se usa */
-.contenido .menu-opciones { /* El menú desplegable ya no se usa */
+.contenido .menu-acciones,
+/* El botón de tres puntos ya no se usa */
+.contenido .menu-opciones {
+  /* El menú desplegable ya no se usa */
   display: none !important;
 }
 
 
 /* Animaciones */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes slideIn {
-  from { transform: translateX(-30px); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
 
 /* Responsive */
@@ -573,32 +657,40 @@
   }
 
   .contenido .tarjeta-tarea {
-    flex-direction: column; /* Apilar los elementos en pantallas pequeñas */
+    flex-direction: column;
+    /* Apilar los elementos en pantallas pequeñas */
     align-items: flex-start;
     gap: 0.5rem;
-    padding: 0.6rem 0.8rem; /* Reducir padding */
+    padding: 0.6rem 0.8rem;
+    /* Reducir padding */
   }
 
   .contenido .info-tarea {
-    flex-direction: column; /* Apilar la información de la tarea */
+    flex-direction: column;
+    /* Apilar la información de la tarea */
     align-items: flex-start;
     width: 100%;
   }
 
   .contenido .info-tarea strong {
-      font-size: 1rem;
+    font-size: 1rem;
   }
 
   .contenido .fecha-tarea-pill {
-      margin-left: 0;
-      width: fit-content; /* Ajustar al contenido */
-      margin-top: 0.3rem; /* Espacio si se apila */
+    margin-left: 0;
+    width: fit-content;
+    /* Ajustar al contenido */
+    margin-top: 0.3rem;
+    /* Espacio si se apila */
   }
 
   .contenido .acciones-tarea-principal {
-    justify-content: flex-end; /* Alinear a la derecha los botones */
-    width: 100%; /* Ocupar todo el ancho para una mejor alineación */
-    margin-top: 0.5rem; /* Espacio superior si se apila */
+    justify-content: flex-end;
+    /* Alinear a la derecha los botones */
+    width: 100%;
+    /* Ocupar todo el ancho para una mejor alineación */
+    margin-top: 0.5rem;
+    /* Espacio superior si se apila */
   }
 
   .contenido .form-editar-tarea input {
@@ -608,10 +700,11 @@
 
   .contenido .subtarea-item {
     flex-wrap: wrap;
-    padding: 0.4rem 0.6rem; /* Padding más pequeño para subtareas */
+    padding: 0.4rem 0.6rem;
+    /* Padding más pequeño para subtareas */
   }
 
-  .contenido .subtarea-item > span {
+  .contenido .subtarea-item>span {
     flex-basis: 100%;
     margin-bottom: 0.2rem;
     font-size: 0.9rem;
@@ -629,46 +722,286 @@
     padding: 0.6rem 1rem;
   }
 }
+
 contenido .acciones-tarea-principal .btn-editar-tarea,
 .contenido .acciones-tarea-principal .btn-eliminar-tarea {
-    background: none;
-    border: none;
-    padding: 0.3rem;
-    cursor: pointer;
-    border-radius: 50%;
-    transition: background-color 0.2s ease;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contenido .acciones-tarea-principal .btn-editar-tarea:hover,
 .contenido .acciones-tarea-principal .btn-eliminar-tarea:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .contenido .acciones-tarea-principal .btn-editar-tarea img {
-    content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png');
-    width: 18px;
-    height: 18px;
-    filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
-    transition: filter 0.2s ease;
+  content: url('https://img.icons8.com/material-outlined/24/000000/edit--v1.png');
+  width: 18px;
+  height: 18px;
+  filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
+  transition: filter 0.2s ease;
 }
 
 .contenido .acciones-tarea-principal .btn-eliminar-tarea img {
-    content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png');
-    width: 18px;
-    height: 18px;
-    filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
-    transition: filter 0.2s ease;
+  content: url('https://img.icons8.com/material-outlined/24/000000/trash--v1.png');
+  width: 18px;
+  height: 18px;
+  filter: invert(45%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(50%) contrast(80%);
+  transition: filter 0.2s ease;
 }
 
 .contenido .acciones-tarea-principal .btn-editar-tarea:hover img {
-    filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%);
+  filter: invert(50%) sepia(90%) saturate(1500%) hue-rotate(200deg) brightness(80%) contrast(120%);
 }
 
 .contenido .acciones-tarea-principal .btn-eliminar-tarea:hover img {
-    filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+}
+
+
+.subtarea-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  border: 2px solid var(--naranja-construccion);
+  border-radius: 0px;
+  padding: 2rem 1.5rem;
+  /* ⬅️ antes era 0.8rem 1.2rem */
+  margin-top: 0.5rem;
+  width: 98%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+}
+
+
+.subtarea-completada .nombre-subtarea {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
+
+.contenido-subtarea {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.nombre-subtarea {
+  font-size: 2rem;
+  color: #333;
+}
+
+.fecha-subtarea {
+  font-size: 0.8rem;
+  color: #777;
+}
+
+.acciones-subtarea {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.acciones-subtarea button {
+  background: none;
+  border: none;
+  padding: 0.3rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.acciones-subtarea button:hover {
+  background-color: #f0f0f0;
+}
+
+.acciones-subtarea button {
+  background-color: #fff;
+  border: 5px solid #000; /* o el color que quieras */
+  border-radius: 50%; /* Borde circular */
+  width: 30px;
+  height: 30px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.acciones-subtarea button img {
+  width: 20px;
+  height: 20px;
+  
+  transition: filter 0.2s ease;
+}
+
+
+.acciones-subtarea button:hover img {
+  filter: invert(20%) sepia(90%) saturate(1500%) hue-rotate(340deg) brightness(80%) contrast(100%);
+}
+
+.input-edicion-subtarea {
+  font-family: 'Arapey', serif;
+  font-size: 1rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+/* CONTENEDOR FECHA + PUNTO DE ESTADO */
+.fecha-estado-wrapper {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* PASTILLA DE FECHA SEGÚN ESTADO */
+.fecha-pill {
+  padding: 0.4rem 0.9rem;
+  border-radius: 12px;
+  color: #000;
+  font-size: 1.2rem;
+  font-weight: bold;
+  font-family: 'Arapey', serif;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.fecha-pill.finalizado {
+  background-color: #7DC168;
+  /* verde claro */
+}
+
+.fecha-pill.enProceso {
+  background-color: #DBE54D;
+  /* amarillo */
+}
+
+.fecha-pill.cancelado {
+  background-color: #E53D3D;
+  /* rojo claro */
+}
+
+/* PUNTO DE ESTADO REDONDO */
+.estado-punto {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 1px var(--naranja-construccion);
+}
+
+.estado-punto.finalizado {
+  background-color: #2ecc71;
+}
+
+.estado-punto.enProceso {
+  background-color: #f1c40f;
+}
+
+.estado-punto.cancelado {
+  background-color: #e74c3c;
+}
+
+
+
+.acciones-abajo {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  width: 98%;
+  max-width: 1200px;
+  padding-right: 1rem;
+}
+
+.checkbox-subtarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+   width: 35px;
+  height: 35px;
+  border: 3px solid #000000;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.checkbox-subtarea:checked {
+  background-color: var(--naranja-principal);
+  border-color: var(--naranja-principal);
+}
+
+.checkbox-subtarea:checked::before {
+  content: '\2713'; /* ✔ */
+  color: var(--blanco-texto);
+  font-size: 16px;
+}
+
+
+
+.btn-tres-puntos {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  color: #333;
+  padding: 0;
+}
+
+.leyenda-colores {
+  position: absolute;
+  top: -150px;
+  right: 0;
+  background: white;
+  border: 2px solid var(--naranja-construccion);
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  width: 180px;
+  font-family: 'Arapey', serif;
+}
+
+.leyenda-colores div {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.3rem;
+}
+
+.leyenda-colores .punto {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.leyenda-colores .verde {
+  background-color: #2ecc71;
+}
+.leyenda-colores .amarillo {
+  background-color: #f1c40f;
+}
+.leyenda-colores .rojo {
+  background-color: #e74c3c;
 }
