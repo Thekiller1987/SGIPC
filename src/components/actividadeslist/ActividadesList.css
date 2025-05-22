@@ -980,7 +980,9 @@ contenido .acciones-tarea-principal .btn-editar-tarea,
   z-index: 100;
   width: 180px;
   font-family: 'Arapey', serif;
+  transition: all 0.3s ease;
 }
+
 
 .leyenda-colores div {
   display: flex;
@@ -1005,3 +1007,35 @@ contenido .acciones-tarea-principal .btn-editar-tarea,
 .leyenda-colores .rojo {
   background-color: #e74c3c;
 }
+
+
+@media (max-width: 768px) {
+  .leyenda-colores {
+   top: auto !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-top: 0.5rem;
+    position: relative !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+  }
+}
+
+
+/* Leyenda flotante adaptada para pantallas pequeñas */
+@media (max-width: 360px) {
+  .leyenda-colores {
+    top: auto !important;
+    bottom: auto !important;
+    right: auto !important;
+    left: 0 !important;
+    transform: none !important;
+    margin-top: 0.5rem;
+    position: relative !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+  }
+}
+

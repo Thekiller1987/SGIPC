@@ -19,8 +19,7 @@ import closeIcon from "../../assets/iconos/close.png";
 import "./ActividadesList.css";
 
 const ActividadesList = () => {
- const [leyendaVisible, setLeyendaVisible] = useState({});
-
+  const [leyendaVisible, setLeyendaVisible] = useState({});
 
   const [actividades, setActividades] = useState([]);
   const [nuevaActividad, setNuevaActividad] = useState("");
@@ -58,15 +57,12 @@ const ActividadesList = () => {
     setContadores(conteo);
   };
 
-
-const toggleLeyenda = (id) => {
-  setLeyendaVisible((prev) => ({
-    ...prev,
-    [id]: !prev[id],
-  }));
-};
-
-
+  const toggleLeyenda = (id) => {
+    setLeyendaVisible((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   const obtenerActividades = async (projectId) => {
     const q = query(
@@ -279,8 +275,6 @@ const toggleLeyenda = (id) => {
           </span>
         </div>
 
-        
-
         <div className="form-agregar">
           <input
             type="text"
@@ -301,228 +295,241 @@ const toggleLeyenda = (id) => {
           <button onClick={agregarActividad}>+</button>
         </div>
 
-        <div className="lista-tareas">
-          {actividades.map((act) => (
-            <React.Fragment key={act.id}>
-              <div className="tarjeta-tarea fade-in">
-                <div className="info-tarea">
-                  <input
-                    type="checkbox"
-                    checked={todasCompletadas(act.subtareas)}
-                    onChange={() =>
-                      toggleTodasSubtareas(
-                        act.id,
-                        !todasCompletadas(act.subtareas)
-                      )
-                    }
-                  />
-                  <div
-                    style={{ cursor: "pointer", flex: 1 }}
-                    onClick={() => toggleVisibilidad(act.id)}
-                  >
-                    <strong>{act.nombre}</strong>
-                  </div>
-
-                  <div className="fecha-estado-wrapper">
-                    <div className={`fecha-pill ${act.estado}`}>
-                      {new Date(
-                        new Date(act.fechaInicio).getTime() + 86400000
-                      ).toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "short",
-                      })}{" "}
-                      -{" "}
-                      {new Date(
-                        new Date(act.fechaFin).getTime() + 86400000
-                      ).toLocaleDateString("es-ES", {
-                        day: "2-digit",
-                        month: "short",
-                      })}
+        <div className="scroll-horizontal-wrapper">
+          
+          <div className="lista-tareas">
+            {actividades.map((act) => (
+              <React.Fragment key={act.id}>
+                <div className="tarjeta-tarea fade-in">
+                  <div className="info-tarea">
+                    <input
+                      type="checkbox"
+                      checked={todasCompletadas(act.subtareas)}
+                      onChange={() =>
+                        toggleTodasSubtareas(
+                          act.id,
+                          !todasCompletadas(act.subtareas)
+                        )
+                      }
+                    />
+                    <div
+                      style={{ cursor: "pointer", flex: 1 }}
+                      onClick={() => toggleVisibilidad(act.id)}
+                    >
+                      <strong>{act.nombre}</strong>
                     </div>
 
-                    <button
-                      className="btn-estado"
-                      onClick={() => cambiarEstadoCiclo(act)}
-                      style={{ backgroundColor: colorEstado(act.estado) }}
-                    />
+                    <div className="fecha-estado-wrapper">
+                      <div className={`fecha-pill ${act.estado}`}>
+                        {new Date(
+                          new Date(act.fechaInicio).getTime() + 86400000
+                        ).toLocaleDateString("es-ES", {
+                          day: "2-digit",
+                          month: "short",
+                        })}{" "}
+                        -{" "}
+                        {new Date(
+                          new Date(act.fechaFin).getTime() + 86400000
+                        ).toLocaleDateString("es-ES", {
+                          day: "2-digit",
+                          month: "short",
+                        })}
+                      </div>
+
+                      <button
+                        className="btn-estado"
+                        onClick={() => cambiarEstadoCiclo(act)}
+                        style={{ backgroundColor: colorEstado(act.estado) }}
+                      />
+                    </div>
                   </div>
+
+                  <div style={{ position: "relative" }}>
+                    <button
+                      onClick={() => toggleLeyenda(act.id)}
+                      className="btn-tres-puntos"
+                    >
+                      ⋯
+                    </button>
+
+                    {leyendaVisible[act.id] && (
+                      <div className="leyenda-colores">
+                        <strong>Estado:</strong>
+                        <div>
+                          <span className="punto verde" /> Finalizado
+                        </div>
+                        <div>
+                          <span className="punto amarillo" /> En Proceso
+                        </div>
+                        <div>
+                          <span className="punto rojo" /> Cancelado
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {editandoId === act.id && (
+                    <div className="form-editar-tarea">
+                      <input
+                        type="text"
+                        value={editDatos.nombre}
+                        onChange={(e) =>
+                          setEditDatos({ ...editDatos, nombre: e.target.value })
+                        }
+                      />
+                      <input
+                        type="date"
+                        value={editDatos.fechaInicio}
+                        onChange={(e) =>
+                          setEditDatos({
+                            ...editDatos,
+                            fechaInicio: e.target.value,
+                          })
+                        }
+                      />
+                      <input
+                        type="date"
+                        value={editDatos.fechaFin}
+                        onChange={(e) =>
+                          setEditDatos({
+                            ...editDatos,
+                            fechaFin: e.target.value,
+                          })
+                        }
+                      />
+                      <div className="botones-editar">
+                        <button onClick={guardarEdicion}>
+                          <img src={checkIcon} alt="guardar" />
+                        </button>
+                        <button onClick={cancelarEdicion}>
+                          <img src={closeIcon} alt="cancelar" />
+                        </button>
+                      </div>
+                    </div>
+                  )}
+
+                  {visibles[act.id] && (
+                    <div className="agregar-subtarea">
+                      <input
+                        type="text"
+                        placeholder="Nueva subtarea"
+                        value={subtareaInput[act.id] || ""}
+                        onChange={(e) =>
+                          setSubtareaInput({
+                            ...subtareaInput,
+                            [act.id]: e.target.value,
+                          })
+                        }
+                      />
+                      <button onClick={() => agregarSubtarea(act.id)}>+</button>
+                    </div>
+                  )}
                 </div>
 
-               <div style={{ position: "relative" }}>
-  <button
-    onClick={() => toggleLeyenda(act.id)}
-    className="btn-tres-puntos"
-  >
-    ⋯
-  </button>
+                {/* Botones FUERA de la tarjeta */}
+                <div className="acciones-tarea-principal acciones-abajo">
+                  <button
+                    className="btn-accion edit-btn"
+                    onClick={() => handleEditActividad(act)}
+                  >
+                    <img src={editIcon} alt="editar" />
+                  </button>
+                  <button
+                    className="btn-accion delete-btn"
+                    onClick={() => eliminarActividad(act.id)}
+                  >
+                    <img src={deleteIcon} alt="eliminar" />
+                  </button>
+                </div>
 
-  {leyendaVisible[act.id] && (
-    <div className="leyenda-colores">
-      <strong>Estado:</strong>
-      <div><span className="punto verde" /> Finalizado</div>
-      <div><span className="punto amarillo" /> En Proceso</div>
-      <div><span className="punto rojo" /> Cancelado</div>
-    </div>
-  )}
-</div>
-
-
-                {editandoId === act.id && (
-                  <div className="form-editar-tarea">
-                    <input
-                      type="text"
-                      value={editDatos.nombre}
-                      onChange={(e) =>
-                        setEditDatos({ ...editDatos, nombre: e.target.value })
-                      }
-                    />
-                    <input
-                      type="date"
-                      value={editDatos.fechaInicio}
-                      onChange={(e) =>
-                        setEditDatos({
-                          ...editDatos,
-                          fechaInicio: e.target.value,
-                        })
-                      }
-                    />
-                    <input
-                      type="date"
-                      value={editDatos.fechaFin}
-                      onChange={(e) =>
-                        setEditDatos({ ...editDatos, fechaFin: e.target.value })
-                      }
-                    />
-                    <div className="botones-editar">
-                      <button onClick={guardarEdicion}>
-                        <img src={checkIcon} alt="guardar" />
-                      </button>
-                      <button onClick={cancelarEdicion}>
-                        <img src={closeIcon} alt="cancelar" />
-                      </button>
-                    </div>
-                  </div>
-                )}
-
-                {visibles[act.id] && (
-                  <div className="agregar-subtarea">
-                    <input
-                      type="text"
-                      placeholder="Nueva subtarea"
-                      value={subtareaInput[act.id] || ""}
-                      onChange={(e) =>
-                        setSubtareaInput({
-                          ...subtareaInput,
-                          [act.id]: e.target.value,
-                        })
-                      }
-                    />
-                    <button onClick={() => agregarSubtarea(act.id)}>+</button>
-                  </div>
-                )}
-              </div>
-
-              {/* Botones FUERA de la tarjeta */}
-              <div className="acciones-tarea-principal acciones-abajo">
-                <button
-                  className="btn-accion edit-btn"
-                  onClick={() => handleEditActividad(act)}
-                >
-                  <img src={editIcon} alt="editar" />
-                </button>
-                <button
-                  className="btn-accion delete-btn"
-                  onClick={() => eliminarActividad(act.id)}
-                >
-                  <img src={deleteIcon} alt="eliminar" />
-                </button>
-              </div>
-
-              {visibles[act.id] && editandoId !== act.id && (
-                <>
-                  {act.subtareas.map((sub, idx) => (
-                    <div
-                      key={idx}
-                      className={`subtarea-card fade-in ${
-                        sub.completado ? "subtarea-completada" : ""
-                      }`}
-                    >
-                      <div className="contenido-subtarea">
-                        <input
-                          type="checkbox"
-                          className="checkbox-subtarea"
-                          checked={sub.completado}
-                          onChange={() => toggleSubtarea(act.id, idx)}
-                        />
-
-                        {editandoSubtarea[act.id] === idx ? (
+                {visibles[act.id] && editandoId !== act.id && (
+                  <>
+                    {act.subtareas.map((sub, idx) => (
+                      <div
+                        key={idx}
+                        className={`subtarea-card fade-in ${
+                          sub.completado ? "subtarea-completada" : ""
+                        }`}
+                      >
+                        <div className="contenido-subtarea">
                           <input
-                            type="text"
-                            value={nuevoNombreSubtarea[act.id] || sub.nombre}
-                            onChange={(e) =>
-                              setNuevoNombreSubtarea({
-                                ...nuevoNombreSubtarea,
-                                [act.id]: e.target.value,
-                              })
-                            }
-                            className="input-edicion-subtarea"
+                            type="checkbox"
+                            className="checkbox-subtarea"
+                            checked={sub.completado}
+                            onChange={() => toggleSubtarea(act.id, idx)}
                           />
-                        ) : (
-                          <span className="nombre-subtarea">{sub.nombre}</span>
-                        )}
-                        {sub.completado && sub.fechaCompletado && (
-                          <small className="fecha-subtarea">
-                            {" "}
-                            - Finalizado: {sub.fechaCompletado}
-                          </small>
-                        )}
-                      </div>
-                      <div className="acciones-subtarea">
-                        {editandoSubtarea[act.id] === idx ? (
-                          <>
-                            <button
-                              onClick={() =>
-                                guardarEdicionSubtarea(
-                                  act.id,
-                                  idx,
-                                  nuevoNombreSubtarea[act.id]
-                                )
-                              }
-                            >
-                              <img src={checkIcon} alt="guardar" />
-                            </button>
-                            <button
-                              onClick={() => cancelarEdicionSubtarea(act.id)}
-                            >
-                              <img src={closeIcon} alt="cancelar" />
-                            </button>
-                          </>
-                        ) : (
-                          <>
-                            <button
-                              onClick={() =>
-                                setEditandoSubtarea({
-                                  ...editandoSubtarea,
-                                  [act.id]: idx,
+
+                          {editandoSubtarea[act.id] === idx ? (
+                            <input
+                              type="text"
+                              value={nuevoNombreSubtarea[act.id] || sub.nombre}
+                              onChange={(e) =>
+                                setNuevoNombreSubtarea({
+                                  ...nuevoNombreSubtarea,
+                                  [act.id]: e.target.value,
                                 })
                               }
-                            >
-                              <img src={editIcon} alt="editar" />
-                            </button>
-                            <button
-                              onClick={() => eliminarSubtarea(act.id, idx)}
-                            >
-                              <img src={deleteIcon} alt="eliminar" />
-                            </button>
-                          </>
-                        )}
+                              className="input-edicion-subtarea"
+                            />
+                          ) : (
+                            <span className="nombre-subtarea">
+                              {sub.nombre}
+                            </span>
+                          )}
+                          {sub.completado && sub.fechaCompletado && (
+                            <small className="fecha-subtarea">
+                              {" "}
+                              - Finalizado: {sub.fechaCompletado}
+                            </small>
+                          )}
+                        </div>
+                        <div className="acciones-subtarea">
+                          {editandoSubtarea[act.id] === idx ? (
+                            <>
+                              <button
+                                onClick={() =>
+                                  guardarEdicionSubtarea(
+                                    act.id,
+                                    idx,
+                                    nuevoNombreSubtarea[act.id]
+                                  )
+                                }
+                              >
+                                <img src={checkIcon} alt="guardar" />
+                              </button>
+                              <button
+                                onClick={() => cancelarEdicionSubtarea(act.id)}
+                              >
+                                <img src={closeIcon} alt="cancelar" />
+                              </button>
+                            </>
+                          ) : (
+                            <>
+                              <button
+                                onClick={() =>
+                                  setEditandoSubtarea({
+                                    ...editandoSubtarea,
+                                    [act.id]: idx,
+                                  })
+                                }
+                              >
+                                <img src={editIcon} alt="editar" />
+                              </button>
+                              <button
+                                onClick={() => eliminarSubtarea(act.id, idx)}
+                              >
+                                <img src={deleteIcon} alt="eliminar" />
+                              </button>
+                            </>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
-                </>
-              )}
-            </React.Fragment>
-          ))}
+                    ))}
+                  </>
+                )}
+              </React.Fragment>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -530,3 +537,4 @@ const toggleLeyenda = (id) => {
 };
 
 export default ActividadesList;
+
