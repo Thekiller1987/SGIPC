@@ -72,7 +72,10 @@ const EstructuraForm = ({ estructuraEnEdicion, setEstructuraEnEdicion }) => {
       <MaterialForm onAgregar={agregarMaterial} />
       <MaterialList materiales={materiales} onEliminar={eliminarMaterial} />
       <div className="acciones">
-        <button onClick={guardarEstructura} className="btn-guardar">
+        {/* ************************************************************************************************* */}
+        {/* THIS IS THE CRUCIAL CHANGE FOR THE CLASS NAME                         */}
+        {/* ************************************************************************************************* */}
+        <button onClick={guardarEstructura} className="btn-guardar-estructura-unica">
           {estructuraEnEdicion ? "Actualizar Estructura" : "Guardar Estructura"}
         </button>
         {estructuraEnEdicion && (

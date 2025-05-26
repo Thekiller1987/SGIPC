@@ -29,6 +29,7 @@ import NoAutorizado from "./views/NoAutorizado";
 import DocumentosYPlanosView from "./views/DocumentosYPlanosView";
 import ArchivosOverview from "./views/ArchivosOverview";
 import KPIDashboard from "./components/estadisticas/KPIDashboard"
+import ResumenGastosView from "./views/ResumenGastosView";
 
 const AppContent = () => {
   const location = useLocation();
@@ -56,7 +57,9 @@ const AppContent = () => {
     "/Documentos",
     "/listar-archivos",
 "/actividades",
-    "/kpi-dashboard"
+    "/kpi-dashboard",
+    "/resumen-gastos"
+
   ];
 
   return (
@@ -89,6 +92,8 @@ const AppContent = () => {
           <Route path="/Documentos" element={<ProtectedRoute element={<DocumentosYPlanosView />} roles={["administrador"]} />} />
           <Route path="/listar-archivos" element={<ProtectedRoute element={<ArchivosOverview />} roles={["administrador"]} />} />
           <Route path="/kpi-dashboard" element={<ProtectedRoute element={<KPIDashboard />} roles={["administrador"]} />}/>
+          <Route path="/resumen-gastos" element={<ProtectedRoute element={<ResumenGastosView />} roles={["administrador"]} />} />
+
         </Routes>
       </main>
     </>

@@ -1,0 +1,197 @@
+/* Fondo oscuro general */
+.layout-gastos {
+  background-color: #1f1f1f;
+  min-height: 100vh;
+  padding-left: 120px; /* espacio para el Sidebar */
+  color: #fff;
+}
+
+/* Contenedor de la tarjeta */
+.gastos-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.gastos-card {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 1100px;
+  color: #000;
+}
+
+/* Título */
+.titulo-proyecto {
+  text-align: center;
+  font-family: "Arapey", serif;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.nombre-proyecto {
+  text-align: center;
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-family: "Arapey", serif;
+}
+
+/* Tabla de gastos */
+.tabla-gastos {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+.tabla-gastos thead {
+  background-color: #f4a300; /* Naranja fuerte */
+  color: #000;
+}
+
+.tabla-gastos th,
+.tabla-gastos td {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+}
+
+.tabla-gastos tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-gastos tbody tr:nth-child(odd) {
+  background-color: #efefef;
+}
+
+/* Totales */
+.resumen-totales {
+  margin-top: 1rem;
+  font-family: "Arapey", serif;
+  font-size: 1.05rem;
+  color: #2c2c2c;
+}
+
+.resumen-totales p {
+  margin: 0.25rem 0;
+}
+
+/* Botón */
+.btn-warning {
+  background-color: #f4a300;
+  border: none;
+  color: #000;
+  font-weight: bold;
+  padding: 0.5rem 1.5rem;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+  background-color: #e59400;
+  color: white;
+}
+
+/* QR y enlace */
+a {
+  word-break: break-all;
+  color: #004aad;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* estilos personalizados para tabla invisible de exportación */
+#tabla-gastos-export {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  table-layout: fixed;
+}
+
+#tabla-gastos-export thead {
+  background-color: #F39C12; /* Naranja Obra Titan */
+  color: #000; /* Letras negras */
+}
+
+#tabla-gastos-export th,
+#tabla-gastos-export td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: left;
+  font-size: 14px;
+  word-wrap: break-word;
+}
+
+#tabla-gastos-export tr:nth-child(even) {
+  background-color: #f8f8f8; /* Blanco suave */
+}
+
+#tabla-gastos-export tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+#tabla-gastos-export th {
+  font-weight: bold;
+  font-size: 15px;
+  text-align: center;
+}
+
+#tabla-gastos-export td {
+  vertical-align: middle;
+}
+.tabla-gastos {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.tabla-gastos th {
+  background-color: #f39c12;
+  color: #000;
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.tabla-gastos td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: left;
+  font-size: 14px;
+}
+
+.tabla-gastos tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.tabla-gastos tr:hover {
+  background-color: #fdebd0;
+  transition: background-color 0.3s ease;
+}
+
+.btn-warning {
+  background-color: #f39c12;
+  border: none;
+  color: black;
+  font-weight: bold;
+  padding: 10px 20px;
+  transition: all 0.3s ease;
+}
+
+.btn-warning:hover {
+  background-color: #d35400;
+  color: white;
+}

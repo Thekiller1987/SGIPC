@@ -9,6 +9,8 @@ import { Menu, X } from "lucide-react";
 import logo from "../assets/iconos/Logo.png";
 import calculatorIcon from "../assets/iconos/calculator.png";
 import checkIcon from "../assets/iconos/Chek.png";
+import codigo from "../assets/iconos/codigo.png";
+
 import estadisticaIcon from "../assets/iconos/estadistica.png";
 import gmailIcon from "../assets/iconos/gmail.png";
 import moneyIcon from "../assets/iconos/money.png";
@@ -183,6 +185,18 @@ const handleLogout = async () => {
               className="sidebar-icon icon-sesion"
             />
           </div>
+          <div
+  className="sidebar-item"
+  data-tooltip="Resumen de Gastos"
+  onClick={() => goTo("/resumen-gastos")}
+>
+  <img
+    src={codigo}
+    alt="Resumen de Gastos"
+    className="sidebar-icon icon-sesion"
+  />
+</div>
+
         </div>
       </div>
     </>
