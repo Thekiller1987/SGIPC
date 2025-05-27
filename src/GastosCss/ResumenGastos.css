@@ -1,197 +1,318 @@
-/* Fondo oscuro general */
+/* --- Estilos Generales y Layout Base (Responsive) --- */
+
+/* Fondo oscuro general para toda la aplicación */
 .layout-gastos {
-  background-color: #1f1f1f;
-  min-height: 100vh;
-  padding-left: 120px; /* espacio para el Sidebar */
-  color: #fff;
+    background-color: #1f1f1f; /* Color de fondo oscuro */
+    min-height: 100vh; /* Ocupa al menos el alto completo de la ventana */
+    color: #fff; /* Color de texto claro por defecto */
+    display: flex; /* Usar flexbox para el layout principal */
+    flex-direction: column; /* Apilar elementos verticalmente en pantallas pequeñas */
 }
 
-/* Contenedor de la tarjeta */
-.gastos-container {
-  padding: 2rem;
-  display: flex;
-  justify-content: center;
+/* Ajuste para el Sidebar (mantener el espacio en el lado izquierdo) */
+/* En pantallas grandes, el sidebar ocupa un espacio fijo a la izquierda.
+   En pantallas pequeñas, el sidebar se puede manejar con un menú hamburguesa
+   o superponer, por lo que el padding cambia. */
+@media (min-width: 768px) {
+    .layout-gastos {
+        padding-left: 120px; /* Espacio fijo para el sidebar en desktop */
+    }
 }
+
+/* Contenedor principal de la vista de gastos */
+.gastos-container {
+    flex-grow: 1; /* Permite que este contenedor ocupe el espacio disponible */
+    padding: 1.5rem; /* Espaciado interno, adaptable */
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinea la tarjeta al inicio verticalmente */
+}
+
+/* --- Estilos de la Tarjeta Principal (Gastos Card) --- */
 
 .gastos-card {
-  background-color: #fff;
-  padding: 2rem;
-  border-radius: 20px;
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  max-width: 1100px;
-  color: #000;
+    background-color: #fff; /* Fondo blanco para la tarjeta */
+    padding: 2rem; /* Relleno interno generoso */
+    border-radius: 20px; /* Bordes redondeados */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4); /* Sombra más pronunciada */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    max-width: 900px; /* Ancho máximo para evitar que se estire demasiado en pantallas grandes */
+    color: #000; /* Color de texto oscuro para la tarjeta */
+    display: flex;
+    flex-direction: column; /* Apila los elementos internos */
+    gap: 1.5rem; /* Espacio entre los elementos de la tarjeta */
 }
 
-/* Título */
+/* En pantallas más pequeñas, reducir el padding para optimizar el espacio */
+@media (max-width: 576px) {
+    .gastos-card {
+        padding: 1.2rem;
+        border-radius: 15px;
+    }
+}
+
+/* --- Títulos y Texto del Proyecto --- */
+
 .titulo-proyecto {
-  text-align: center;
-  font-family: "Arapey", serif;
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+    text-align: center;
+    font-family: "Arapey", serif;
+    font-size: 2.2rem; /* Tamaño de fuente adaptable */
+    margin-bottom: 0.5rem;
+    color: #2c2c2c; /* Color de texto oscuro */
 }
 
 .nombre-proyecto {
-  text-align: center;
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
-  font-family: "Arapey", serif;
+    text-align: center;
+    font-size: 1.3rem; /* Tamaño de fuente adaptable */
+    margin-bottom: 1.5rem; /* Reducido un poco */
+    font-family: "Arapey", serif;
+    color: #333;
 }
 
-/* Tabla de gastos */
-.tabla-gastos {
-  width: 100%;
-  border-collapse: collapse;
-  text-align: center;
-  font-family: "Segoe UI", sans-serif;
-  font-size: 0.95rem;
+/* Ajustes de fuente para pantallas pequeñas */
+@media (max-width: 768px) {
+    .titulo-proyecto {
+        font-size: 1.8rem;
+    }
+    .nombre-proyecto {
+        font-size: 1rem;
+    }
 }
 
-.tabla-gastos thead {
-  background-color: #f4a300; /* Naranja fuerte */
-  color: #000;
-}
+/* --- Resumen de Totales (Ingresos, Egresos, Balance) --- */
 
-.tabla-gastos th,
-.tabla-gastos td {
-  padding: 0.75rem;
-  border: 1px solid #ddd;
-}
-
-.tabla-gastos tbody tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.tabla-gastos tbody tr:nth-child(odd) {
-  background-color: #efefef;
-}
-
-/* Totales */
 .resumen-totales {
-  margin-top: 1rem;
-  font-family: "Arapey", serif;
-  font-size: 1.05rem;
-  color: #2c2c2c;
+    margin-top: 1rem;
+    font-family: "Arapey", serif;
+    font-size: 1.15rem; /* Tamaño de fuente ligeramente más grande */
+    color: #2c2c2c;
+    background-color: #f8f8f8; /* Fondo suave para el resumen */
+    padding: 1rem;
+    border-radius: 10px;
+    border: 1px solid #eee;
+    text-align: center; /* Centrar el texto en el resumen */
 }
 
 .resumen-totales p {
-  margin: 0.25rem 0;
+    margin: 0.4rem 0; /* Espaciado entre párrafos */
+    display: flex;
+    justify-content: space-between; /* Alinea el texto a los lados */
+    padding: 0 1rem; /* Pequeño padding horizontal */
 }
 
-/* Botón */
+.resumen-totales p strong {
+    flex-basis: 50%; /* Da un ancho base para la etiqueta */
+    text-align: left; /* Alinea la etiqueta a la izquierda */
+}
+
+.resumen-totales p span {
+    flex-basis: 50%; /* Da un ancho base para el valor */
+    text-align: right; /* Alinea el valor a la derecha */
+}
+
+/* Ajustes de fuente para pantallas pequeñas */
+@media (max-width: 576px) {
+    .resumen-totales {
+        font-size: 1rem;
+        padding: 0.8rem;
+    }
+    .resumen-totales p {
+        flex-direction: column; /* Apilar en pantallas muy pequeñas */
+        align-items: center;
+        padding: 0;
+    }
+    .resumen-totales p strong,
+    .resumen-totales p span {
+        text-align: center;
+        width: 100%;
+    }
+}
+
+/* --- Estilos de Botones --- */
+
+/* Estilo general para todos los botones que sigan este patrón */
+.btn {
+    font-weight: bold;
+    padding: 0.8rem 2rem; /* Padding adaptable */
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    font-size: 1rem;
+    display: inline-block; /* Para centrar si es necesario */
+    width: auto; /* Ancho automático */
+    margin: 0.5rem auto; /* Centrar botones */
+}
+
+/* Botón de Advertencia (Generar Documento) */
 .btn-warning {
-  background-color: #f4a300;
-  border: none;
-  color: #000;
-  font-weight: bold;
-  padding: 0.5rem 1.5rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
+    background-color: #f4a300; /* Naranja original */
+    border: none;
+    color: #000;
 }
 
 .btn-warning:hover {
-  background-color: #e59400;
-  color: white;
+    background-color: #d35400; /* Naranja más oscuro */
+    color: white;
+    transform: translateY(-2px); /* Pequeño efecto hover */
 }
 
-/* QR y enlace */
+/* Botón de Información (Generar QR Resumen Rápido) */
+.btn-info {
+    background-color: #3498db; /* Azul vibrante */
+    border: none;
+    color: #fff;
+}
+
+.btn-info:hover {
+    background-color: #2980b9; /* Azul más oscuro */
+    transform: translateY(-2px);
+}
+
+/* Deshabilitado */
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #ccc;
+    color: #666;
+}
+
+/* --- Estilos de Enlaces y QRs --- */
+
 a {
-  word-break: break-all;
-  color: #004aad;
-  font-weight: bold;
-  text-decoration: none;
+    word-break: break-word; /* Permite que el texto largo se rompa */
+    color: #004aad; /* Azul de enlace */
+    font-weight: bold;
+    text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+    text-decoration: underline;
 }
 
 .text-center {
-  text-align: center;
+    text-align: center;
 }
 
-/* estilos personalizados para tabla invisible de exportación */
+/* Contenedor del QR y texto asociado */
+.qr-container, .qr-summary-container {
+    background-color: #fcfcfc; /* Fondo claro para el área del QR */
+    padding: 1.5rem;
+    border-radius: 15px;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra interna sutil */
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centra el QR y el texto */
+    gap: 0.8rem; /* Espacio entre los elementos del QR */
+}
+
+/* Estilo para el texto debajo del QR */
+.qr-container p, .qr-summary-container p {
+    margin: 0; /* Eliminar margen predeterminado de párrafo */
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Asegurar que el QR se vea bien en todos los tamaños */
+canvas {
+    max-width: 100%; /* El canvas del QR no excederá el ancho de su contenedor */
+    height: auto; /* Mantener la proporción */
+}
+
+/* --- Estilos de Tabla (Responsive) --- */
+
+/* La tabla de gastos puede ser un desafío. Aquí un enfoque responsive. */
+.tabla-gastos {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: block; /* Permite scroll horizontal */
+    overflow-x: auto; /* Habilita el scroll horizontal en pantallas pequeñas */
+    white-space: nowrap; /* Evita que el contenido de la tabla se rompa */
+    -webkit-overflow-scrolling: touch; /* Suaviza el scroll en iOS */
+}
+
+/* Estilos de cabecera de tabla */
+.tabla-gastos th {
+    background-color: #f39c12; /* Naranja oscuro para cabecera */
+    color: #000;
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: center;
+    min-width: 100px; /* Ancho mínimo para cada columna */
+}
+
+/* Estilos de celdas de tabla */
+.tabla-gastos td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+    font-size: 14px;
+    white-space: normal; /* Permite que el texto dentro de la celda se rompa */
+    word-wrap: break-word; /* Asegura que palabras largas se rompan */
+}
+
+/* Filas pares/impares para mejor legibilidad */
+.tabla-gastos tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.tabla-gastos tr:hover {
+    background-color: #fdebd0;
+    transition: background-color 0.3s ease;
+}
+
+/* Estilos para la tabla invisible de exportación (mantenerla separada si es solo para exportación) */
 #tabla-gastos-export {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0 auto;
-  table-layout: fixed;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    table-layout: fixed; /* Asegura que las columnas tengan un ancho fijo */
+    /* Estas tablas son a menudo hidden, pero si se muestran, deberían ser responsive también */
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
 }
 
 #tabla-gastos-export thead {
-  background-color: #F39C12; /* Naranja Obra Titan */
-  color: #000; /* Letras negras */
+    background-color: #F39C12; /* Naranja Obra Titan */
+    color: #000; /* Letras negras */
 }
 
 #tabla-gastos-export th,
 #tabla-gastos-export td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: left;
-  font-size: 14px;
-  word-wrap: break-word;
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+    font-size: 14px;
+    word-wrap: break-word;
+    min-width: 120px; /* Ancho mínimo para las celdas de exportación */
 }
 
 #tabla-gastos-export tr:nth-child(even) {
-  background-color: #f8f8f8; /* Blanco suave */
+    background-color: #f8f8f8; /* Blanco suave */
 }
 
 #tabla-gastos-export tr:nth-child(odd) {
-  background-color: #ffffff;
+    background-color: #ffffff;
 }
 
 #tabla-gastos-export th {
-  font-weight: bold;
-  font-size: 15px;
-  text-align: center;
+    font-weight: bold;
+    font-size: 15px;
+    text-align: center;
 }
 
 #tabla-gastos-export td {
-  vertical-align: middle;
-}
-.tabla-gastos {
-  border-collapse: collapse;
-  width: 100%;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    vertical-align: middle;
 }
 
-.tabla-gastos th {
-  background-color: #f39c12;
-  color: #000;
-  padding: 12px;
-  border: 1px solid #ddd;
-  text-align: center;
-}
+/* --- Utilidades --- */
+.mt-2 { margin-top: 0.5rem !important; }
+.mt-3 { margin-top: 1rem !important; }
+.mt-4 { margin-top: 1.5rem !important; }
+.text-muted { color: #888 !important; }
 
-.tabla-gastos td {
-  padding: 10px;
-  border: 1px solid #ddd;
-  text-align: left;
-  font-size: 14px;
-}
-
-.tabla-gastos tr:nth-child(even) {
-  background-color: #f9f9f9;
-}
-
-.tabla-gastos tr:hover {
-  background-color: #fdebd0;
-  transition: background-color 0.3s ease;
-}
-
-.btn-warning {
-  background-color: #f39c12;
-  border: none;
-  color: black;
-  font-weight: bold;
-  padding: 10px 20px;
-  transition: all 0.3s ease;
-}
-
-.btn-warning:hover {
-  background-color: #d35400;
-  color: white;
-}

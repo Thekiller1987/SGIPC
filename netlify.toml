@@ -1,0 +1,15 @@
+[[headers]]
+  for = "/*" # Aplica a todas las rutas
+  [headers.values]
+    # Content-Security-Policy (CSP)
+    # IMPORTANTE: Si ya tienes una, solo MODIFICA la existente, NO CREES OTRA.
+    # Añade los dominios de Google a 'script-src' y 'frame-src'
+    Content-Security-Policy = "default-src 'self'; \
+                               script-src 'self' https://apis.google.com https://accounts.google.com https://www.gstatic.com 'unsafe-inline' 'unsafe-eval'; \
+                               connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://firestore.googleapis.com https://www.googleapis.com; \
+                               img-src 'self' data: blob:; \
+                               style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; \
+                               font-src 'self' data: https://cdn.jsdelivr.net; \
+                               frame-src 'self' https://accounts.google.com;"
+    # Nota: 'unsafe-inline' y 'unsafe-eval' son a menudo necesarios para React/Vite en desarrollo
+    # y para algunos scripts de Google. Idealmente, se refinan en producción para mayor seguridad.
