@@ -158,7 +158,7 @@
 
 /* Botón de Información (Generar QR Resumen Rápido) */
 .btn-info {
-    background-color: #3498db; /* Azul vibrante */
+    background-color: #F39C12; /* Azul vibrante */
     border: none;
     color: #fff;
 }
@@ -180,7 +180,7 @@
 
 a {
     word-break: break-word; /* Permite que el texto largo se rompa */
-    color: #004aad; /* Azul de enlace */
+    color: #F39C12;
     font-weight: bold;
     text-decoration: none;
 }
