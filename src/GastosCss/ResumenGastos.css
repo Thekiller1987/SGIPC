@@ -158,13 +158,13 @@
 
 /* Botón de Información (Generar QR Resumen Rápido) */
 .btn-info {
-    background-color: #F39C12; /* Azul vibrante */
+    background-color: #F39C12;
     border: none;
     color: #fff;
 }
 
 .btn-info:hover {
-    background-color: #2980b9; /* Azul más oscuro */
+    background-color: #F39C12; /* Azul más oscuro */
     transform: translateY(-2px);
 }
 

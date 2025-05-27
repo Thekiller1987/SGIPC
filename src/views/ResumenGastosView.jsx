@@ -1,9 +1,9 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { useProject } from "../context/ProjectContext";
 import { getGastos } from "../services/gastosService";
 import Sidebar from "../components/Sidebar";
-import { Document, Packer, Paragraph, TextRun } from "docx"; // Ya corregido
-// import { gapi } from "gapi-script"; // ¡ELIMINA ESTA LÍNEA! Ya no necesitamos gapi-script
+import { Document, Packer, Paragraph, TextRun } from "docx";
+import { gapi } from "gapi-script";
 import { QRCodeCanvas } from "qrcode.react";
 import "../GastosCss/ResumenGastos.css";
 
@@ -15,84 +15,24 @@ const ResumenGastosView = () => {
   const [gastos, setGastos] = useState([]);
   const [driveLink, setDriveLink] = useState("");
   const [loading, setLoading] = useState(false);
+  // Nuevo estado para almacenar la data del QR de resumen
   const [qrSummaryData, setQrSummaryData] = useState("");
-  const [error, setError] = useState(null);
-  const [gapiLoaded, setGapiLoaded] = useState(false); // Estado para controlar la carga de gapi
 
   const totalIngresos = gastos.filter(g => g.tipo === "ingreso").reduce((a, b) => a + Number(b.monto || 0), 0);
   const totalEgresos = gastos.filter(g => g.tipo === "gasto").reduce((a, b) => a + Number(b.monto || 0), 0);
   const balance = totalIngresos - totalEgresos;
 
-  // 1. useEffect para la carga inicial de gapi y la inicialización
-  // Ahora gapi se carga globalmente en index.html, solo esperamos a que esté disponible
   useEffect(() => {
-    const checkGapiAndInit = () => {
-      // Asegurarse de que window.gapi y window.gapi.client estén definidos
-      if (window.gapi && window.gapi.client) {
-        window.gapi.load("client:auth2", () => {
-          if (!window.gapi.auth2.getAuthInstance()) {
-            window.gapi.auth2.init({
-              client_id: CLIENT_ID,
-              scope: SCOPES,
-            })
-            .then(() => {
-              console.log("Google API client initialized successfully (global).");
-              setGapiLoaded(true);
-            })
-            .catch((err) => {
-              console.error("Error initializing Google API client (global):", err);
-              setError("Error al inicializar la conexión con Google. Revisa tu conexión a internet.");
-            });
-          } else {
-            console.log("Google API client already initialized (global).");
-            setGapiLoaded(true);
-          }
-        });
-      } else {
-        // Si gapi aún no está disponible, intenta de nuevo después de un breve retraso
-        setTimeout(checkGapiAndInit, 100);
-      }
-    };
-
-    checkGapiAndInit(); // Inicia la verificación/inicialización
-  }, []); // Se ejecuta solo una vez al montar el componente
-
-  // 2. useEffect para cargar los gastos cuando el proyecto cambia
-  useEffect(() => {
-    if (project?.id) {
-      getGastos(project.id).then(setGastos);
-      setDriveLink("");
-      setQrSummaryData("");
-      setError(null);
-    }
+    gapi.load("client:auth2", () => {
+      gapi.auth2.init({ client_id: CLIENT_ID, scope: SCOPES });
+    });
+    if (project?.id) getGastos(project.id).then(setGastos);
   }, [project]);
 
-
   const generarYSubir = async () => {
-    setError(null);
-    setLoading(true);
-
     try {
-      if (!gapiLoaded) {
-        throw new Error("Google API no está cargada o inicializada. Intenta de nuevo en unos segundos.");
-      }
+      setLoading(true);
 
-      // Acceder a gapi a través de window.gapi
-      const auth = window.gapi.auth2.getAuthInstance();
-      if (!auth) {
-        throw new Error("No se pudo obtener la instancia de autenticación de Google. Recarga la página.");
-      }
-
-      if (!auth.isSignedIn.get()) {
-        await auth.signIn();
-      }
-      const accessToken = auth.getToken().access_token;
-
-      if (!accessToken) {
-        throw new Error("No se pudo obtener el token de acceso de Google. Reintenta.");
-      }
-
-      // --- Generación del documento Word (tu código actual, sin cambios) ---
       const children = [
         new Paragraph({
           children: [
@@ -134,7 +74,10 @@ const ResumenGastosView = () => {
 
       const blob = await Packer.toBlob(doc);
 
-      // --- Subida a Google Drive (tu código actual, sin cambios) ---
+      const auth = gapi.auth2.getAuthInstance();
+      if (!auth.isSignedIn.get()) await auth.signIn();
+      const accessToken = gapi.auth.getToken().access_token;
+
       const metadata = {
         name: `ResumenGastos_${project?.nombre}.docx`,
         mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
@@ -150,12 +93,6 @@ const ResumenGastosView = () => {
         body: form,
       });
 
-      if (!upload.ok) {
-        const errorData = await upload.json();
-        console.error("Error en la subida a Drive:", errorData);
-        throw new Error(`Error al subir el documento: ${errorData.error?.message || upload.statusText}`);
-      }
-
       const uploadData = await upload.json();
 
       await fetch(`https://www.googleapis.com/drive/v3/files/${uploadData.id}/permissions`, {
@@ -168,18 +105,16 @@ const ResumenGastosView = () => {
       });
 
       setDriveLink(`https://drive.google.com/file/d/${uploadData.id}/view`);
-      alert("Documento generado y subido con éxito a Google Drive!");
     } catch (error) {
       console.error("Error al generar o subir el documento:", error);
-      setError(error.message || "Error desconocido al generar o subir el documento.");
-      alert(`Error: ${error.message || "Error al generar o subir el documento"}`);
+      alert("Error al generar o subir el documento");
     } finally {
       setLoading(false);
     }
   };
 
+  // Nueva función para generar el QR con la información específica
   const generateSummaryQr = () => {
-    setError(null);
     const summaryInfo =
       `Proyecto: ${project?.nombre || 'N/A'}\n` +
       `Ingresos: ${totalIngresos} NIO\n` +
@@ -213,33 +148,33 @@ const ResumenGastosView = () => {
   </p>
 </div>
 
-          {error && <div className="alert alert-danger" role="alert">{error}</div>}
-
-          <button className="btn btn-warning mt-4" onClick={generarYSubir} disabled={loading || !gapiLoaded}>
-            {loading ? "Generando y Subiendo..." : (gapiLoaded ? "Generar Documento y Subir" : "Cargando Google API...")}
+          <button className="btn btn-warning mt-4" onClick={generarYSubir} disabled={loading}>
+            {loading ? "Generando y Subiendo..." : "Generar Documento y Subir"}
           </button>
 
+          {/* Nuevo botón para generar el QR solo con la información de resumen */}
           <button className="btn btn-info mt-2" onClick={generateSummaryQr}>
             Generar QR Resumen Rápido
           </button>
 
           {driveLink && (
-            <div className="text-center mt-4 qr-container">
-              <p>📎 Archivo disponible en Google Drive:</p>
+            <div className="text-center mt-4">
+              <p>📎 Archivo disponible en:</p>
               <a href={driveLink} target="_blank" rel="noopener noreferrer">{driveLink}</a>
               <div className="mt-3">
-                <QRCodeCanvas value={driveLink} size={200} level="H" />
+                <QRCodeCanvas value={driveLink} size={200} />
                 <p className="mt-2 text-muted">Escanea para ver el documento</p>
               </div>
             </div>
           )}
 
+          {/* Mostrar el QR de resumen si qrSummaryData tiene contenido */}
           {qrSummaryData && (
             <div className="text-center mt-4 qr-summary-container">
               <p>Escanea este QR para ver el resumen rápido:</p>
               <div className="mt-3">
                 <QRCodeCanvas value={qrSummaryData} size={180} level="H" />
-                <p className="mt-2 text-muted">Contenido para **{project?.nombre || 'N/A'}**</p>
+                <p className="mt-2 text-muted">Contenido: **{project?.nombre}**</p>
               </div>
             </div>
           )}
