@@ -61,13 +61,6 @@
     color: #2c2c2c; /* Color de texto oscuro */
 }
 
-.nombre-proyecto {
-    text-align: center;
-    font-size: 1.3rem; /* Tamaño de fuente adaptable */
-    margin-bottom: 1.5rem; /* Reducido un poco */
-    font-family: "Arapey", serif;
-    color: #333;
-}
 
 /* Ajustes de fuente para pantallas pequeñas */
 @media (max-width: 768px) {
