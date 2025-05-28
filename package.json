@@ -62,16 +62,22 @@
     "vite": "^6.2.0"
   },
   "jest": {
-  "testEnvironment": "jsdom",
-  "setupFiles": ["./jest.setup.js"],
-  "setupFilesAfterEnv": ["@testing-library/jest-dom"],
-  "transform": {
-    "^.+\\.[jt]sx?$": "babel-jest"
-  },
-  "extensionsToTreatAsEsm": [".jsx"],
-  "moduleNameMapper": {
-    "\\.(css|scss)$": "identity-obj-proxy",
-    "^.+\\.(png|jpg|jpeg|svg)$": "<rootDir>/mocks/fileMock.js"
+    "testEnvironment": "jsdom",
+    "setupFiles": [
+      "./jest.setup.js"
+    ],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-dom"
+    ],
+    "transform": {
+      "^.+\\.[jt]sx?$": "babel-jest"
+    },
+    "extensionsToTreatAsEsm": [
+      ".jsx"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|scss)$": "identity-obj-proxy",
+      "^.+\\.(png|jpg|jpeg|svg)$": "<rootDir>/mocks/fileMock.js"
+    }
   }
-}
 }
