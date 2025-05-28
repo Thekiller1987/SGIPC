@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "../components/Sidebar";
 import DetalleProyectoView from "./DetalleProyectoView";
 
+
 const ProjectDashboard = () => {
   return (
     <div className="dashboard-container">

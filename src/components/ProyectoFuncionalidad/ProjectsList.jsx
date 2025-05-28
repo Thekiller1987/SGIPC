@@ -188,9 +188,9 @@ const ProjectsList = () => {
 
   // Abre el dashboard del proyecto (nueva pantalla)
   const handleProjectDashboard = (project) => {
-    setProject(project);
-    navigate("/project-dashboard");
-  };
+  navigate("/project-dashboard", { state: { project } }); // ✅ debe ser exactamente así
+};
+};
 
   // Abre el modal para editar el proyecto
   const handleEdit = (project) => {
@@ -364,6 +364,6 @@ const ProjectsList = () => {
       )}
     </div>
   );
-};
+;
 
 export default ProjectsList;
