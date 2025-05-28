@@ -9,13 +9,16 @@ import { Menu, X } from "lucide-react";
 import logo from "../assets/iconos/Logo.png";
 import calculatorIcon from "../assets/iconos/calculator.png";
 import checkIcon from "../assets/iconos/Chek.png";
+import codigo from "../assets/iconos/codigo.png";
+
 import estadisticaIcon from "../assets/iconos/estadistica.png";
 import gmailIcon from "../assets/iconos/gmail.png";
 import moneyIcon from "../assets/iconos/money.png";
 import shoppingIcon from "../assets/iconos/shopping.png";
-import sesion from "../assets/iconos/sesion.png";
+import sesion from "../assets/iconos/user-interface.png";
 import Documento from "../assets/iconos/documento.png";
-
+import Logaut from "../assets/iconos/logout.png";
+import Swal from "sweetalert2";
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
@@ -32,15 +35,30 @@ const Sidebar = () => {
     }
   };
 
-  const handleLogout = async () => {
+const handleLogout = async () => {
+  const result = await Swal.fire({
+    title: '¿Cerrar sesión?',
+    text: "Tu sesión actual se cerrará.",
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#3085d6',
+    confirmButtonText: 'Sí, cerrar',
+    cancelButtonText: 'Cancelar',
+  });
+
+  if (result.isConfirmed) {
     try {
-      await logout();           // ✅ cierra sesión
-      localStorage.clear();     // ✅ limpia localStorage
-      window.location.replace("/"); // ✅ recarga evitando navegación hacia atrás
+      await logout(); // <-- esto debe estar correctamente implementado con signOut(auth)
+      console.log("Sesión cerrada con éxito");
+      localStorage.clear();
+      window.location.replace("/");
     } catch (error) {
-      console.error("Error al cerrar sesión:", error);
+      Swal.fire('Error', `No se pudo cerrar sesión.\n${error.message}`, 'error');
     }
-  };
+  }
+};
+
 
   return (
     <>
@@ -162,11 +180,23 @@ const Sidebar = () => {
             onClick={handleLogout}
           >
             <img
-              src={sesion}
+              src={Logaut}
               alt="Cerrar sesión"
               className="sidebar-icon icon-sesion"
             />
           </div>
+          <div
+  className="sidebar-item"
+  data-tooltip="Resumen de Gastos"
+  onClick={() => goTo("/resumen-gastos")}
+>
+  <img
+    src={codigo}
+    alt="Resumen de Gastos"
+    className="sidebar-icon icon-sesion"
+  />
+</div>
+
         </div>
       </div>
     </>

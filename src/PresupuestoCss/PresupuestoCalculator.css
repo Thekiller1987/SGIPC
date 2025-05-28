@@ -28,7 +28,7 @@ body {
 .contenido-presupuesto {
   flex: 1;
   padding: var(--layout-padding);
-  margin-left: clamp(70px, 10vw, 120px);
+  margin-left: clamp(70px, 10vw, 120px); 
   box-sizing: border-box;
   animation: fadeIn 0.5s ease;
 }
@@ -146,6 +146,7 @@ button {
   border: 1px solid #ccc;
 }
 
+/* Consolidated btn-eliminar styles */
 .btn-eliminar {
   margin-left: auto;
   background-color: #c0392b;
@@ -153,6 +154,9 @@ button {
   padding: 0.5rem 0.8rem;
   border-radius: 6px;
   font-weight: bold;
+  border: none;
+  cursor: pointer;
+  font-family: 'Arapey', serif;
 }
 
 .btn-eliminar:hover {
@@ -179,6 +183,9 @@ button {
   flex-wrap: wrap;
   margin-left: clamp(60px, 10vw, 120px);
   animation: fadeInUp 0.6s ease;
+  /* Added explicit visibility */
+  visibility: visible;
+  opacity: 1;
 }
 
 .acciones button {
@@ -200,13 +207,31 @@ button {
   color: white;
 }
 
-.btn-guardar {
-  display: none !important;
+/* Updated to the new class name */
+.btn-guardar-estructura-unica {
+  background-color: var(--verde); /* Primary color for saving */
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-family: 'Arapey', serif;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: auto; /* Allow button to size content */
+  margin-top: 1rem; /* Provide some vertical spacing */
+  /* Ensure it's not hidden */
+  display: inline-block; /* Or block, flex, etc., depending on layout needs */
+  visibility: visible;
+  opacity: 1;
 }
 
-<<<<<<< HEAD
+.btn-guardar-estructura-unica:hover {
+  background-color: #1e8449; /* Darker green on hover */
+  transform: scale(1.03);
+}
+
 /* Tabla estructuras */
-=======
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -222,6 +247,7 @@ button {
 @media (max-width: 768px) {
   .contenido-presupuesto {
     padding: var(--layout-padding-mobile);
+    margin-left: 0 !important;
   }
 
   .titulo {
@@ -230,12 +256,16 @@ button {
     font-size: clamp(1.5rem, 8vw, 3rem);
   }
 
-  .formulario-material {
+  .formulario-material,
+  .formulario-estructura {
     flex-direction: column;
+    padding: 1.5rem;
   }
 
   .acciones {
     flex-direction: column;
+    margin-left: 0;
+    align-items: center;
   }
 
   .material-item {
@@ -248,12 +278,10 @@ button {
   }
 }
 
-
-
 /* Modo escritorio (ajusta el margen del contenido) */
 @media (min-width: 769px) {
   .contenido-presupuesto {
-    margin-left: 70px;
+    margin-left: clamp(70px, 10vw, 120px);
   }
 }
 
@@ -318,20 +346,6 @@ button {
   opacity: 0.6;
 }
 
-.btn-eliminar {
-  background-color: #c0392b;
-  color: white;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  cursor: pointer;
-  font-family: 'Arapey', serif;
-}
-
-.btn-eliminar:hover {
-  background-color: #e74c3c;
-}
->>>>>>> ae370bd15924823274ee4a794f94b0e1309c89a8
 .lista-estructuras {
   margin-top: 3rem;
   padding-top: 2rem;
@@ -422,6 +436,17 @@ button {
     font-size: 0.9rem;
   }
 }
- 
-.contenido-presupuesto {
-  margin-left: clamp(100px, 12vw, 140px); }
+
+.calculadora-container {
+  background-color: var(--blanco);
+  padding: 2rem;
+  border-radius: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  animation: fadeInUp 0.6s ease;
+}

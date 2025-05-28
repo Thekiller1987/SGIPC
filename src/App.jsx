@@ -29,6 +29,8 @@ import NoAutorizado from "./views/NoAutorizado";
 import DocumentosYPlanosView from "./views/DocumentosYPlanosView";
 import ArchivosOverview from "./views/ArchivosOverview";
 import KPIDashboard from "./components/estadisticas/KPIDashboard";
+import KPIDashboard from "./components/estadisticas/KPIDashboard"
+import ResumenGastosView from "./views/ResumenGastosView";
 
 
 const AppContent = () => {
@@ -56,7 +58,10 @@ const AppContent = () => {
     "/no-autorizado",
     "/Documentos",
     "/listar-archivos",
-    "/kpi-dashboard"
+"/actividades",
+    "/kpi-dashboard",
+    "/resumen-gastos"
+
   ];
 
   return (
@@ -67,7 +72,7 @@ const AppContent = () => {
           <Route path="/" element={<Login />} />
           <Route path="/no-autorizado" element={<NoAutorizado />} />
 
-          {/* Rutas con control por rol */}
+          {/* Rutas con control por rols */}
           <Route path="/inicio" element={<ProtectedRoute element={<Inicio />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
           <Route path="/proyecto" element={<ProtectedRoute element={<ProyectosOverview />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
           <Route path="/project-dashboard" element={<ProtectedRoute element={<ProjectDashboard />} roles={["administrador", "contador", "ingeniero", "lector"]} />} />
@@ -89,7 +94,12 @@ const AppContent = () => {
           <Route path="/Documentos" element={<ProtectedRoute element={<DocumentosYPlanosView />} roles={["administrador"]} />} />
           <Route path="/listar-archivos" element={<ProtectedRoute element={<ArchivosOverview />} roles={["administrador"]} />} />
           <Route path="/kpi-dashboard" element={<ProtectedRoute element={<KPIDashboard />} roles={["administrador"]} />}/>
+
     
+
+          <Route path="/resumen-gastos" element={<ProtectedRoute element={<ResumenGastosView />} roles={["administrador"]} />} />
+
+
         </Routes>
       </main>
     </>

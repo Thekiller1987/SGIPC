@@ -6,9 +6,10 @@ import checkIcon from "../assets/iconos/check.png";
 import { updateProject, deleteProject } from "../services/projectsService";
 import "../ProveedoresCss/DetalleProyecto.css";
 import { useNavigate } from "react-router-dom";
-
+import PantallaCarga from "../components/PantallaCarga"; // ✅ Agregar
 const DetalleProyectoView = () => {
   const navigate = useNavigate();
+const [loading, setLoading] = useState(true);
 
   const { project, setProject } = useProject();
   const [modoEdicion, setModoEdicion] = useState(false);
@@ -24,24 +25,30 @@ const DetalleProyectoView = () => {
   });
 
   useEffect(() => {
-    const handleOnline = () => {
-      setIsOffline(false);
-      syncOfflineChanges(); // Sincroniza los cambios guardados localmente
-    };
-    const handleOffline = () => {
-      setIsOffline(true);
-    };
+  const handleOnline = () => {
+    setIsOffline(false);
+    syncOfflineChanges();
+  };
+  const handleOffline = () => {
+    setIsOffline(true);
+  };
 
-    window.addEventListener("online", handleOnline);
-    window.addEventListener("offline", handleOffline);
+  window.addEventListener("online", handleOnline);
+  window.addEventListener("offline", handleOffline);
 
-    setIsOffline(!navigator.onLine);
+  setIsOffline(!navigator.onLine);
 
-    return () => {
-      window.removeEventListener("online", handleOnline);
-      window.removeEventListener("offline", handleOffline);
-    };
-  }, []);
+  // ✅ Mostrar pantalla de carga durante 1 segundo
+  const timeout = setTimeout(() => {
+    setLoading(false);
+  }, 300);
+
+  return () => {
+    window.removeEventListener("online", handleOnline);
+    window.removeEventListener("offline", handleOffline);
+    clearTimeout(timeout);
+  };
+}, []);
 
   function formatFechaParaInput(fecha) {
     try {
@@ -169,6 +176,9 @@ const DetalleProyectoView = () => {
       });
     }
   };
+if (loading || !project || Object.keys(project).length === 0) {
+  return <PantallaCarga mensaje="Cargando proyecto..." />;
+}
 
   return (
     <div className="dpv-wrapper">
