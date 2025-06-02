@@ -42,15 +42,39 @@ const ProjectForm = () => {
   // Función para validar el formulario
   const validar = () => {
     const nuevosErrores = {};
+    const regexPresupuesto = /^\d+(\.\d{1,2})?$/; // sólo números positivos y decimales
+
     if (!nombre.trim()) nuevosErrores.nombre = "Campo requerido";
     if (!descripcion.trim()) nuevosErrores.descripcion = "Campo requerido";
     if (!cliente.trim()) nuevosErrores.cliente = "Campo requerido";
-    if (!presupuesto || isNaN(presupuesto) || Number(presupuesto) < 0)
-      nuevosErrores.presupuesto = "Debe ser un número positivo";
-    if (!fechaInicio) nuevosErrores.fechaInicio = "Seleccione una fecha";
-    if (!fechaFin) nuevosErrores.fechaFin = "Seleccione una fecha";
+
+    if (!presupuesto.trim()) {
+      nuevosErrores.presupuesto = "Campo requerido";
+    } else if (!regexPresupuesto.test(presupuesto)) {
+      nuevosErrores.presupuesto = "Debe ser un número positivo válido";
+    } else if (parseFloat(presupuesto) < 0) {
+      nuevosErrores.presupuesto = "No puede ser negativo";
+    }
+
+    if (!fechaInicio) {
+      nuevosErrores.fechaInicio = "Seleccione una fecha";
+    }
+    if (!fechaFin) {
+      nuevosErrores.fechaFin = "Seleccione una fecha";
+    }
+
+    // Validar orden de fechas
+    if (fechaInicio && fechaFin) {
+      const inicio = new Date(fechaInicio);
+      const fin = new Date(fechaFin);
+      if (inicio > fin) {
+        nuevosErrores.fechaFin = "La fecha fin debe ser mayor que la fecha de inicio";
+      }
+    }
+
     return nuevosErrores;
   };
+
 
   // Función para manejar el cambio de imagen
   const handleImageChange = (e) => {
@@ -145,7 +169,7 @@ const ProjectForm = () => {
       const projectData = JSON.parse(offlineProject);
       createProject(projectData).then(() => {
         localStorage.removeItem('offlineProject'); // Elimina el proyecto guardado localmente después de sincronizar
-      
+
       }).catch((error) => {
         console.error("Error al sincronizar proyecto:", error);
       });
@@ -182,8 +206,28 @@ const ProjectForm = () => {
 
         <div className="fila-formulario">
           <label>Presupuesto:</label>
-          <input type="number" value={presupuesto} onChange={(e) => setPresupuesto(e.target.value)} />
+          <input
+            type="text"
+            inputMode="decimal"
+            value={presupuesto}
+            onChange={(e) => setPresupuesto(e.target.value)}
+            onBeforeInput={(e) => {
+              const char = e.data;
+              const current = e.target.value;
+
+              // Solo permitir números y un único punto decimal
+              const isValid = /^[0-9.]$/.test(char);
+              const alreadyHasDot = current.includes(".");
+              if (!isValid || (char === "." && alreadyHasDot)) {
+                e.preventDefault();
+              }
+            }}
+            placeholder="Ingrese un monto válido"
+          />
+
           {errores.presupuesto && <span className="error-texto">{errores.presupuesto}</span>}
+
+
         </div>
 
         <div className="fila-formulario">

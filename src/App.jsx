@@ -29,7 +29,6 @@ import NoAutorizado from "./views/NoAutorizado";
 import DocumentosYPlanosView from "./views/DocumentosYPlanosView";
 import ArchivosOverview from "./views/ArchivosOverview";
 import KPIDashboard from "./components/estadisticas/KPIDashboard";
-import KPIDashboard from "./components/estadisticas/KPIDashboard"
 import ResumenGastosView from "./views/ResumenGastosView";
 
 
@@ -58,7 +57,7 @@ const AppContent = () => {
     "/no-autorizado",
     "/Documentos",
     "/listar-archivos",
-"/actividades",
+    "/actividades",
     "/kpi-dashboard",
     "/resumen-gastos"
 
@@ -93,9 +92,9 @@ const AppContent = () => {
           <Route path="/lista-usuarios" element={<ProtectedRoute element={<ListaUsuarios />} roles={["administrador"]} />} />
           <Route path="/Documentos" element={<ProtectedRoute element={<DocumentosYPlanosView />} roles={["administrador"]} />} />
           <Route path="/listar-archivos" element={<ProtectedRoute element={<ArchivosOverview />} roles={["administrador"]} />} />
-          <Route path="/kpi-dashboard" element={<ProtectedRoute element={<KPIDashboard />} roles={["administrador"]} />}/>
+          <Route path="/kpi-dashboard" element={<ProtectedRoute element={<KPIDashboard />} roles={["administrador"]} />} />
 
-    
+
 
           <Route path="/resumen-gastos" element={<ProtectedRoute element={<ResumenGastosView />} roles={["administrador"]} />} />
 
