@@ -1,45 +1,43 @@
-import { initializeApp } from "firebase/app";
-import { initializeFirestore, persistentLocalCache } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+// firebaseconfig.js
+import { initializeApp, getApps, getApp } from "firebase/app";
 import {
-    getFirestore
+  getFirestore,
+  initializeFirestore,
+  persistentLocalCache
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
-// Configuración de Firebase desde tus variables de entorno
+// Configuración de Firebase
 const firebaseConfig = {
-    apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-    authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-    projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-    storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-    appId: import.meta.env.VITE_FIREBASE_APP_ID,
-    measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
-// Inicializa Firebase
-const appfirebase = initializeApp(firebaseConfig);
+// Inicializa Firebase solo si no hay apps
+const appfirebase = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp();
 
-// Inicializa Firestore con persistencia offline
+// Inicializa Firestore UNA sola vez con persistencia
 let db;
 try {
-    db = initializeFirestore(appfirebase, {
-        localCache: persistentLocalCache({
-
-            cacheSizeBytes: 100 * 1024 * 1024, 
-        }),
-    });
-    console.log("Firestore inicializado con persistencia offline.");
-} catch (error) {
-
-    console.error("Error al inicializar Firestore con persistencia:", error);
-    db = getFirestore(appfirebase); // Fallback sin persistencia
-
-    console.error("Error al activar persistencia:", error);
-    db = initializeFirestore(appfirebase, {});
-
+  // Verifica si ya existe Firestore
+  db = getFirestore(appfirebase);
+} catch {
+  // Si no existe, lo inicializa con caché persistente
+  db = initializeFirestore(appfirebase, {
+    localCache: persistentLocalCache({
+      cacheSizeBytes: 100 * 1024 * 1024, // 100 MB
+    }),
+  });
+  console.log("Firestore inicializado con persistencia offline.");
 }
 
-// Inicializa la autenticación
+// Inicializa Auth
 const auth = getAuth(appfirebase);
 
+// Exporta
 export { appfirebase, db, auth };

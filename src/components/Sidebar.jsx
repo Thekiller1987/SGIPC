@@ -35,30 +35,33 @@ const Sidebar = () => {
     }
   };
 
-const handleLogout = async () => {
-  const result = await Swal.fire({
-    title: '¿Cerrar sesión?',
-    text: "Tu sesión actual se cerrará.",
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#d33',
-    cancelButtonColor: '#3085d6',
-    confirmButtonText: 'Sí, cerrar',
-    cancelButtonText: 'Cancelar',
-  });
+  const handleLogout = async () => {
+    const result = await Swal.fire({
+      title: "¿Cerrar sesión?",
+      text: "Tu sesión actual se cerrará.",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#d33",
+      cancelButtonColor: "#3085d6",
+      confirmButtonText: "Sí, cerrar",
+      cancelButtonText: "Cancelar",
+    });
 
-  if (result.isConfirmed) {
-    try {
-      await logout(); // <-- esto debe estar correctamente implementado con signOut(auth)
-      console.log("Sesión cerrada con éxito");
-      localStorage.clear();
-      window.location.replace("/");
-    } catch (error) {
-      Swal.fire('Error', `No se pudo cerrar sesión.\n${error.message}`, 'error');
+    if (result.isConfirmed) {
+      try {
+        await logout(); // <-- esto debe estar correctamente implementado con signOut(auth)
+        console.log("Sesión cerrada con éxito");
+        localStorage.clear();
+        window.location.replace("/");
+      } catch (error) {
+        Swal.fire(
+          "Error",
+          `No se pudo cerrar sesión.\n${error.message}`,
+          "error"
+        );
+      }
     }
-  }
-};
-
+  };
 
   return (
     <>
@@ -162,6 +165,19 @@ const handleLogout = async () => {
             />
           </div>
 
+          
+          <div
+            className="sidebar-item"
+            data-tooltip="Resumen de Gastos"
+            onClick={() => goTo("/resumen-gastos")}
+          >
+            <img
+              src={codigo}
+              alt="Resumen de Gastos"
+              className="sidebar-icon icon-sesion"
+            />
+          </div>
+
           <div
             className="sidebar-item"
             data-tooltip="Usuarios"
@@ -185,18 +201,6 @@ const handleLogout = async () => {
               className="sidebar-icon icon-sesion"
             />
           </div>
-          <div
-  className="sidebar-item"
-  data-tooltip="Resumen de Gastos"
-  onClick={() => goTo("/resumen-gastos")}
->
-  <img
-    src={codigo}
-    alt="Resumen de Gastos"
-    className="sidebar-icon icon-sesion"
-  />
-</div>
-
         </div>
       </div>
     </>
@@ -204,4 +208,3 @@ const handleLogout = async () => {
 };
 
 export default Sidebar;
-  

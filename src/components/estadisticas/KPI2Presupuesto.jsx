@@ -4,6 +4,9 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useProject } from "../../context/ProjectContext";
 import { Bar } from "react-chartjs-2";
 import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import * as XLSX from "xlsx";
 
 import {
   Chart as ChartJS,
@@ -22,32 +25,83 @@ const KPI2PagosPorMes = () => {
   const [conteoPorMes, setConteoPorMes] = useState(Array(12).fill(0));
   const [cantidadTotal, setCantidadTotal] = useState(0);
   const cardRef = useRef(null);
-  const botonRef = useRef(null); // referencia al botón
+  const botonRef = useRef(null);
+
+  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
+
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const obtenerNombreArchivo = (extension) => {
+    const nombreProyecto = (project?.nombre || "proyecto").toLowerCase().replace(/\s+/g, "_");
+    return `${nombreProyecto}_kpi2_pagos_por_mes_${obtenerFechaActual()}.${extension}`;
+  };
 
   const descargarKPI = async () => {
     if (!cardRef.current) return;
+    if (botonRef.current) botonRef.current.style.display = "none";
 
-    // Ocultar botón temporalmente
-    if (botonRef.current) {
-      botonRef.current.style.display = "none";
-    }
-
-    // Capturar imagen
     const canvas = await html2canvas(cardRef.current, {
       backgroundColor: "#ffffff",
       scale: 2,
     });
 
-    // Restaurar visibilidad
-    if (botonRef.current) {
-      botonRef.current.style.display = "block";
-    }
+    if (botonRef.current) botonRef.current.style.display = "block";
 
-    // Descargar
     const link = document.createElement("a");
-    link.download = "kpi2_tarjeta_completa.png";
+    link.download = obtenerNombreArchivo("png");
     link.href = canvas.toDataURL();
     link.click();
+  };
+
+  const exportarPDF = () => {
+    const doc = new jsPDF();
+
+    const tabla = meses.map((mes, i) => [
+      mes,
+      conteoPorMes[i],
+    ]);
+
+    doc.text("KPI2 - Pagos realizados por mes", 14, 15);
+    autoTable(doc, {
+      head: [["Mes", "Cantidad de pagos"]],
+      body: tabla,
+      startY: 20,
+      headStyles: {
+        fillColor: [211, 84, 0], // naranja #D35400
+        textColor: 255,
+        halign: "center",
+        fontStyle: "bold",
+      },
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
+      },
+    });
+
+    doc.text(`Total: ${cantidadTotal} pagos`, 14, doc.lastAutoTable.finalY + 10);
+    doc.save(obtenerNombreArchivo("pdf"));
+  };
+
+  const exportarExcel = () => {
+    const dataExcel = meses.map((mes, i) => ({
+      Mes: mes,
+      Pagos: conteoPorMes[i],
+    }));
+
+    const hoja = XLSX.utils.json_to_sheet(dataExcel);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, "Pagos por mes");
+
+    XLSX.writeFile(libro, obtenerNombreArchivo("xlsx"));
   };
 
   useEffect(() => {
@@ -76,8 +130,6 @@ const KPI2PagosPorMes = () => {
 
     obtenerPagos();
   }, [project]);
-
-  const meses = ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"];
 
   const data = {
     labels: meses,
@@ -116,8 +168,33 @@ const KPI2PagosPorMes = () => {
     },
   };
 
+const estiloBoton = {
+  marginTop: "0.7rem",
+  width: "220px",            // ✅ Mismo ancho para todos
+  padding: "0.6rem 1rem",    // ✅ Ajuste uniforme
+  backgroundColor: "#D35400",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  textAlign: "center",       // ✅ Alineación interna
+  display: "block",
+  marginLeft: "auto",
+  marginRight: "auto",
+};
+
+
   return (
-    <div ref={cardRef} className="kpi-card" style={{ backgroundColor: "white", border: "2px solid #D35400", borderRadius: "15px", padding: "1.5rem" }}>
+    <div
+      ref={cardRef}
+      className="kpi-card"
+      style={{
+        backgroundColor: "white",
+        border: "2px solid #D35400",
+        borderRadius: "15px",
+        padding: "1.5rem"
+      }}
+    >
       <Bar data={data} options={options} />
 
       <div className="kpi-summary" style={{
@@ -129,32 +206,24 @@ const KPI2PagosPorMes = () => {
         color: "black",
         fontSize: "1.2rem"
       }}>
-        <strong style={{ fontSize: "1.5rem", color: "#D35400" }}>{cantidadTotal}</strong><br />
+        <strong style={{ fontSize: "1.5rem", color: "#D35400" }}>
+          {cantidadTotal}
+        </strong>
+        <br />
         Cantidad de pagos registrados
       </div>
 
-      <button
-        ref={botonRef}
-        onClick={descargarKPI}
-        style={{
-          marginTop: "1rem",
-          padding: "0.6rem 1.2rem",
-          backgroundColor: "#D35400",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto"
-        }}
-      >
+      <button ref={botonRef} onClick={descargarKPI} style={estiloBoton}>
         Descargar KPI completo
+      </button>
+      <button onClick={exportarPDF} style={estiloBoton}>
+        Exportar a PDF
+      </button>
+      <button onClick={exportarExcel} style={estiloBoton}>
+        Exportar a Excel
       </button>
     </div>
   );
 };
 
 export default KPI2PagosPorMes;
-
-//

@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./database/authcontext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import { ProjectProvider } from './context/ProjectContext';
-
+import { syncOfflineProjects } from "./utils/offlineSync";
+import { syncOfflineProjectChanges } from "./utils/syncProjectChanges"; // edición y eliminación
 // Vistas
 import Login from "./views/Login";
 import Encabezado from "./components/Encabezado";
@@ -105,7 +107,27 @@ const AppContent = () => {
   );
 };
 
+// Aquí agregamos la sincronización offline
 const App = () => {
+  useEffect(() => {
+    const handleOnline = () => {
+      console.log("🌐 Conexión restaurada, intentando sincronizar proyectos...");
+      syncOfflineProjects();
+      syncOfflineProjectChanges(); // edición y eliminación
+    };
+
+    window.addEventListener("online", handleOnline);
+
+    // También lo ejecuta por si ya está online desde el arranque
+    if (navigator.onLine) {
+      syncOfflineProjects();
+      syncOfflineProjectChanges();
+    }
+
+    return () => {
+      window.removeEventListener("online", handleOnline);
+    };
+  }, []);
   return (
     <AuthProvider>
       <ProjectProvider>

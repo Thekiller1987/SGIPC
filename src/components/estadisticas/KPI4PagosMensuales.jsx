@@ -4,6 +4,9 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { useProject } from "../../context/ProjectContext";
 import { Pie } from "react-chartjs-2";
 import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
+import * as XLSX from "xlsx";
 
 import {
   Chart as ChartJS,
@@ -20,6 +23,19 @@ const KPI4PagosMensuales = () => {
   const cardRef = useRef(null);
   const botonRef = useRef(null);
 
+  const obtenerFechaActual = () => {
+    const hoy = new Date();
+    const yyyy = hoy.getFullYear();
+    const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+    const dd = String(hoy.getDate()).padStart(2, "0");
+    return `${yyyy}-${mm}-${dd}`;
+  };
+
+  const obtenerNombreArchivo = (extension) => {
+    const nombreProyecto = (project?.nombre || "proyecto").toLowerCase().replace(/\s+/g, "_");
+    return `${nombreProyecto}_kpi4_egresos_categoria_${obtenerFechaActual()}.${extension}`;
+  };
+
   const descargarKPI = async () => {
     if (!cardRef.current) return;
 
@@ -33,9 +49,53 @@ const KPI4PagosMensuales = () => {
     if (botonRef.current) botonRef.current.style.display = "block";
 
     const link = document.createElement("a");
-    link.download = "kpi4_egresos_por_categoria.png";
+    link.download = obtenerNombreArchivo("png");
     link.href = canvas.toDataURL();
     link.click();
+  };
+
+  const exportarPDF = () => {
+    const doc = new jsPDF();
+
+    const tabla = Object.entries(categorias).map(([categoria, cantidad]) => [
+      categoria,
+      cantidad,
+    ]);
+
+    doc.text("KPI4 - Egresos por Categoría", 14, 15);
+    autoTable(doc, {
+      head: [["Categoría", "Cantidad de egresos"]],
+      body: tabla,
+      startY: 20,
+      headStyles: {
+        fillColor: [211, 84, 0], // naranja #D35400
+        textColor: 255,
+        halign: "center",
+        fontStyle: "bold",
+      },
+      styles: {
+        fontSize: 10,
+        cellPadding: 3,
+      },
+      alternateRowStyles: {
+        fillColor: [245, 245, 245],
+      },
+    });
+
+    doc.save(obtenerNombreArchivo("pdf"));
+  };
+
+  const exportarExcel = () => {
+    const dataExcel = Object.entries(categorias).map(([categoria, cantidad]) => ({
+      Categoría: categoria,
+      "Cantidad de egresos": cantidad,
+    }));
+
+    const hoja = XLSX.utils.json_to_sheet(dataExcel);
+    const libro = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(libro, hoja, "Egresos por categoría");
+
+    XLSX.writeFile(libro, obtenerNombreArchivo("xlsx"));
   };
 
   useEffect(() => {
@@ -94,32 +154,46 @@ const KPI4PagosMensuales = () => {
     },
   };
 
+const estiloBoton = {
+  marginTop: "0.7rem",
+  width: "220px",            // ✅ Mismo ancho para todos
+  padding: "0.6rem 1rem",    // ✅ Ajuste uniforme
+  backgroundColor: "#D35400",
+  color: "white",
+  border: "none",
+  borderRadius: "8px",
+  cursor: "pointer",
+  textAlign: "center",       // ✅ Alineación interna
+  display: "block",
+  marginLeft: "auto",
+  marginRight: "auto",
+};
+
+
   return (
-    <div ref={cardRef} className="kpi-card" style={{ backgroundColor: "white", border: "2px solid #D35400", borderRadius: "15px", padding: "1.5rem" }}>
+    <div
+      ref={cardRef}
+      className="kpi-card"
+      style={{
+        backgroundColor: "white",
+        border: "2px solid #D35400",
+        borderRadius: "15px",
+        padding: "1.5rem"
+      }}
+    >
       <Pie data={data} options={options} />
 
-      <button
-        ref={botonRef}
-        onClick={descargarKPI}
-        style={{
-          marginTop: "1.5rem",
-          padding: "0.6rem 1.2rem",
-          backgroundColor: "#D35400",
-          color: "white",
-          border: "none",
-          borderRadius: "8px",
-          cursor: "pointer",
-          display: "block",
-          marginLeft: "auto",
-          marginRight: "auto"
-        }}
-      >
+      <button ref={botonRef} onClick={descargarKPI} style={estiloBoton}>
         Descargar KPI completo
+      </button>
+      <button onClick={exportarPDF} style={estiloBoton}>
+        Exportar a PDF
+      </button>
+      <button onClick={exportarExcel} style={estiloBoton}>
+        Exportar a Excel
       </button>
     </div>
   );
 };
 
 export default KPI4PagosMensuales;
-
-

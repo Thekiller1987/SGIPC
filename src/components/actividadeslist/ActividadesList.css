@@ -124,6 +124,12 @@
   margin-right: auto;
 }
 
+.mas-simbolo {
+  position: relative;
+  top: -3px; /* Ajustá este valor hasta que el + se vea centrado */
+}
+
+
 .contenido .form-agregar input,
 .contenido .form-agregar button {
   padding: 1rem 1.2rem;
@@ -1036,6 +1042,24 @@ contenido .acciones-tarea-principal .btn-editar-tarea,
     position: relative !important;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     z-index: 10;
+  }
+}
+
+
+
+@media (max-width: 1435px) and (min-width: 1281px) {
+  .contenido {
+    margin-left: 100px; /* Aumenta el margen para evitar que se vea muy pegado */
+    padding: 2.5rem;
+  }
+
+  .contenido .form-agregar,
+  .contenido .tarjeta-tarea {
+    max-width: 95%;
+  }
+
+  .contenido .titulo {
+    font-size: 2.5rem;
   }
 }
 

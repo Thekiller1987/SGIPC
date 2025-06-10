@@ -99,20 +99,22 @@ const BudgetVisualization = () => {
               <div className="presupuesto-box">C${montoInicial.toLocaleString()}</div>
             </div>
 
-            <div>
-              <p className="presupuesto-label">Ingresos Adicionales:</p>
-              <div className="presupuesto-box">C${totalIngresos.toLocaleString()}</div>
+            <div className="bloque-vertical">
+              <div>
+                <p className="presupuesto-label">Ingresos Adicionales:</p>
+                <div className="presupuesto-box">C${totalIngresos.toLocaleString()}</div>
+              </div>
+
+              <div>
+                <p className="presupuesto-label">Saldo Disponible:</p>
+                <div className="presupuesto-box">C${saldoDisponible.toLocaleString()}</div>
+              </div>
             </div>
 
             <div>
               <p className="presupuesto-label">Monto Gastado:</p>
               <div className="presupuesto-box">C${totalGastado.toLocaleString()}</div>
             </div>
-          </div>
-
-          <div className="presupuesto-saldo">
-            <p className="presupuesto-label">Saldo Disponible:</p>
-            <div className="presupuesto-box">C${saldoDisponible.toLocaleString()}</div>
           </div>
         </div>
       </div>

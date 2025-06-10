@@ -292,7 +292,10 @@ const ActividadesList = () => {
             value={fechaFin}
             onChange={(e) => setFechaFin(e.target.value)}
           />
-          <button onClick={agregarActividad}>+</button>
+         <button onClick={agregarActividad}>
+  <span className="mas-simbolo">+</span>
+</button>
+
         </div>
 
         <div className="scroll-horizontal-wrapper">
